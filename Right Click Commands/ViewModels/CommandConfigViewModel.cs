@@ -1,5 +1,5 @@
 ﻿using Microsoft.Win32;
-using Right_Click_Commands.Model;
+using Right_Click_Commands.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

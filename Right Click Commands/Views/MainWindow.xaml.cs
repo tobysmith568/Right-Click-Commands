@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Right_Click_Commands
+namespace Right_Click_Commands.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

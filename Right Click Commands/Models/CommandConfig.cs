@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 
-namespace Right_Click_Commands.Model
+namespace Right_Click_Commands.Models
 {
     public class CommandConfig : INotifyPropertyChanged
     {

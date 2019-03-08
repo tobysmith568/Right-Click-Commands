@@ -1,4 +1,4 @@
-﻿using Right_Click_Commands.Model;
+﻿using Right_Click_Commands.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,6 +25,9 @@ namespace Right_Click_Commands.ViewModels
         //  ==========
 
         public ObservableCollection<MenuItem> CommandConfigs { get; set; }
+
+        //  Constructors
+        //  ============
 
         public MainWindowViewModel()
         {
