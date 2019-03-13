@@ -18,7 +18,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- Left Column -->
-        <TreeView Grid.Column="0" Margin="0" BorderThickness="0,1,0,0" ItemsSource="{Binding CommandConfigs}">
+        <TreeView Grid.Column="0" Margin="0" BorderThickness="0" ItemsSource="{Binding CommandConfigs}">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type Models:CommandConfig}" ItemsSource="{Binding Children}">
                     <TextBlock Text="{Binding Label}" />
