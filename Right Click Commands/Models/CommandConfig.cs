@@ -20,7 +20,7 @@ namespace Right_Click_Commands.Models
         private bool hideWindow = false;
         private MenuLocation menuLocation = MenuLocation.Both;
         private WindowType windowType = WindowType.CommandPrompt;
-        public ObservableCollection<CommandConfig> children;
+        private ObservableCollection<CommandConfig> children;
 
         //  Properties
         //  ==========
