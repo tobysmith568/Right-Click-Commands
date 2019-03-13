@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -19,10 +20,11 @@ namespace Right_Click_Commands.Models
         private bool hideWindow = false;
         private MenuLocation menuLocation = MenuLocation.Both;
         private WindowType windowType = WindowType.CommandPrompt;
+        public ObservableCollection<CommandConfig> children;
 
         //  Properties
         //  ==========
-        
+
         public string Label
         {
             get => label;
@@ -31,7 +33,7 @@ namespace Right_Click_Commands.Models
                 if (label != value)
                 {
                     label = value;
-                    RaisePropertyChanged("Name");
+                    RaisePropertyChanged("Label");
                 }
             }
         }
@@ -87,7 +89,7 @@ namespace Right_Click_Commands.Models
                 }
             }
         }
-        
+
         public WindowType WindowType
         {
             get => windowType;
@@ -101,19 +103,32 @@ namespace Right_Click_Commands.Models
             }
         }
 
+        public ObservableCollection<CommandConfig> Children
+        {
+            get => children;
+            set
+            {
+                if (children != value)
+                {
+                    children = value;
+                    RaisePropertyChanged("Children");
+                }
+            }
+        }
+
         //  Constructors
         //  ============
 
         public CommandConfig()
         {
-
+            Children = new ObservableCollection<CommandConfig>();
         }
 
         /// <exception cref="System.Security.SecurityException"></exception>
         /// <exception cref="ObjectDisposedException"></exception>
         /// <exception cref="System.IO.IOException"></exception>
         /// <exception cref="UnauthorizedAccessException"></exception>
-        public CommandConfig(RegistryKey registryKey)
+        public CommandConfig(RegistryKey registryKey) : this()
         {
             Label = registryKey.GetValue("MUIVerb", "").ToString();
             Icon = registryKey.GetValue("Icon", null).ToString();

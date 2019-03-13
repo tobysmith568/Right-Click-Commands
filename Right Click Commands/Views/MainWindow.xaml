@@ -20,8 +20,8 @@
         <!-- Left Column -->
         <TreeView Grid.Column="0" Margin="0" BorderThickness="0,1,0,0" ItemsSource="{Binding CommandConfigs}">
             <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate DataType="{x:Type MenuItem}" ItemsSource="{Binding Items}">
-                    <TextBlock Text="{Binding Title}" />
+                <HierarchicalDataTemplate DataType="{x:Type Models:CommandConfig}" ItemsSource="{Binding Children}">
+                    <TextBlock Text="{Binding Label}" />
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>

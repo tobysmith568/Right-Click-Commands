@@ -24,33 +24,33 @@ namespace Right_Click_Commands.ViewModels
         //  Properties
         //  ==========
 
-        public ObservableCollection<MenuItem> CommandConfigs { get; set; }
+        public ObservableCollection<CommandConfig> CommandConfigs { get; set; }
 
         //  Constructors
         //  ============
 
         public MainWindowViewModel()
         {
-            CommandConfigs = new ObservableCollection<MenuItem>()
+            CommandConfigs = new ObservableCollection<CommandConfig>()
             {
-                new MenuItem()
+                new CommandConfig()
                 {
-                    Title = "Child item #1",
-                    Items = new ObservableCollection<MenuItem>()
+                    Label = "Child item #1",
+                    Children = new ObservableCollection<CommandConfig>()
                     {
-                        new MenuItem()
+                        new CommandConfig()
                         {
-                            Title = "Child item #1.1"
+                            Label = "Child item #1.1"
                         },
-                        new MenuItem()
+                        new CommandConfig()
                         {
-                            Title = "Child item #1.2"
+                            Label = "Child item #1.2"
                         }
                     }
                 },
-                new MenuItem()
+                new CommandConfig()
                 {
-                    Title = "Child item #2"
+                    Label = "Child item #2"
                 }
             };            
         }
