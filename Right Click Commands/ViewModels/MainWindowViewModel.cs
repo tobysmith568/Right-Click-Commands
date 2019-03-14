@@ -1,4 +1,4 @@
-﻿using Right_Click_Commands.Models;
+using Right_Click_Commands.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,17 +8,6 @@ using System.Threading.Tasks;
 
 namespace Right_Click_Commands.ViewModels
 {
-    public class MenuItem
-    {
-        public string Title { get; set; }
-        public ObservableCollection<MenuItem> Items { get; set; }
-
-        public MenuItem()
-        {
-            Items = new ObservableCollection<MenuItem>();
-        }
-    }
-
     public class MainWindowViewModel
     {
         //  Properties
