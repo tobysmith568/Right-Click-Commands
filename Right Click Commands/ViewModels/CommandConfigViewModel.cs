@@ -28,7 +28,7 @@ namespace Right_Click_Commands.ViewModels
         {
             CommandConfigs = new ObservableCollection<CommandConfig>
             {
-                new CommandConfig()
+                /*new CommandConfig()
                 {
                     Label = "Click me",
                     Commands = "thing1&thing2",
@@ -54,7 +54,7 @@ namespace Right_Click_Commands.ViewModels
                     HideWindow = false,
                     MenuLocation = MenuLocation.Both,
                     WindowType = WindowType.CommandPrompt
-                }
+                }*/
             };
             /*using (RegistryKey parentKey = Registry.ClassesRoot.OpenSubKey(@"Directory\shell", true))
             {

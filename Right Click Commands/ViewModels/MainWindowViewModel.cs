@@ -1,10 +1,12 @@
-using Right_Click_Commands.Models;
+﻿using Right_Click_Commands.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace Right_Click_Commands.ViewModels
 {
@@ -14,6 +16,7 @@ namespace Right_Click_Commands.ViewModels
         //  ==========
 
         public ObservableCollection<CommandConfig> CommandConfigs { get; set; }
+        public Command SimpleCommand { get; }
 
         //  Constructors
         //  ============
@@ -24,24 +27,20 @@ namespace Right_Click_Commands.ViewModels
             {
                 new CommandConfig()
                 {
-                    Label = "Child item #1",
-                    Children = new ObservableCollection<CommandConfig>()
-                    {
-                        new CommandConfig()
-                        {
-                            Label = "Child item #1.1"
-                        },
-                        new CommandConfig()
-                        {
-                            Label = "Child item #1.2"
-                        }
-                    }
+                    Label = "Item #1"
                 },
                 new CommandConfig()
                 {
-                    Label = "Child item #2"
+                    Label = "Item #2"
                 }
-            };            
+            };
+            
+            SimpleCommand = new Command(DoSimpleCommand);
+        }
+
+        private void DoSimpleCommand()
+        {
+            MessageBox.Show("Hello");
         }
     }
 }

@@ -58,10 +58,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Command.cs" />
     <Compile Include="MenuLocation.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="ViewModels\CommandConfigViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="Views\CommandConfig.xaml.cs">
       <DependentUpon>CommandConfig.xaml</DependentUpon>
     </Compile>

@@ -20,7 +20,7 @@ namespace Right_Click_Commands.Models
         private bool hideWindow = false;
         private MenuLocation menuLocation = MenuLocation.Both;
         private WindowType windowType = WindowType.CommandPrompt;
-        private ObservableCollection<CommandConfig> children;
+        //private ObservableCollection<CommandConfig> children;
 
         //  Properties
         //  ==========
@@ -103,7 +103,7 @@ namespace Right_Click_Commands.Models
             }
         }
 
-        public ObservableCollection<CommandConfig> Children
+        /*public ObservableCollection<CommandConfig> Children
         {
             get => children;
             set
@@ -114,14 +114,14 @@ namespace Right_Click_Commands.Models
                     RaisePropertyChanged("Children");
                 }
             }
-        }
+        }*/
 
         //  Constructors
         //  ============
 
         public CommandConfig()
         {
-            Children = new ObservableCollection<CommandConfig>();
+            //Children = new ObservableCollection<CommandConfig>();
         }
 
         /// <exception cref="System.Security.SecurityException"></exception>
