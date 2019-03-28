@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,12 +11,43 @@ using System.Windows.Input;
 
 namespace Right_Click_Commands.ViewModels
 {
-    public class MainWindowViewModel
+    public class MainWindowViewModel : INotifyPropertyChanged
     {
+        //  Variables
+        //  =========
+
+        private ObservableCollection<ScriptConfig> scriptConfigs;
+        private ScriptConfig selectedScript;
+
         //  Properties
         //  ==========
 
-        public ObservableCollection<CommandConfig> CommandConfigs { get; set; }
+        public ObservableCollection<ScriptConfig> ScriptConfigs
+        {
+            get => scriptConfigs;
+            set
+            {
+                if (scriptConfigs != value)
+                {
+                    scriptConfigs = value;
+                    RaisePropertyChanged("ScriptConfigs");
+                }
+            }
+        }
+
+        public ScriptConfig SelectedScript
+        {
+            get => selectedScript;
+            set
+            {
+                if (selectedScript != value)
+                {
+                    selectedScript = value;
+                    RaisePropertyChanged("SelectedScript");
+                }
+            }
+        }
+
         public Command SimpleCommand { get; }
 
         //  Constructors
@@ -23,13 +55,13 @@ namespace Right_Click_Commands.ViewModels
 
         public MainWindowViewModel()
         {
-            CommandConfigs = new ObservableCollection<CommandConfig>()
+            ScriptConfigs = new ObservableCollection<ScriptConfig>()
             {
-                new CommandConfig()
+                new ScriptConfig()
                 {
-                    Label = "Item #1"
+                    Label = "Item #1111111111"
                 },
-                new CommandConfig()
+                new ScriptConfig()
                 {
                     Label = "Item #2"
                 }
@@ -37,6 +69,19 @@ namespace Right_Click_Commands.ViewModels
             
             SimpleCommand = new Command(DoSimpleCommand);
         }
+
+        //  Events
+        //  ======
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void RaisePropertyChanged(string property)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+        }
+
+        //  Methods
+        //  =======
 
         private void DoSimpleCommand()
         {

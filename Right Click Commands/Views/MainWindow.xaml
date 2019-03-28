@@ -14,21 +14,33 @@
     </Window.DataContext>
     <Grid x:Name="GrdMain">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" x:Name="ColLeft" />
             <ColumnDefinition Width="5" />
-            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="3*" x:Name="ColRight" />
         </Grid.ColumnDefinitions>
 
         <!-- Left Column -->
-        <ListBox Grid.Column="0" Margin="0" ItemsSource="{Binding CommandConfigs}">
+        <ListBox x:Name="MainList" Grid.Column="0" Margin="0" ItemsSource="{Binding Path=ScriptConfigs, Mode=TwoWay}" SelectedItem="{Binding Path=SelectedScript, Mode=TwoWay}" >
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid x:Name="MainListTemplate" Height="30" Margin="0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="{Binding ActualHeight, ElementName=MainListTemplate, Mode=OneWay}"/>
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="2" Text="{Binding Label}" Margin="5" VerticalAlignment="Center" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
         </ListBox>
 
         <!-- Center Column -->
         <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" MouseDoubleClick="GridSplitter_MouseDoubleClick" />
 
         <!-- Right Column -->
-        <Grid Margin="141,78,213,170" Grid.Column="2" >
-            <Button Content="Button" Command="{Binding SimpleCommand}" />
+        <Grid Margin="0" Grid.Column="2">
+            <TextBox Text="{Binding Path=SelectedScript.Label, Mode=TwoWay}" Margin="10,10,10,0" VerticalAlignment="Top" Height="33"
+                     FontSize="18" VerticalContentAlignment="Center"/>
         </Grid>
 
     </Grid>
