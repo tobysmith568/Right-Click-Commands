@@ -9,7 +9,7 @@ using Microsoft.Win32;
 
 namespace Right_Click_Commands.Models
 {
-    public class CommandConfig : INotifyPropertyChanged
+    public class CommandConfig : ViewModelBase
     {
         //  Variables
         //  =========
@@ -133,16 +133,6 @@ namespace Right_Click_Commands.Models
             Label = registryKey.GetValue("MUIVerb", "").ToString();
             Icon = registryKey.GetValue("Icon", null).ToString();
             Commands = GetCommands(registryKey);
-        }
-
-        //  Events
-        //  ======
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void RaisePropertyChanged(string property)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
         //  Methods

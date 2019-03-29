@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Right_Click_Commands
 {
-    public class ScriptConfig : INotifyPropertyChanged
+    public class ScriptConfig : ViewModelBase
     {
         //  Variables
         //  =========
@@ -49,16 +49,6 @@ namespace Right_Click_Commands
 
         public ScriptConfig()
         {
-        }
-
-        //  Events
-        //  ======
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void RaisePropertyChanged(string property)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
     }
 }

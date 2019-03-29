@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace Right_Click_Commands.ViewModels
 {
-    public class MainWindowViewModel : INotifyPropertyChanged
+    public class MainWindowViewModel : ViewModelBase
     {
         //  Variables
         //  =========
@@ -68,16 +68,6 @@ namespace Right_Click_Commands.ViewModels
             };
             
             SimpleCommand = new Command(DoSimpleCommand);
-        }
-
-        //  Events
-        //  ======
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void RaisePropertyChanged(string property)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
         //  Methods
