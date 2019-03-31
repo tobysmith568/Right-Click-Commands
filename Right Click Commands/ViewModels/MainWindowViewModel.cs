@@ -1,4 +1,5 @@
-﻿using Right_Click_Commands.Views;
+﻿using Right_Click_Commands.Models;
+using Right_Click_Commands.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,6 +16,8 @@ namespace Right_Click_Commands.ViewModels
     {
         //  Variables
         //  =========
+
+        private readonly RegistryWorker registryWorker = new RegistryWorker();//TODO DI
 
         private ObservableCollection<ScriptConfig> scriptConfigs;
         private ScriptConfig selectedScript;
@@ -55,17 +58,7 @@ namespace Right_Click_Commands.ViewModels
 
         public MainWindowViewModel()
         {
-            ScriptConfigs = new ObservableCollection<ScriptConfig>()
-            {
-                new ScriptConfig()
-                {
-                    Label = "Item #1111111111"
-                },
-                new ScriptConfig()
-                {
-                    Label = "Item #2"
-                }
-            };
+            ScriptConfigs = new ObservableCollection<ScriptConfig>(registryWorker.GetScriptConfigs());
             
             SimpleCommand = new Command(DoSimpleCommand);
         }

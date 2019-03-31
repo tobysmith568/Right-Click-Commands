@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Right_Click_Commands
+namespace Right_Click_Commands.Models
 {
     public class ScriptConfig : ViewModelBase
     {

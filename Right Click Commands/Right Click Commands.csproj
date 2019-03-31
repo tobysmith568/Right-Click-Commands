@@ -60,8 +60,11 @@
     </ApplicationDefinition>
     <Compile Include="Command.cs" />
     <Compile Include="MenuLocation.cs" />
-    <Compile Include="ScriptConfig.cs" />
+    <Compile Include="Models\IScriptWorker.cs" />
+    <Compile Include="Models\RegistryWorker.cs" />
+    <Compile Include="Models\ScriptConfig.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="ViewModelBase.cs" />
     <Compile Include="ViewModels\CommandConfigViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
