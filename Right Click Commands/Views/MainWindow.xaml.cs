@@ -39,5 +39,10 @@ namespace Right_Click_Commands.Views
                 GrdMain.ColumnDefinitions[2].Width = new GridLength(3, GridUnitType.Star);
             }
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Properties.Settings.Default.Save();
+        }
     }
 }

@@ -22,5 +22,29 @@ namespace Right_Click_Commands.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public double Col1Width {
+            get {
+                return ((double)(this["Col1Width"]));
+            }
+            set {
+                this["Col1Width"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        public double Col3Width {
+            get {
+                return ((double)(this["Col3Width"]));
+            }
+            set {
+                this["Col3Width"] = value;
+            }
+        }
     }
 }

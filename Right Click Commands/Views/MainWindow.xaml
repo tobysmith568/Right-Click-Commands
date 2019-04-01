@@ -6,17 +6,19 @@
         xmlns:ViewModels="clr-namespace:Right_Click_Commands.ViewModels"
         xmlns:Models="clr-namespace:Right_Click_Commands.Models"
         xmlns:local="clr-namespace:Right_Click_Commands.Views"
+        xmlns:props="clr-namespace:Right_Click_Commands.Properties"
+        xmlns:converters="clr-namespace:Right_Click_Commands.Converters"
         x:Class="Right_Click_Commands.Views.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" Closing="Window_Closing">
     <Window.DataContext>
         <ViewModels:MainWindowViewModel />
     </Window.DataContext>
     <Grid x:Name="GrdMain">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" x:Name="ColLeft" />
+            <ColumnDefinition Width="{Binding Source={x:Static props:Settings.Default}, Path=Col1Width, Mode=TwoWay, Converter={converters:DoubleToStarGridWidthConverter}}" x:Name="ColLeft" />
             <ColumnDefinition Width="5" />
-            <ColumnDefinition Width="3*" x:Name="ColRight" />
+            <ColumnDefinition Width="{Binding Source={x:Static props:Settings.Default}, Path=Col3Width, Mode=TwoWay, Converter={converters:DoubleToStarGridWidthConverter}}" x:Name="ColRight" />
         </Grid.ColumnDefinitions>
 
         <!-- Left Column -->
