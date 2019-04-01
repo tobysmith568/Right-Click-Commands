@@ -10,7 +10,12 @@
         xmlns:converters="clr-namespace:Right_Click_Commands.Converters"
         x:Class="Right_Click_Commands.Views.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Closing="Window_Closing">
+        Title="MainWindow" Closing="Window_Closing"
+        WindowState="{Binding Source={x:Static props:Settings.Default}, Path=WindowState, Mode=TwoWay, Converter={converters:IntegerToWindowStateConverter}}"
+        Height="{Binding Source={x:Static props:Settings.Default}, Path=Height, Mode=TwoWay}" 
+        Width="{Binding Source={x:Static props:Settings.Default}, Path=Width, Mode=TwoWay}"
+        Left="{Binding Source={x:Static props:Settings.Default}, Path=Left, Mode=TwoWay}" 
+        Top="{Binding Source={x:Static props:Settings.Default}, Path=Top, Mode=TwoWay}">
     <Window.DataContext>
         <ViewModels:MainWindowViewModel />
     </Window.DataContext>

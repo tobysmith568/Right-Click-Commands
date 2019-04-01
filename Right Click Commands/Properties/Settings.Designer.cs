@@ -46,5 +46,65 @@ namespace Right_Click_Commands.Properties {
                 this["Col3Width"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int WindowState {
+            get {
+                return ((int)(this["WindowState"]));
+            }
+            set {
+                this["WindowState"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("450")]
+        public int Height {
+            get {
+                return ((int)(this["Height"]));
+            }
+            set {
+                this["Height"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("800")]
+        public int Width {
+            get {
+                return ((int)(this["Width"]));
+            }
+            set {
+                this["Width"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        public int Left {
+            get {
+                return ((int)(this["Left"]));
+            }
+            set {
+                this["Left"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        public int Top {
+            get {
+                return ((int)(this["Top"]));
+            }
+            set {
+                this["Top"] = value;
+            }
+        }
     }
 }
