@@ -27,7 +27,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- Left Column -->
-        <ListBox x:Name="MainList" Grid.Column="0" Margin="0" ItemsSource="{Binding Path=ScriptConfigs, Mode=TwoWay}" SelectedItem="{Binding Path=SelectedScript, Mode=TwoWay}" >
+        <ListBox x:Name="MainList" Grid.Column="0" Margin="0" ItemsSource="{Binding Path=ScriptConfigs, Mode=TwoWay}" SelectedItem="{Binding Path=SelectedScriptConfig, Mode=TwoWay}" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid x:Name="MainListTemplate" Height="30" Margin="0,2">
@@ -51,9 +51,11 @@
                 Insert image to show nothing is selected
             </TextBlock>
         </Grid>
-        <Grid Margin="0" Grid.Column="2" Background="White" Visibility="{Binding SelectedScript, Converter={converters:NullableToVisibility}}">
-            <TextBox Text="{Binding Path=SelectedScript.Label, Mode=TwoWay}" Margin="10,10,10,0" VerticalAlignment="Top" Height="33"
+        <Grid Margin="0" Grid.Column="2" Background="White">
+            <!--Visibility="{Binding SelectedScriptConfig, Converter={converters:NullableToVisibility}}">-->
+            <TextBox Text="{Binding Path=SelectedScriptConfig.Label, Mode=TwoWay}" Margin="10,10,10,0" VerticalAlignment="Top" Height="33"
                      FontSize="18" VerticalContentAlignment="Center"/>
+            <TextBox Margin="10,58,10,10" TextWrapping="Wrap" Text="TextBox" FontFamily="Consolas"/>
         </Grid>
 
     </Grid>

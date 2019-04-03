@@ -19,33 +19,62 @@ namespace Right_Click_Commands.Models
         {
             List<ScriptConfig> results = new List<ScriptConfig>();
 
-            try
+            foreach (string location in classesRootOptions)
             {
-                foreach (string location in classesRootOptions)
+                try
                 {
-                    using (RegistryKey key = Registry.ClassesRoot.OpenSubKey(location, true))
-                    {
-                        foreach (string subkey in key.GetSubKeyNames().Where(n => n.StartsWith("RCC_")))
-                        {
-                            results.Add(AddScriptConfig(key.OpenSubKey(subkey)));
-                        }
-                    }
+                    ReadParentKey(location, ref results);
                 }
-            }
-            catch // TODO
-            {
-
+                catch // TODO
+                {
+                    //Unable to read a classesRoot key
+                }
             }
 
             return results;
         }
 
-        private ScriptConfig AddScriptConfig(RegistryKey registryKey)
+        /// <exception cref="ObjectDisposedException"></exception>
+        /// <exception cref="System.Security.SecurityException"></exception>
+        /// <exception cref="UnauthorizedAccessException"></exception>
+        /// <exception cref="System.IO.IOException"></exception>
+        private void ReadParentKey(string location, ref List<ScriptConfig> results)
         {
-            ScriptConfig result = new ScriptConfig();
-            string[] parts = registryKey.Name.Split('\\');
-            result.Label = parts[parts.Length - 1].Substring(4);
-            return result;
+            using (RegistryKey key = Registry.ClassesRoot.OpenSubKey(location, true))
+            {
+                foreach (string subkey in key.GetSubKeyNames())
+                {
+                    try
+                    {
+                        if (subkey.Length < 4 || subkey.Substring(0, 4) != "RCC_")
+                            continue;
+
+                        results.Add(MapScriptConfig(key.OpenSubKey(subkey)));
+                    }
+                    catch // TODO
+                    {
+                        //Unable to read a child classesRoot key's values
+                    }
+                }
+            }
+        }
+
+        /// <exception cref="UnauthorizedAccessException"></exception>
+        private ScriptConfig MapScriptConfig(RegistryKey registryKey)
+        {
+            try
+            {
+                return new ScriptConfig
+                {
+                    Name = registryKey.Name,
+                    Label = registryKey.GetValue("MUIVerb", "").ToString(),
+                    Icon = registryKey.GetValue("Icon", "").ToString()
+                };
+            }
+            catch (Exception e)
+            {
+                throw new UnauthorizedAccessException("Cannot access registry key value", e);
+            }
         }
     }
 }

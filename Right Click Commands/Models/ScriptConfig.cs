@@ -9,14 +9,25 @@ namespace Right_Click_Commands.Models
 {
     public class ScriptConfig : ViewModelBase
     {
-        //  Variables
-        //  =========
-
+        private string name;
         private string label = "";
         private string icon;
 
         //  Properties
         //  ==========
+
+        public string Name
+        {
+            get => name;
+            set
+            {
+                if (name != value)
+                {
+                    name = value;
+                    RaisePropertyChanged("Name");
+                }
+            }
+        }
 
         public string Label
         {

@@ -20,7 +20,7 @@ namespace Right_Click_Commands.ViewModels
         private readonly RegistryWorker registryWorker = new RegistryWorker();//TODO DI
 
         private ObservableCollection<ScriptConfig> scriptConfigs;
-        private ScriptConfig selectedScript;
+        private ScriptConfig selectedScriptConfig;
 
         //  Properties
         //  ==========
@@ -38,15 +38,18 @@ namespace Right_Click_Commands.ViewModels
             }
         }
 
-        public ScriptConfig SelectedScript
+        public ScriptConfig SelectedScriptConfig
         {
-            get => selectedScript;
+            get => selectedScriptConfig;
             set
             {
-                if (selectedScript != value)
+                if (selectedScriptConfig != value)
                 {
-                    selectedScript = value;
-                    RaisePropertyChanged("SelectedScript");
+                    selectedScriptConfig = value;
+
+
+
+                    RaisePropertyChanged("SelectedScriptConfig");
                 }
             }
         }
