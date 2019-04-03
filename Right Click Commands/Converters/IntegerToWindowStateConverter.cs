@@ -9,9 +9,12 @@ using System.Windows.Data;
 
 namespace Right_Click_Commands.Converters
 {
-    public class IntegerToWindowStateConverter : ConverterBase<IntegerToWindowStateConverter>, IValueConverter
+    public class IntegerToWindowStateConverter : ConverterBase<IntegerToWindowStateConverter>
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        //  Methods
+        //  =======
+
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             WindowState result;
 
@@ -27,7 +30,7 @@ namespace Right_Click_Commands.Converters
             return result;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (!(value is WindowState))
                 throw new ArgumentException("The given value must be a WindowState");

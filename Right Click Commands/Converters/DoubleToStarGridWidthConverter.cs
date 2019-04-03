@@ -9,9 +9,12 @@ using System.Windows.Data;
 
 namespace Right_Click_Commands.Converters
 {
-    public class DoubleToStarGridWidthConverter : ConverterBase<DoubleToStarGridWidthConverter>, IValueConverter
+    public class DoubleToStarGridWidthConverter : ConverterBase<DoubleToStarGridWidthConverter>
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        //  Methods
+        //  =======
+
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (!(value is double))
                 throw new ArgumentException("The given value must be a double");
@@ -19,7 +22,7 @@ namespace Right_Click_Commands.Converters
             return new GridLength((double)value, GridUnitType.Star);
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (!(value is GridLength))
                 throw new ArgumentException("The given value must be a GridLength");
