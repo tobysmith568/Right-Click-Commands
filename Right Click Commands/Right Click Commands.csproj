@@ -62,6 +62,7 @@
     <Compile Include="Converters\ConverterBase.cs" />
     <Compile Include="Converters\DoubleToStarGridWidthConverter.cs" />
     <Compile Include="Converters\IntegerToWindowStateConverter.cs" />
+    <Compile Include="Converters\NullableToVisibility.cs" />
     <Compile Include="MenuLocation.cs" />
     <Compile Include="Models\IScriptWorker.cs" />
     <Compile Include="Models\RegistryWorker.cs" />
