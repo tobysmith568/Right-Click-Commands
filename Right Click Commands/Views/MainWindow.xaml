@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ViewModels="clr-namespace:Right_Click_Commands.ViewModels"
         xmlns:Models="clr-namespace:Right_Click_Commands.Models"
-        xmlns:local="clr-namespace:Right_Click_Commands.Views"
+        xmlns:views="clr-namespace:Right_Click_Commands.Views"
         xmlns:props="clr-namespace:Right_Click_Commands.Properties"
         xmlns:converters="clr-namespace:Right_Click_Commands.Converters"
         x:Class="Right_Click_Commands.Views.MainWindow"
@@ -20,11 +20,15 @@
         <ViewModels:MainWindowViewModel />
     </Window.DataContext>
     <Grid x:Name="GrdMain">
+        <!-- Column Definitions -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="{Binding Source={x:Static props:Settings.Default}, Path=Col1Width, Mode=TwoWay, Converter={converters:DoubleToStarGridWidthConverter}}" x:Name="ColLeft" />
             <ColumnDefinition Width="5" />
             <ColumnDefinition Width="{Binding Source={x:Static props:Settings.Default}, Path=Col3Width, Mode=TwoWay, Converter={converters:DoubleToStarGridWidthConverter}}" x:Name="ColRight" />
         </Grid.ColumnDefinitions>
+        
+        <!-- ViewModel Event Buttons -->
+        <Button Visibility="Hidden" Name="VMClosingEvent" Command="{Binding SimpleCommand}" />
 
         <!-- Left Column -->
         <ListBox x:Name="MainList" Grid.Column="0" Margin="0" ItemsSource="{Binding Path=ScriptConfigs, Mode=TwoWay}" SelectedItem="{Binding Path=SelectedScriptConfig, Mode=TwoWay}" >
@@ -57,6 +61,5 @@
                      FontSize="18" VerticalContentAlignment="Center"/>
             <TextBox Margin="10,58,10,10" TextWrapping="Wrap" Text="{Binding SelectedScriptConfig.Script, Mode=TwoWay}" FontFamily="Consolas"/>
         </Grid>
-
     </Grid>
 </Window>

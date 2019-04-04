@@ -42,7 +42,7 @@ namespace Right_Click_Commands.Views
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Properties.Settings.Default.Save();
+            VMClosingEvent.Command.Execute(e);
         }
     }
 }

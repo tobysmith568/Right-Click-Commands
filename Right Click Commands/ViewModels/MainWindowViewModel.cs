@@ -17,7 +17,7 @@ namespace Right_Click_Commands.ViewModels
         //  Variables
         //  =========
 
-        private readonly RegistryWorker registryWorker = new RegistryWorker();//TODO DI
+        private readonly IScriptWorker registryWorker = new RegistryWorker();//TODO DI
 
         private ObservableCollection<ScriptConfig> scriptConfigs;
         private ScriptConfig selectedScriptConfig;
@@ -68,7 +68,7 @@ namespace Right_Click_Commands.ViewModels
 
         private void DoSimpleCommand()
         {
-            MessageBox.Show("Hello");
+            Properties.Settings.Default.Save();
         }
     }
 }
