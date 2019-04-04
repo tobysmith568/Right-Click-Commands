@@ -55,7 +55,7 @@
             <!--Visibility="{Binding SelectedScriptConfig, Converter={converters:NullableToVisibility}}">-->
             <TextBox Text="{Binding Path=SelectedScriptConfig.Label, Mode=TwoWay}" Margin="10,10,10,0" VerticalAlignment="Top" Height="33"
                      FontSize="18" VerticalContentAlignment="Center"/>
-            <TextBox Margin="10,58,10,10" TextWrapping="Wrap" Text="TextBox" FontFamily="Consolas"/>
+            <TextBox Margin="10,58,10,10" TextWrapping="Wrap" Text="{Binding SelectedScriptConfig.Script, Mode=TwoWay}" FontFamily="Consolas"/>
         </Grid>
 
     </Grid>

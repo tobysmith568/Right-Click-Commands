@@ -46,9 +46,6 @@ namespace Right_Click_Commands.ViewModels
                 if (selectedScriptConfig != value)
                 {
                     selectedScriptConfig = value;
-
-
-
                     RaisePropertyChanged("SelectedScriptConfig");
                 }
             }

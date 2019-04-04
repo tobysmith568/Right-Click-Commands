@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -64,9 +65,8 @@ namespace Right_Click_Commands.Models
         {
             try
             {
-                return new ScriptConfig
+                return new ScriptConfig(Path.GetFileName(registryKey.Name))
                 {
-                    Name = registryKey.Name,
                     Label = registryKey.GetValue("MUIVerb", "").ToString(),
                     Icon = registryKey.GetValue("Icon", "").ToString()
                 };
