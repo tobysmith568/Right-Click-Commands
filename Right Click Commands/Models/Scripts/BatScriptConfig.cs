@@ -27,40 +27,19 @@ namespace Right_Click_Commands.Models.Scripts
         public string Label
         {
             get => label;
-            set
-            {
-                if (label != value)
-                {
-                    label = value;
-                    RaisePropertyChanged("Label");
-                }
-            }
+            set => PropertyChanging(value, ref label, "Label");
         }
 
         public string Icon
         {
             get => icon;
-            set
-            {
-                if (icon != value)
-                {
-                    icon = value;
-                    RaisePropertyChanged("Icon");
-                }
-            }
+            set => PropertyChanging(value, ref icon, "Icon");
         }
 
         public string Script
         {
             get => script;
-            set
-            {
-                if (script != value)
-                {
-                    script = value;
-                    RaisePropertyChanged("Script");
-                }
-            }
+            set => PropertyChanging(value, ref script, "Script");
         }
 
         //  Constructors

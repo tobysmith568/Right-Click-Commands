@@ -1,17 +1,12 @@
-using Right_Click_Commands.Models;
-using Right_Click_Commands.Models.ContextMenu;
+﻿using Right_Click_Commands.Models.ContextMenu;
 using Right_Click_Commands.Models.Scripts;
 using Right_Click_Commands.Models.Settings;
-using Right_Click_Commands.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
 
 namespace Right_Click_Commands.ViewModels
 {
@@ -32,27 +27,13 @@ namespace Right_Click_Commands.ViewModels
         public ObservableCollection<IScriptConfig> ScriptConfigs
         {
             get => scriptConfigs;
-            set
-            {
-                if (scriptConfigs != value)
-                {
-                    scriptConfigs = value;
-                    RaisePropertyChanged("ScriptConfigs");
-                }
-            }
+            set => PropertyChanging(value, ref scriptConfigs, "ScriptConfigs");
         }
 
         public IScriptConfig SelectedScriptConfig
         {
             get => selectedScriptConfig;
-            set
-            {
-                if (selectedScriptConfig != value)
-                {
-                    selectedScriptConfig = value;
-                    RaisePropertyChanged("SelectedScriptConfig");
-                }
-            }
+            set => PropertyChanging(value, ref selectedScriptConfig, "SelectedScriptConfig");
         }
 
         public Command WindowCloseCommand { get; }
