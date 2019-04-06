@@ -54,6 +54,11 @@ namespace Right_Click_Commands.ViewModels
         private void DoWindowCloseCommand()
         {
             settings.SaveAll();
+            
+            foreach (IScriptConfig scriptConfig in scriptConfigs)
+            {
+                scriptConfig.SaveScript();
+            }
         }
     }
 }

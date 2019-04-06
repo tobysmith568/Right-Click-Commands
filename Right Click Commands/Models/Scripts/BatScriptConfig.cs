@@ -48,17 +48,17 @@ namespace Right_Click_Commands.Models.Scripts
         public BatScriptConfig(string name)
         {
             Name = name;
-            LoadScript(name);
+            LoadScript();
         }
 
         //  Methods
         //  =======
 
-        private void LoadScript(string fileName)
+        private void LoadScript()
         {
             try
             {
-                string scriptFile = Path.Combine(appDataFolder, fileName + ".bat");
+                string scriptFile = Path.Combine(appDataFolder, Name + ".bat");
 
                 if (!Directory.Exists(appDataFolder))
                 {
@@ -71,6 +71,25 @@ namespace Right_Click_Commands.Models.Scripts
                 }
 
                 Script = File.Exists(scriptFile) ? File.ReadAllText(scriptFile) : "";
+            }
+            catch // TODO
+            {
+
+            }
+        }
+
+        public void SaveScript()
+        {
+            try
+            {
+                string scriptFile = Path.Combine(appDataFolder, Name + ".bat");
+
+                if (!Directory.Exists(appDataFolder))
+                {
+                    Directory.CreateDirectory(appDataFolder);
+                }
+
+                File.WriteAllText(scriptFile, Script);
             }
             catch // TODO
             {

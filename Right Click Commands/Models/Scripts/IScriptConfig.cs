@@ -14,5 +14,10 @@ namespace Right_Click_Commands.Models.Scripts
         string Name { get; }
         string Label { get; set; }
         string Script { get; set; }
+
+        //  Methods
+        //  =======
+
+        void SaveScript();
     }
 }
