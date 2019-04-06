@@ -56,12 +56,11 @@
                 Insert image to show nothing is selected
             </TextBlock>
         </Grid>
-        <Grid Margin="0" Grid.Column="2" Background="White">
+        <Grid Margin="0" Grid.Column="2" Background="White" Visibility="{Binding SelectedScriptConfig, Converter={converters:NullableToVisibility}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="135"/>
                 <RowDefinition Height="302*"/>
             </Grid.RowDefinitions>
-            <!--Visibility="{Binding SelectedScriptConfig, Converter={converters:NullableToVisibility}}">-->
             <TextBox Text="{Binding Path=SelectedScriptConfig.Label, Mode=TwoWay}" Margin="10,10,10,0" VerticalAlignment="Top" Height="33" 
                      FontSize="18" VerticalContentAlignment="Center" Grid.ColumnSpan="2"/>
             <StackPanel Orientation="Horizontal" Margin="10,48,10,10">
@@ -71,9 +70,9 @@
                         <CheckBox Content="On Background" Margin="10,10,0,0" Grid.Column="2" VerticalContentAlignment="Center" IsChecked="{Binding SelectedScriptConfig.OnBackground, Mode=TwoWay}"/>
                     </StackPanel>
                 </GroupBox>
-                <GroupBox Header="CMD Options" Margin="10,0,0,0" Width="190">
+                <GroupBox Header="Window Options" Margin="10,0,0,0" Width="190">
                     <StackPanel>
-                        <CheckBox Content="Keep CMD open" Margin="10,10,0,0" Grid.Column="2" VerticalContentAlignment="Center" IsChecked="{Binding SelectedScriptConfig.KeepWindowOpen, Mode=TwoWay}"/>
+                        <CheckBox Content="Keep window open" Margin="10,10,0,0" Grid.Column="2" VerticalContentAlignment="Center" IsChecked="{Binding SelectedScriptConfig.KeepWindowOpen, Mode=TwoWay}"/>
                     </StackPanel>
                 </GroupBox>
             </StackPanel>
