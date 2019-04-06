@@ -1,4 +1,4 @@
-﻿using Right_Click_Commands.Models;
+using Right_Click_Commands.Models;
 using Right_Click_Commands.Models.ContextMenu;
 using Right_Click_Commands.Models.Scripts;
 using Right_Click_Commands.Models.Settings;
@@ -55,7 +55,7 @@ namespace Right_Click_Commands.ViewModels
             }
         }
 
-        public Command SimpleCommand { get; }
+        public Command WindowCloseCommand { get; }
 
         //  Constructors
         //  ============
@@ -63,14 +63,14 @@ namespace Right_Click_Commands.ViewModels
         public MainWindowViewModel()
         {
             ScriptConfigs = new ObservableCollection<IScriptConfig>(registryWorker.GetScriptConfigs());
-            
-            SimpleCommand = new Command(DoSimpleCommand);
+
+            WindowCloseCommand = new Command(DoWindowCloseCommand);
         }
 
         //  Methods
         //  =======
 
-        private void DoSimpleCommand()
+        private void DoWindowCloseCommand()
         {
             settings.SaveAll();
         }
