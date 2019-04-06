@@ -64,10 +64,12 @@ namespace Right_Click_Commands.ViewModels
         {
             settings.SaveAll();
 
-            foreach (IScriptConfig scriptConfig in scriptConfigs)
+            foreach (IScriptConfig scriptConfig in ScriptConfigs)
             {
                 scriptConfig.SaveScript();
             }
+
+            contextMenuWorker.SaveScriptConfigs(ScriptConfigs);
         }
     }
 }
