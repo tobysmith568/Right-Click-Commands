@@ -1,4 +1,4 @@
-﻿using Microsoft.Win32;
+using Microsoft.Win32;
 using Right_Click_Commands.Models.Scripts;
 using System;
 using System.Collections.Generic;
@@ -17,13 +17,15 @@ namespace Right_Click_Commands.Models.ContextMenu
         private const string MUIVerb = "MUIVerb";
         private const string Icon = "Icon";
         private const string RCC_ = "RCC_";
-        private const string Command = "command";
+        private const string cmd = "cmd";
         private const string KeepCMDOpen = "/K";
-        private const string CloseCMD = "/C";
+        private const string command = "command";
+        private const string keepCMDOpen = "/K";
+        private const string closeCMD = "/C";
 
         //  Variables
         //  =========
-
+        
         private readonly Dictionary<MenuLocation, string> classesRootOptions = new Dictionary<MenuLocation, string>()
         {
             { MenuLocation.Background, @"Software\Classes\Directory\Background\shell" },
@@ -94,7 +96,9 @@ namespace Right_Click_Commands.Models.ContextMenu
                     try
                     {
                         if (subkey.Length < 4 || subkey.Substring(0, 4) != RCC_)
+                        {
                             continue;
+                        }
 
                         IScriptConfig newConfig = MapScriptConfig(key.OpenSubKey(subkey), location.Key);
                         IScriptConfig original = results.FirstOrDefault(r => r.Name == newConfig.Name);
@@ -128,20 +132,32 @@ namespace Right_Click_Commands.Models.ContextMenu
                 };
                 newConfig.ModifyLocation(location, true);
 
-                using (RegistryKey commandKey = registryKey.OpenSubKey(Command))
+                using (RegistryKey commandKey = registryKey.OpenSubKey(command))
                 {
+                    if (commandKey == null)
+                    {
+                        ThrowFoundCorruptKey(newConfig.Label);
+                    }
+
                     string command = commandKey.GetValue(string.Empty, string.Empty).ToString();
 
-                    if (command.Substring(4, 2) == KeepCMDOpen)
+                    if (command.Length <= 6 || command.Substring(0, 3) != cmd)
+                    {
+                        ThrowFoundCorruptKey(newConfig.Label);
+                    }
+
+                    if (command.Substring(4, 2) == keepCMDOpen)
                     {
                         newConfig.KeepWindowOpen = true;
                     }
-                    else if (command.Substring(4, 2) == CloseCMD)
+                    else if (command.Substring(4, 2) == closeCMD)
                     {
                         newConfig.KeepWindowOpen = false;
                     }
                     else
-                        throw new InvalidDataException($"The right-click command [{newConfig.Label}] appears to be corrupt. Please delete and re-create it");
+                    {
+                        ThrowFoundCorruptKey(newConfig.Label);
+                    }
                 }
 
                 return newConfig;
@@ -150,6 +166,12 @@ namespace Right_Click_Commands.Models.ContextMenu
             {
                 throw new UnauthorizedAccessException("Cannot access registry key value", e);
             }
+        }
+
+        /// <exception cref="InvalidDataException"></exception>
+        private void ThrowFoundCorruptKey(string label)
+        {
+            throw new InvalidDataException($"The right-click command [{label}] appears to be corrupt. Please delete and re-create it");
         }
 
         /// <exception cref="ObjectDisposedException"></exception>
@@ -190,9 +212,9 @@ namespace Right_Click_Commands.Models.ContextMenu
                     childKey.SetValue(MUIVerb, scriptConfig.Label, RegistryValueKind.String);
                     childKey.SetValue(Icon, string.Empty);// TODO
 
-                    using (RegistryKey commandKey = childKey.CreateSubKey(Command))
+                    using (RegistryKey commandKey = childKey.CreateSubKey(command))
                     {
-                        commandKey.SetValue("", $"cmd {(scriptConfig.KeepWindowOpen ? KeepCMDOpen : CloseCMD)} TITLE {scriptConfig.Label}&\"{scriptConfig.ScriptLocation}\"");
+                        commandKey.SetValue("", $"cmd {(scriptConfig.KeepWindowOpen ? keepCMDOpen : closeCMD)} TITLE {scriptConfig.Label}&\"{scriptConfig.ScriptLocation}\"");
                     }
                 }
             }

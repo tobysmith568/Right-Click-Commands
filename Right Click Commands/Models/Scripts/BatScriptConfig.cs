@@ -20,13 +20,11 @@ namespace Right_Click_Commands.Models.Scripts
 
         private static readonly string appDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Right-Click Commands");
 
-        private string scriptLocation;
         private string label = string.Empty;
         private string icon;
         private string script;
         private bool onDirectory;
         private bool onBackground;
-        private bool showWindow;
         private bool keepWindowOpen;
 
         //  Properties
@@ -34,11 +32,7 @@ namespace Right_Click_Commands.Models.Scripts
 
         public string Name { get; }
 
-        public string ScriptLocation
-        {
-            get => scriptLocation;
-            private set => scriptLocation = value;
-        }
+        public string ScriptLocation { get; private set; }
 
         public string Label
         {
@@ -68,12 +62,6 @@ namespace Right_Click_Commands.Models.Scripts
         {
             get => onBackground;
             set => PropertyChanging(value, ref onBackground, "OnBackground");
-        }
-
-        public bool ShowWindow
-        {
-            get => showWindow;
-            set => PropertyChanging(value, ref showWindow, "ShowWindow");
         }
 
         public bool KeepWindowOpen

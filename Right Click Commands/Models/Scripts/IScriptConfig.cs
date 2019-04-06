@@ -17,7 +17,6 @@ namespace Right_Click_Commands.Models.Scripts
         string Script { get; set; }
         bool OnDirectory { get; set; }
         bool OnBackground { get; set; }
-        bool ShowWindow { get; set; }
         bool KeepWindowOpen { get; set; }
 
         //  Methods
