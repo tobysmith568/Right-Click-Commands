@@ -10,21 +10,35 @@ namespace Right_Click_Commands.Models.Scripts
 {
     public class BatScriptConfig : ViewModelBase, IScriptConfig
     {
+        //  Constants
+        //  =========
+
+        private const string dotBat = ".bat";
+
         //  Variables
         //  =========
 
         private static readonly string appDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Right-Click Commands");
 
-        private string label = "";
+        private string scriptLocation;
+        private string label = string.Empty;
         private string icon;
         private string script;
         private bool onDirectory;
         private bool onBackground;
+        private bool showWindow;
+        private bool keepWindowOpen;
 
         //  Properties
         //  ==========
 
         public string Name { get; }
+
+        public string ScriptLocation
+        {
+            get => scriptLocation;
+            private set => scriptLocation = value;
+        }
 
         public string Label
         {
@@ -56,35 +70,46 @@ namespace Right_Click_Commands.Models.Scripts
             set => PropertyChanging(value, ref onBackground, "OnBackground");
         }
 
+        public bool ShowWindow
+        {
+            get => showWindow;
+            set => PropertyChanging(value, ref showWindow, "ShowWindow");
+        }
+
+        public bool KeepWindowOpen
+        {
+            get => keepWindowOpen;
+            set => PropertyChanging(value, ref keepWindowOpen, "KeepWindowOpen");
+        }
+
         //  Constructors
         //  ============
 
         public BatScriptConfig(string name)
         {
             Name = name;
+            ScriptLocation = Path.Combine(appDataFolder, Name + dotBat);
             LoadScript();
         }
 
         //  Methods
         //  =======
 
-        private void LoadScript()
+        public void LoadScript()
         {
             try
             {
-                string scriptFile = Path.Combine(appDataFolder, Name + ".bat");
-
                 if (!Directory.Exists(appDataFolder))
                 {
                     Directory.CreateDirectory(appDataFolder);
                 }
 
-                if (!File.Exists(scriptFile))
+                if (!File.Exists(ScriptLocation))
                 {
-                    File.WriteAllText(scriptFile, "");
+                    File.WriteAllText(ScriptLocation, string.Empty);
                 }
 
-                Script = File.Exists(scriptFile) ? File.ReadAllText(scriptFile) : "";
+                Script = File.Exists(ScriptLocation) ? File.ReadAllText(ScriptLocation) : string.Empty;
             }
             catch // TODO
             {
@@ -96,7 +121,7 @@ namespace Right_Click_Commands.Models.Scripts
         {
             try
             {
-                string scriptFile = Path.Combine(appDataFolder, Name + ".bat");
+                string scriptFile = Path.Combine(appDataFolder, Name + dotBat);
 
                 if (!Directory.Exists(appDataFolder))
                 {

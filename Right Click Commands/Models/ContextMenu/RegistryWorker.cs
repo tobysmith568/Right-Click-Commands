@@ -17,6 +17,9 @@ namespace Right_Click_Commands.Models.ContextMenu
         private const string MUIVerb = "MUIVerb";
         private const string Icon = "Icon";
         private const string RCC_ = "RCC_";
+        private const string Command = "command";
+        private const string KeepCMDOpen = "/K";
+        private const string CloseCMD = "/C";
 
         //  Variables
         //  =========
@@ -120,10 +123,27 @@ namespace Right_Click_Commands.Models.ContextMenu
             {
                 BatScriptConfig newConfig = new BatScriptConfig(Path.GetFileName(registryKey.Name))
                 {
-                    Label = registryKey.GetValue(MUIVerb, "").ToString(),
-                    Icon = registryKey.GetValue(Icon, "").ToString()// TODO
+                    Label = registryKey.GetValue(MUIVerb, string.Empty).ToString(),
+                    Icon = registryKey.GetValue(Icon, string.Empty).ToString()// TODO
                 };
                 newConfig.ModifyLocation(location, true);
+
+                using (RegistryKey commandKey = registryKey.OpenSubKey(Command))
+                {
+                    string command = commandKey.GetValue(string.Empty, string.Empty).ToString();
+
+                    if (command.Substring(4, 2) == KeepCMDOpen)
+                    {
+                        newConfig.KeepWindowOpen = true;
+                    }
+                    else if (command.Substring(4, 2) == CloseCMD)
+                    {
+                        newConfig.KeepWindowOpen = false;
+                    }
+                    else
+                        throw new InvalidDataException($"The right-click command [{newConfig.Label}] appears to be corrupt. Please delete and re-create it");
+                }
+
                 return newConfig;
             }
             catch (Exception e)
@@ -168,7 +188,12 @@ namespace Right_Click_Commands.Models.ContextMenu
                 using (RegistryKey childKey = key.CreateSubKey(scriptConfig.Name, true))
                 {
                     childKey.SetValue(MUIVerb, scriptConfig.Label, RegistryValueKind.String);
-                    childKey.SetValue(Icon, "");// TODO
+                    childKey.SetValue(Icon, string.Empty);// TODO
+
+                    using (RegistryKey commandKey = childKey.CreateSubKey(Command))
+                    {
+                        commandKey.SetValue("", $"cmd {(scriptConfig.KeepWindowOpen ? KeepCMDOpen : CloseCMD)} TITLE {scriptConfig.Label}&\"{scriptConfig.ScriptLocation}\"");
+                    }
                 }
             }
         }

@@ -45,5 +45,10 @@ namespace Right_Click_Commands.Views
             FocusStealer.Focus();
             VMClosingEvent.Command.Execute(e);
         }
+
+        private void CbShowCMD_Unchecked(object sender, RoutedEventArgs e)
+        {
+            cbKeepCMDOpen.IsChecked = false;
+        }
     }
 }
