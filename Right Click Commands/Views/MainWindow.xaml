@@ -25,6 +25,9 @@
             <ColumnDefinition Width="{Binding Source={x:Static props:Settings.Default}, Path=Col3Width, Mode=TwoWay, Converter={converters:DoubleToStarGridWidthConverter}}" x:Name="ColRight"/>
         </Grid.ColumnDefinitions>
         
+        <!-- Focus Stealer -->
+        <TextBox Name="FocusStealer" Width="20" Height="20"/>
+
         <!-- ViewModel Event Buttons -->
         <Button Visibility="Hidden" Name="VMClosingEvent" Command="{Binding WindowCloseCommand}"/>
 

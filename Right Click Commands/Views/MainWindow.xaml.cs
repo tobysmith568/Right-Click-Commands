@@ -42,6 +42,7 @@ namespace Right_Click_Commands.Views
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            FocusStealer.Focus();
             VMClosingEvent.Command.Execute(e);
         }
     }
