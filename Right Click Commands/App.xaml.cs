@@ -1,10 +1,15 @@
-﻿using System;
+﻿using Right_Click_Commands.Models.ContextMenu;
+using Right_Click_Commands.Models.Settings;
+using Right_Click_Commands.ViewModels;
+using Right_Click_Commands.Views;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Unity;
 
 namespace Right_Click_Commands
 {
@@ -13,5 +18,18 @@ namespace Right_Click_Commands
     /// </summary>
     public partial class App : Application
     {
+        /// <exception cref="InvalidOperationException">Ignore.</exception>
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            IUnityContainer container = new UnityContainer();
+            container.RegisterType<IContextMenuWorker, RegistryWorker>();
+            container.RegisterType<ISettings, WindowsSettings>();
+
+            var mainWindowViewModel = container.Resolve<MainWindowViewModel>();
+            var window = new MainWindow { DataContext = mainWindowViewModel };
+            window.Show();
+        }
     }
 }

@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using Unity;
 
 namespace Right_Click_Commands.ViewModels
 {
@@ -15,8 +16,8 @@ namespace Right_Click_Commands.ViewModels
         //  Variables
         //  =========
 
-        private readonly IContextMenuWorker registryWorker = new RegistryWorker();//TODO DI
-        private readonly ISettings settings = new WindowsSettings();//TODO DI
+        private readonly IContextMenuWorker contextMenuWorker;
+        private readonly ISettings settings;
 
         private ObservableCollection<IScriptConfig> scriptConfigs;
         private IScriptConfig selectedScriptConfig;
@@ -43,7 +44,15 @@ namespace Right_Click_Commands.ViewModels
 
         public MainWindowViewModel()
         {
-            ScriptConfigs = new ObservableCollection<IScriptConfig>(registryWorker.GetScriptConfigs());
+
+        }
+
+        public MainWindowViewModel(IContextMenuWorker contextMenuWorker, ISettings settings) : this()
+        {
+            this.contextMenuWorker = contextMenuWorker;
+            this.settings = settings;
+
+            ScriptConfigs = new ObservableCollection<IScriptConfig>(this.contextMenuWorker.GetScriptConfigs());
 
             WindowCloseCommand = new Command(DoWindowCloseCommand);
         }
@@ -54,7 +63,7 @@ namespace Right_Click_Commands.ViewModels
         private void DoWindowCloseCommand()
         {
             settings.SaveAll();
-            
+
             foreach (IScriptConfig scriptConfig in scriptConfigs)
             {
                 scriptConfig.SaveScript();
