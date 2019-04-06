@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Right_Click_Commands.Models
+namespace Right_Click_Commands.Models.Scripts
 {
-    public class ScriptConfig : ViewModelBase
+    public class BatScriptConfig : ViewModelBase, IScriptConfig
     {
         //  Variables
         //  =========
@@ -66,7 +66,7 @@ namespace Right_Click_Commands.Models
         //  Constructors
         //  ============
 
-        public ScriptConfig(string name)
+        public BatScriptConfig(string name)
         {
             Name = name;
             LoadScript(name);

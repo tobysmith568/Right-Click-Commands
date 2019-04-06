@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using Right_Click_Commands.Models.Scripts;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,19 +7,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Right_Click_Commands.Models
+namespace Right_Click_Commands.Models.ContextMenu
 {
-    public class RegistryWorker : IScriptWorker
+    public class RegistryWorker : IContextMenuWorker
     {
+        //  Variables
+        //  =========
+
         private readonly string[] classesRootOptions = new string[]
         {
             @"Directory\Background\shell",
             @"Directory\shell"
         };
 
-        public ICollection<ScriptConfig> GetScriptConfigs()
+        //  Methods
+        //  =======
+
+        public ICollection<BatScriptConfig> GetScriptConfigs()
         {
-            List<ScriptConfig> results = new List<ScriptConfig>();
+            List<BatScriptConfig> results = new List<BatScriptConfig>();
 
             foreach (string location in classesRootOptions)
             {
@@ -39,7 +46,7 @@ namespace Right_Click_Commands.Models
         /// <exception cref="System.Security.SecurityException"></exception>
         /// <exception cref="UnauthorizedAccessException"></exception>
         /// <exception cref="System.IO.IOException"></exception>
-        private void ReadParentKey(string location, ref List<ScriptConfig> results)
+        private void ReadParentKey(string location, ref List<BatScriptConfig> results)
         {
             using (RegistryKey key = Registry.ClassesRoot.OpenSubKey(location, true))
             {
@@ -61,11 +68,11 @@ namespace Right_Click_Commands.Models
         }
 
         /// <exception cref="UnauthorizedAccessException"></exception>
-        private ScriptConfig MapScriptConfig(RegistryKey registryKey)
+        private BatScriptConfig MapScriptConfig(RegistryKey registryKey)
         {
             try
             {
-                return new ScriptConfig(Path.GetFileName(registryKey.Name))
+                return new BatScriptConfig(Path.GetFileName(registryKey.Name))
                 {
                     Label = registryKey.GetValue("MUIVerb", "").ToString(),
                     Icon = registryKey.GetValue("Icon", "").ToString()

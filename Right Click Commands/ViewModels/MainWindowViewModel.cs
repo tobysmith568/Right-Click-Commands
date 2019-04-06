@@ -1,4 +1,7 @@
 ﻿using Right_Click_Commands.Models;
+using Right_Click_Commands.Models.ContextMenu;
+using Right_Click_Commands.Models.Scripts;
+using Right_Click_Commands.Models.Settings;
 using Right_Click_Commands.Views;
 using System;
 using System.Collections.Generic;
@@ -17,15 +20,16 @@ namespace Right_Click_Commands.ViewModels
         //  Variables
         //  =========
 
-        private readonly IScriptWorker registryWorker = new RegistryWorker();//TODO DI
+        private readonly IContextMenuWorker registryWorker = new RegistryWorker();//TODO DI
+        private readonly ISettings settings = new WindowsSettings();//TODO DI
 
-        private ObservableCollection<ScriptConfig> scriptConfigs;
-        private ScriptConfig selectedScriptConfig;
+        private ObservableCollection<IScriptConfig> scriptConfigs;
+        private IScriptConfig selectedScriptConfig;
 
         //  Properties
         //  ==========
 
-        public ObservableCollection<ScriptConfig> ScriptConfigs
+        public ObservableCollection<IScriptConfig> ScriptConfigs
         {
             get => scriptConfigs;
             set
@@ -38,7 +42,7 @@ namespace Right_Click_Commands.ViewModels
             }
         }
 
-        public ScriptConfig SelectedScriptConfig
+        public IScriptConfig SelectedScriptConfig
         {
             get => selectedScriptConfig;
             set
@@ -58,7 +62,7 @@ namespace Right_Click_Commands.ViewModels
 
         public MainWindowViewModel()
         {
-            ScriptConfigs = new ObservableCollection<ScriptConfig>(registryWorker.GetScriptConfigs());
+            ScriptConfigs = new ObservableCollection<IScriptConfig>(registryWorker.GetScriptConfigs());
             
             SimpleCommand = new Command(DoSimpleCommand);
         }
@@ -68,7 +72,7 @@ namespace Right_Click_Commands.ViewModels
 
         private void DoSimpleCommand()
         {
-            Properties.Settings.Default.Save();
+            settings.SaveAll();
         }
     }
 }
