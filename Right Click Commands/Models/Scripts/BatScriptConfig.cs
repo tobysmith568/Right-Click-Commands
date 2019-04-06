@@ -18,6 +18,8 @@ namespace Right_Click_Commands.Models.Scripts
         private string label = "";
         private string icon;
         private string script;
+        private bool onDirectory;
+        private bool onBackground;
 
         //  Properties
         //  ==========
@@ -40,6 +42,18 @@ namespace Right_Click_Commands.Models.Scripts
         {
             get => script;
             set => PropertyChanging(value, ref script, "Script");
+        }
+
+        public bool OnDirectory
+        {
+            get => onDirectory;
+            set => PropertyChanging(value, ref onDirectory, "OnDirectory");
+        }
+
+        public bool OnBackground
+        {
+            get => onBackground;
+            set => PropertyChanging(value, ref onBackground, "OnBackground");
         }
 
         //  Constructors
@@ -94,6 +108,40 @@ namespace Right_Click_Commands.Models.Scripts
             catch // TODO
             {
 
+            }
+        }
+
+        public void ModifyLocation(MenuLocation location, bool enabled = true)
+        {
+            switch (location)
+            {
+                case MenuLocation.Directory:
+                    OnDirectory = enabled;
+                    break;
+                case MenuLocation.Background:
+                    OnBackground = enabled;
+                    break;
+                case MenuLocation.Both:
+                    OnDirectory = enabled;
+                    OnBackground = enabled;
+                    break;
+                default:
+                    throw new NotImplementedException($"The given MenuLocation [{location}] has not been implemented");
+            }
+        }
+
+        public bool IsForLocation(MenuLocation location)
+        {
+            switch (location)
+            {
+                case MenuLocation.Directory:
+                    return OnDirectory;
+                case MenuLocation.Background:
+                    return OnBackground;
+                case MenuLocation.Both:
+                    return OnDirectory && OnBackground;
+                default:
+                    throw new NotImplementedException($"The given MenuLocation [{location}] has not been implemented");
             }
         }
     }

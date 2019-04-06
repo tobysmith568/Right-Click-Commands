@@ -8,8 +8,8 @@ namespace Right_Click_Commands
 {
     public enum MenuLocation
     {
-        Directories,
-        Backgrounds,
+        Directory,
+        Background,
         Both
     }
 }

@@ -21,10 +21,10 @@ namespace Right_Click_Commands.Models.ContextMenu
         //  Variables
         //  =========
 
-        private readonly string[] classesRootOptions = new string[]
+        private readonly Dictionary<MenuLocation, string> classesRootOptions = new Dictionary<MenuLocation, string>()
         {
-            @"Software\Classes\Directory\Background\shell",
-            //@"Software\Classes\Directory\shell"
+            { MenuLocation.Background, @"Software\Classes\Directory\Background\shell" },
+            { MenuLocation.Directory, @"Software\Classes\Directory\shell" }
         };
 
         //  Methods
@@ -34,7 +34,7 @@ namespace Right_Click_Commands.Models.ContextMenu
         {
             List<IScriptConfig> results = new List<IScriptConfig>();
 
-            foreach (string location in classesRootOptions)
+            foreach (KeyValuePair<MenuLocation, string> location in classesRootOptions)
             {
                 try
                 {
@@ -51,11 +51,11 @@ namespace Right_Click_Commands.Models.ContextMenu
 
         public void SaveScriptConfigs(ICollection<IScriptConfig> configs)
         {
-            foreach (string location in classesRootOptions)
+            foreach (KeyValuePair<MenuLocation, string> location in classesRootOptions)
             {
                 try
                 {
-                    DeleteAllRCCKeys(location);
+                    DeleteAllRCCKeys(location.Value);
                 }
                 catch // TODO
                 {
@@ -65,7 +65,11 @@ namespace Right_Click_Commands.Models.ContextMenu
                 {
                     try
                     {
-                        CreateScriptConfig(location, scriptConfig);
+                        if (scriptConfig.IsForLocation(location.Key))
+                        {
+                            CreateScriptConfig(location.Value, scriptConfig);
+                        }
+
                     }
                     catch // TODO
                     {
@@ -78,9 +82,9 @@ namespace Right_Click_Commands.Models.ContextMenu
         /// <exception cref="System.Security.SecurityException"></exception>
         /// <exception cref="UnauthorizedAccessException"></exception>
         /// <exception cref="System.IO.IOException"></exception>
-        private void ReadParentKey(string location, ref List<IScriptConfig> results)
+        private void ReadParentKey(KeyValuePair<MenuLocation, string> location, ref List<IScriptConfig> results)
         {
-            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(location, true))
+            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(location.Value, true))
             {
                 foreach (string subkey in key.GetSubKeyNames())
                 {
@@ -89,7 +93,17 @@ namespace Right_Click_Commands.Models.ContextMenu
                         if (subkey.Length < 4 || subkey.Substring(0, 4) != RCC_)
                             continue;
 
-                        results.Add(MapScriptConfig(key.OpenSubKey(subkey)));
+                        IScriptConfig newConfig = MapScriptConfig(key.OpenSubKey(subkey), location.Key);
+                        IScriptConfig original = results.FirstOrDefault(r => r.Name == newConfig.Name);
+
+                        if (original == null)
+                        {
+                            results.Add(newConfig);
+                        }
+                        else
+                        {
+                            original.ModifyLocation(location.Key, true);
+                        }
                     }
                     catch // TODO
                     {
@@ -100,15 +114,17 @@ namespace Right_Click_Commands.Models.ContextMenu
         }
 
         /// <exception cref="UnauthorizedAccessException"></exception>
-        private BatScriptConfig MapScriptConfig(RegistryKey registryKey)
+        private BatScriptConfig MapScriptConfig(RegistryKey registryKey, MenuLocation location)
         {
             try
             {
-                return new BatScriptConfig(Path.GetFileName(registryKey.Name))
+                BatScriptConfig newConfig = new BatScriptConfig(Path.GetFileName(registryKey.Name))
                 {
                     Label = registryKey.GetValue(MUIVerb, "").ToString(),
                     Icon = registryKey.GetValue(Icon, "").ToString()// TODO
                 };
+                newConfig.ModifyLocation(location, true);
+                return newConfig;
             }
             catch (Exception e)
             {

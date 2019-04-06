@@ -14,10 +14,14 @@ namespace Right_Click_Commands.Models.Scripts
         string Name { get; }
         string Label { get; set; }
         string Script { get; set; }
+        bool OnDirectory { get; set; }
+        bool OnBackground { get; set; }
 
         //  Methods
         //  =======
 
         void SaveScript();
+        void ModifyLocation(MenuLocation location, bool enabled);
+        bool IsForLocation(MenuLocation location);
     }
 }
