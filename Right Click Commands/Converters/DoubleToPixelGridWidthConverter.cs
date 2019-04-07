@@ -9,7 +9,7 @@ using System.Windows.Data;
 
 namespace Right_Click_Commands.Converters
 {
-    public class DoubleToStarGridWidthConverter : ConverterBase<DoubleToStarGridWidthConverter>
+    public class DoubleToPixelGridWidthConverter : ConverterBase<DoubleToPixelGridWidthConverter>
     {
         //  Methods
         //  =======
@@ -19,7 +19,7 @@ namespace Right_Click_Commands.Converters
             if (!(value is double))
                 throw new ArgumentException("The given value must be a double");
 
-            return new GridLength((double)value, GridUnitType.Star);
+            return new GridLength((double)value, GridUnitType.Pixel);
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -29,8 +29,8 @@ namespace Right_Click_Commands.Converters
 
             GridLength gridLength = (GridLength)value;
 
-            if (!gridLength.IsStar)
-                throw new ArgumentException("The given GridLength must be a star value");
+            if (!gridLength.IsAbsolute)
+                throw new ArgumentException("The given GridLength must be a pixel value");
 
             return gridLength.Value;
         }

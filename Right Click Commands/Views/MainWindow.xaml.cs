@@ -35,8 +35,8 @@ namespace Right_Click_Commands.Views
         {
             if (e.ChangedButton == MouseButton.Left)
             {
-                GrdMain.ColumnDefinitions[0].Width = new GridLength(1, GridUnitType.Star);
-                GrdMain.ColumnDefinitions[2].Width = new GridLength(3, GridUnitType.Star);
+                GrdMain.ColumnDefinitions[0].Width = new GridLength(165, GridUnitType.Pixel);
+                GrdMain.ColumnDefinitions[2].Width = new GridLength(1, GridUnitType.Star);
             }
         }
 

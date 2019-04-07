@@ -20,9 +20,9 @@
     <Grid x:Name="GrdMain">
         <!-- Column Definitions -->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="{Binding Source={x:Static props:Settings.Default}, Path=Col1Width, Mode=TwoWay, Converter={converters:DoubleToStarGridWidthConverter}}" x:Name="ColLeft"/>
+            <ColumnDefinition Width="{Binding Source={x:Static props:Settings.Default}, Path=Col1Width, Mode=TwoWay, Converter={converters:DoubleToPixelGridWidthConverter}}" x:Name="ColLeft"/>
             <ColumnDefinition Width="5" />
-            <ColumnDefinition Width="{Binding Source={x:Static props:Settings.Default}, Path=Col3Width, Mode=TwoWay, Converter={converters:DoubleToStarGridWidthConverter}}" x:Name="ColRight"/>
+            <ColumnDefinition Width="1*" x:Name="ColRight"/>
         </Grid.ColumnDefinitions>
 
         <!-- Focus Stealer -->

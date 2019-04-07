@@ -3,10 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="Col1Width" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">1</Value>
-    </Setting>
-    <Setting Name="Col3Width" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">3</Value>
+      <Value Profile="(Default)">165</Value>
     </Setting>
     <Setting Name="WindowState" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
