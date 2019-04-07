@@ -51,7 +51,7 @@
 
         <!-- Right Column -->
         <Grid Margin="0" Grid.Column="2">
-            <TextBlock FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center">
+            <TextBlock FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Foreground="#FFB8B8B8">
                 Placeholder<LineBreak/>
                 Insert image to show nothing is selected
             </TextBlock>
@@ -76,8 +76,8 @@
                     </StackPanel>
                 </GroupBox>
             </StackPanel>
-            
-            <TextBox Margin="10,0,10,10" TextWrapping="Wrap" Text="{Binding SelectedScriptConfig.Script, Mode=TwoWay}" FontFamily="Consolas" Grid.ColumnSpan="2" Grid.Row="1" AcceptsReturn="True" AcceptsTab="True"/>
+            <TextBox Margin="10,0,10,10" Text="{Binding SelectedScriptConfig.Script, Mode=TwoWay}" FontFamily="Consolas" Grid.ColumnSpan="2" Grid.Row="1"
+                     AcceptsReturn="True" AcceptsTab="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
         </Grid>
     </Grid>
 </Window>
