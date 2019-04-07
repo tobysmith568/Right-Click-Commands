@@ -14,6 +14,7 @@ namespace Right_Click_Commands.Models.Scripts
         //  =========
 
         private const string dotBat = ".bat";
+        private const string rcc_ = "RCC_";
 
         //  Variables
         //  =========
@@ -82,6 +83,16 @@ namespace Right_Click_Commands.Models.Scripts
 
         //  Methods
         //  =======
+
+        public static IScriptConfig New()
+        {
+            return new BatScriptConfig(rcc_ + DateTime.UtcNow.Ticks.ToString())
+            {
+                Label = "New Script",
+                OnBackground = true,
+                OnDirectory = true
+            };
+        }
 
         public void LoadScript()
         {

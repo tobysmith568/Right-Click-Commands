@@ -1,6 +1,7 @@
 ﻿using Right_Click_Commands.Models.ContextMenu;
 using Right_Click_Commands.Models.Scripts;
 using Right_Click_Commands.Models.Settings;
+using Right_Click_Commands.Views.WPF;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -39,6 +40,10 @@ namespace Right_Click_Commands.ViewModels
 
         public Command WindowCloseCommand { get; }
 
+        public Command CreateNewScript { get; }
+
+        public Command OpenAbout { get; }
+
         //  Constructors
         //  ============
 
@@ -55,6 +60,8 @@ namespace Right_Click_Commands.ViewModels
             ScriptConfigs = new ObservableCollection<IScriptConfig>(this.contextMenuWorker.GetScriptConfigs());
 
             WindowCloseCommand = new Command(DoWindowCloseCommand);
+            CreateNewScript = new Command(DoCreateNewScript);
+            OpenAbout = new Command(DoOpenAbout);
         }
 
         //  Methods
@@ -70,6 +77,17 @@ namespace Right_Click_Commands.ViewModels
             }
 
             contextMenuWorker.SaveScriptConfigs(ScriptConfigs);
+        }
+
+        private void DoCreateNewScript()
+        {
+            scriptConfigs.Add(BatScriptConfig.New());
+        }
+
+        /// <exception cref="InvalidOperationException">Ignore.</exception>
+        private void DoOpenAbout()
+        {
+            new About().ShowDialog();
         }
     }
 }

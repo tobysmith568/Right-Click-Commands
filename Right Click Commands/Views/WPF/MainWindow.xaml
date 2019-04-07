@@ -17,7 +17,15 @@
     <Window.DataContext>
         <ViewModels:MainWindowViewModel />
     </Window.DataContext>
+    <Window.InputBindings>
+        <KeyBinding Key="N" Modifiers="Control" Command="{Binding CreateNewScript}"/>
+        <KeyBinding Key="F1" Command="{Binding OpenAbout}"/>
+    </Window.InputBindings>
     <Grid x:Name="GrdMain">
+        <Grid.RowDefinitions>
+            <RowDefinition Name="MenuRow" Height="30"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
         <!-- Column Definitions -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="{Binding Source={x:Static props:Settings.Default}, Path=Col1Width, Mode=TwoWay, Converter={converters:DoubleToPixelGridWidthConverter}}" x:Name="ColLeft"/>
@@ -26,13 +34,32 @@
         </Grid.ColumnDefinitions>
 
         <!-- Focus Stealer -->
-        <TextBox Name="FocusStealer" Width="20" Height="20"/>
+        <TextBox Name="FocusStealer" Margin="72,184,73,196" Grid.Row="1"/>
 
         <!-- ViewModel Event Buttons -->
-        <Button Visibility="Hidden" Name="VMClosingEvent" Command="{Binding WindowCloseCommand}"/>
+        <Button Visibility="Hidden" Name="VMClosingEvent" Command="{Binding WindowCloseCommand}" Grid.RowSpan="2"/>
+
+        <!-- Menu -->
+        <DockPanel Name="MenuDockPanel">
+            <Menu DockPanel.Dock="Top" Height="{Binding ActualHeight, ElementName=MenuDockPanel, Mode=OneWay}">
+                <MenuItem Header="_File" Height="{Binding ActualHeight, ElementName=MenuDockPanel, Mode=OneWay}">
+                    <MenuItem Header="_New Script" InputGestureText="Ctrl+N" Command="{Binding CreateNewScript}"/>
+                    <MenuItem Header="_Reset Parition" Click="ResetPartition_Click" />
+                    <MenuItem Header="_Close" InputGestureText="Alt+F4" />
+                </MenuItem>
+                <MenuItem Header="_Edit" Height="{Binding ActualHeight, ElementName=MenuDockPanel, Mode=OneWay}">
+                    <MenuItem Header="_New Script"/>
+                    <MenuItem Header="_Close"/>
+                </MenuItem>
+                <MenuItem Header="_Help" Height="{Binding ActualHeight, ElementName=MenuDockPanel, Mode=OneWay}">
+                    <MenuItem Header="_About" InputGestureText="F1" Command="{Binding OpenAbout}"/>
+                </MenuItem>
+            </Menu>
+            <StackPanel></StackPanel>
+        </DockPanel>
 
         <!-- Left Column -->
-        <ListBox x:Name="MainList" Grid.Column="0" Margin="0" ItemsSource="{Binding Path=ScriptConfigs, Mode=TwoWay}" SelectedItem="{Binding Path=SelectedScriptConfig, Mode=TwoWay}" BorderThickness="0">
+        <ListBox x:Name="MainList" Grid.Column="0" Margin="0" ItemsSource="{Binding Path=ScriptConfigs, Mode=TwoWay}" SelectedItem="{Binding Path=SelectedScriptConfig, Mode=TwoWay}" BorderThickness="0" Grid.Row="1">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid x:Name="MainListTemplate" Height="30" Margin="0,2">
@@ -47,16 +74,16 @@
         </ListBox>
 
         <!-- Center Column -->
-        <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" MouseDoubleClick="GridSplitter_MouseDoubleClick" />
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" MouseDoubleClick="GridSplitter_MouseDoubleClick" Grid.RowSpan="2"/>
 
         <!-- Right Column -->
-        <Grid Margin="0" Grid.Column="2">
+        <Grid Margin="0" Grid.Column="2" Grid.RowSpan="2">
             <TextBlock FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Foreground="#FFB8B8B8">
                 Placeholder<LineBreak/>
                 Insert image to show nothing is selected
             </TextBlock>
         </Grid>
-        <Grid Margin="0" Grid.Column="2" Background="White" Visibility="{Binding SelectedScriptConfig, Converter={converters:NullableToVisibility}}">
+        <Grid Margin="0" Grid.Column="2" Background="White" Visibility="{Binding SelectedScriptConfig, Converter={converters:NullableToVisibility}}" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="135"/>
                 <RowDefinition Height="302*"/>

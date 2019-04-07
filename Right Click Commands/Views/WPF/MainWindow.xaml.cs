@@ -35,15 +35,28 @@ namespace Right_Click_Commands.Views
         {
             if (e.ChangedButton == MouseButton.Left)
             {
-                GrdMain.ColumnDefinitions[0].Width = new GridLength(165, GridUnitType.Pixel);
-                GrdMain.ColumnDefinitions[2].Width = new GridLength(1, GridUnitType.Star);
+                ResetPartition();
             }
+        }
+
+        private void ResetPartition_Click(object sender, RoutedEventArgs e)
+        {
+            ResetPartition();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             FocusStealer.Focus();
             VMClosingEvent.Command.Execute(e);
+        }
+
+        //  Methods
+        //  =======
+
+        private void ResetPartition()
+        {
+            GrdMain.ColumnDefinitions[0].Width = new GridLength(165, GridUnitType.Pixel);
+            GrdMain.ColumnDefinitions[2].Width = new GridLength(1, GridUnitType.Star);
         }
     }
 }
