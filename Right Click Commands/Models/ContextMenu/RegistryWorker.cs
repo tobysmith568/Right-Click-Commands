@@ -83,6 +83,16 @@ namespace Right_Click_Commands.Models.ContextMenu
             }
         }
 
+        public IScriptConfig New()
+        {
+            return new BatScriptConfig(RCC_ + DateTime.UtcNow.Ticks.ToString())
+            {
+                Label = "New Script",
+                OnBackground = true,
+                OnDirectory = true
+            };
+        }
+
         /// <exception cref="ObjectDisposedException"></exception>
         /// <exception cref="System.Security.SecurityException"></exception>
         /// <exception cref="UnauthorizedAccessException"></exception>

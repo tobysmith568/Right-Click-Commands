@@ -10,5 +10,6 @@ namespace Right_Click_Commands.Models.ContextMenu
 
         ICollection<IScriptConfig> GetScriptConfigs();
         void SaveScriptConfigs(ICollection<IScriptConfig> configs);
+        IScriptConfig New();
     }
 }

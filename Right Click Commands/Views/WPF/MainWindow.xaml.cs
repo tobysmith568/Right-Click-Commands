@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Right_Click_Commands.Views.WPF;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,8 +26,11 @@ namespace Right_Click_Commands.Views
 
         public MainWindow()
         {
+            ShowAbout = new Command(DoShowAbout);
             InitializeComponent();
         }
+
+        public Command ShowAbout { get; }
 
         //  Events
         //  ======
@@ -57,6 +61,18 @@ namespace Right_Click_Commands.Views
         {
             GrdMain.ColumnDefinitions[0].Width = new GridLength(165, GridUnitType.Pixel);
             GrdMain.ColumnDefinitions[2].Width = new GridLength(1, GridUnitType.Star);
+        }
+
+        private void DoShowAbout()
+        {
+            try
+            {
+                new About().ShowDialog();
+            }
+            catch
+            {
+
+            }
         }
     }
 }

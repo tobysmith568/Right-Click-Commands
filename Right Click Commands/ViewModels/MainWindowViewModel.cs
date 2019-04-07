@@ -1,14 +1,12 @@
 ﻿using Right_Click_Commands.Models.ContextMenu;
 using Right_Click_Commands.Models.Scripts;
 using Right_Click_Commands.Models.Settings;
-using Right_Click_Commands.Views.WPF;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using Unity;
 
 namespace Right_Click_Commands.ViewModels
 {
@@ -42,8 +40,6 @@ namespace Right_Click_Commands.ViewModels
 
         public Command CreateNewScript { get; }
 
-        public Command OpenAbout { get; }
-
         //  Constructors
         //  ============
 
@@ -61,7 +57,6 @@ namespace Right_Click_Commands.ViewModels
 
             WindowCloseCommand = new Command(DoWindowCloseCommand);
             CreateNewScript = new Command(DoCreateNewScript);
-            OpenAbout = new Command(DoOpenAbout);
         }
 
         //  Methods
@@ -81,13 +76,7 @@ namespace Right_Click_Commands.ViewModels
 
         private void DoCreateNewScript()
         {
-            scriptConfigs.Add(BatScriptConfig.New());
-        }
-
-        /// <exception cref="InvalidOperationException">Ignore.</exception>
-        private void DoOpenAbout()
-        {
-            new About().ShowDialog();
+            scriptConfigs.Add(contextMenuWorker.New());
         }
     }
 }
