@@ -16,16 +16,18 @@ namespace Right_Click_Commands.Models.ContextMenu
 
         private const string MUIVerb = "MUIVerb";
         private const string Icon = "Icon";
+        private const string RCC = "RCC";
         private const string RCC_ = "RCC_";
         private const string cmd = "cmd";
         private const string KeepCMDOpen = "/K";
         private const string command = "command";
         private const string keepCMDOpen = "/K";
         private const string closeCMD = "/C";
+        private const string NewScript = "New Script";
 
         //  Variables
         //  =========
-        
+
         private readonly Dictionary<MenuLocation, string> classesRootOptions = new Dictionary<MenuLocation, string>()
         {
             { MenuLocation.Background, @"Software\Classes\Directory\Background\shell" },
@@ -87,7 +89,7 @@ namespace Right_Click_Commands.Models.ContextMenu
         {
             return new BatScriptConfig(DateTime.UtcNow.Ticks.ToString(), id)
             {
-                Label = "New Script",
+                Label = NewScript,
                 OnBackground = true,
                 OnDirectory = true
             };
@@ -135,26 +137,9 @@ namespace Right_Click_Commands.Models.ContextMenu
         {
             try
             {
-                string[] fullAddressParts = Path.GetFileName(registryKey.Name).Split('_');
-
-                if (fullAddressParts.Length != 3)
+                if (!IsValidRegistryKeyName(registryKey.Name, out string[] fullAddressParts))
                 {
-                    ThrowFoundInvalidKey(registryKey.Name);
-                }
-
-                if (fullAddressParts[0] != "RCC")
-                {
-                    ThrowFoundInvalidKey(registryKey.Name);
-                }
-
-                if (fullAddressParts[1].Length != 2 || !int.TryParse(fullAddressParts[1], out int @int))
-                {
-                    ThrowFoundInvalidKey(registryKey.Name);
-                }
-
-                if (fullAddressParts[2].Length < 1)
-                {
-                    ThrowFoundInvalidKey(registryKey.Name);
+                    throw new ArgumentException($"The given registry keys name [{registryKey.Name}] must be [RRC_XX_YYY] where [XX] is a number and [YYY] is of any length greater than 0");
                 }
 
                 BatScriptConfig newConfig = new BatScriptConfig(fullAddressParts[2], fullAddressParts[1])
@@ -206,12 +191,6 @@ namespace Right_Click_Commands.Models.ContextMenu
             throw new InvalidDataException($"The right-click command [{label}] appears to be corrupt. Please delete and re-create it");
         }
 
-        /// <exception cref="InvalidDataException"></exception>
-        private void ThrowFoundInvalidKey(string name)
-        {
-            throw new ArgumentException($"The given registry keys name [{name}] must be [RRC_XX_YYY] where [XX] is a number and [YYY] is of any length greater than 0");
-        }
-
         /// <exception cref="ObjectDisposedException"></exception>
         /// <exception cref="System.Security.SecurityException"></exception>
         /// <exception cref="UnauthorizedAccessException"></exception>
@@ -256,6 +235,48 @@ namespace Right_Click_Commands.Models.ContextMenu
                     }
                 }
             }
+        }
+
+        private bool IsValidRegistryKeyName(string value, out string[] nameParts)
+        {
+            nameParts = new string[0];
+
+            if (value == null)
+            {
+                return false;
+            }
+
+            string[] fullAddressParts = Path.GetFileName(value).Split('_');
+
+            if (fullAddressParts.Length != 3)
+            {
+                return false;
+            }
+
+            if (fullAddressParts[0] != RCC)
+            {
+                return false;
+            }
+
+            if (fullAddressParts[1].Length != 2 || !int.TryParse(fullAddressParts[1], out int @int))
+            {
+                return false;
+            }
+
+            if (fullAddressParts[2].Length < 1)
+            {
+                return false;
+            }
+
+            nameParts = fullAddressParts;
+            return true;
+        }
+
+        private bool IsValidRegistryCommand(string value)
+        {
+
+
+            return true;
         }
     }
 }
