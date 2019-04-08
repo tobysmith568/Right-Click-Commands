@@ -66,6 +66,8 @@ namespace Right_Click_Commands.ViewModels
             this.contextMenuWorker = contextMenuWorker;
             this.settings = settings;
 
+            selectedScriptConfigIndex = -1;
+
             ScriptConfigs = new ObservableCollection<ScriptConfig>(this.contextMenuWorker.GetScriptConfigs());
 
             WindowCloseCommand = new Command(DoWindowCloseCommand);
@@ -93,6 +95,8 @@ namespace Right_Click_Commands.ViewModels
         private void DoCreateNewScript()
         {
             scriptConfigs.Add(contextMenuWorker.New(scriptConfigs.Count.ToString("D2")));
+
+            SelectedScriptConfigIndex = ScriptConfigs.Count - 1;
         }
 
         private void DoMoveSelectedUp()
@@ -102,7 +106,11 @@ namespace Right_Click_Commands.ViewModels
                 return;
             }
 
+            int selectedindex = SelectedScriptConfigIndex;
+
             scriptConfigs.MoveUpOne(SelectedScriptConfigIndex);
+
+            SelectedScriptConfigIndex = selectedindex - 1;
         }
 
         private void DoMoveSelectedDown()
@@ -112,7 +120,11 @@ namespace Right_Click_Commands.ViewModels
                 return;
             }
 
+            int selectedindex = SelectedScriptConfigIndex;
+
             scriptConfigs.MoveDownOne(SelectedScriptConfigIndex);
+
+            SelectedScriptConfigIndex = selectedindex + 1;
         }
 
         private void DoDeleteSelected()
@@ -122,7 +134,11 @@ namespace Right_Click_Commands.ViewModels
                 return;
             }
 
+            int selectedindex = SelectedScriptConfigIndex;
+
             scriptConfigs.DeleteAtIndex(SelectedScriptConfigIndex);
+
+            SelectedScriptConfigIndex = selectedindex;
         }
     }
 }

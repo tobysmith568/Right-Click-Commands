@@ -65,7 +65,7 @@
 
         <!-- Left Column -->
         <ListBox x:Name="MainList" Grid.Column="0" Margin="0" ItemsSource="{Binding Path=ScriptConfigs, Mode=TwoWay}"
-                 SelectedItem="{Binding Path=SelectedScriptConfig, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedScriptConfigIndex}" BorderThickness="0" Grid.Row="1">
+                 SelectedItem="{Binding Path=SelectedScriptConfig, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedScriptConfigIndex, Mode=TwoWay}" BorderThickness="0" Grid.Row="1">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid x:Name="MainListTemplate" Height="30" Margin="0,2">
