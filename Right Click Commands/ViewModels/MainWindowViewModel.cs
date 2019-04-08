@@ -51,6 +51,8 @@ namespace Right_Click_Commands.ViewModels
 
         public Command MoveSelectedDown { get; }
 
+        public Command DeleteSelected { get; }
+
         //  Constructors
         //  ============
 
@@ -70,6 +72,7 @@ namespace Right_Click_Commands.ViewModels
             CreateNewScript = new Command(DoCreateNewScript);
             MoveSelectedUp = new Command(DoMoveSelectedUp);
             MoveSelectedDown = new Command(DoMoveSelectedDown);
+            DeleteSelected = new Command(DoDeleteSelected);
         }
 
         //  Methods
@@ -89,7 +92,7 @@ namespace Right_Click_Commands.ViewModels
 
         private void DoCreateNewScript()
         {
-            scriptConfigs.Add(contextMenuWorker.New(scriptConfigs.Count.ToString()));
+            scriptConfigs.Add(contextMenuWorker.New(scriptConfigs.Count.ToString("D2")));
         }
 
         private void DoMoveSelectedUp()
@@ -110,6 +113,16 @@ namespace Right_Click_Commands.ViewModels
             }
 
             scriptConfigs.MoveDownOne(SelectedScriptConfigIndex);
+        }
+
+        private void DoDeleteSelected()
+        {
+            if (SelectedScriptConfigIndex == -1)
+            {
+                return;
+            }
+
+            scriptConfigs.DeleteAtIndex(SelectedScriptConfigIndex);
         }
     }
 }

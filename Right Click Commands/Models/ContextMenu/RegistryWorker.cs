@@ -85,7 +85,7 @@ namespace Right_Click_Commands.Models.ContextMenu
 
         public ScriptConfig New(string id)
         {
-            return new BatScriptConfig(RCC_ + DateTime.UtcNow.Ticks.ToString(), id)
+            return new BatScriptConfig(DateTime.UtcNow.Ticks.ToString(), id)
             {
                 Label = "New Script",
                 OnBackground = true,
@@ -122,7 +122,7 @@ namespace Right_Click_Commands.Models.ContextMenu
                             original.ModifyLocation(location.Key, true);
                         }
                     }
-                    catch // TODO
+                    catch (Exception e) // TODO
                     {
                         //Unable to read a child classesRoot key's values
                     }
