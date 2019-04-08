@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -8,19 +9,18 @@ using System.Threading.Tasks;
 
 namespace Right_Click_Commands.Models.Scripts
 {
-    public class BatScriptConfig : ViewModelBase, IScriptConfig
+    public class BatScriptConfig : ScriptConfig
     {
         //  Constants
         //  =========
 
         private const string dotBat = ".bat";
-        private const string rcc_ = "RCC_";
 
         //  Variables
         //  =========
 
         private static readonly string appDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Right-Click Commands");
-
+        
         private string label = string.Empty;
         private string icon;
         private string script;
@@ -31,11 +31,13 @@ namespace Right_Click_Commands.Models.Scripts
         //  Properties
         //  ==========
 
-        public string Name { get; }
+        public override string ID { get; set; }
 
-        public string ScriptLocation { get; private set; }
+        public override string Name { get; }
 
-        public string Label
+        public override string ScriptLocation { get; protected set; }
+
+        public override string Label
         {
             get => label;
             set => PropertyChanging(value, ref label, "Label");
@@ -47,25 +49,25 @@ namespace Right_Click_Commands.Models.Scripts
             set => PropertyChanging(value, ref icon, "Icon");
         }
 
-        public string Script
+        public override string Script
         {
             get => script;
             set => PropertyChanging(value, ref script, "Script");
         }
 
-        public bool OnDirectory
+        public override bool OnDirectory
         {
             get => onDirectory;
             set => PropertyChanging(value, ref onDirectory, "OnDirectory");
         }
 
-        public bool OnBackground
+        public override bool OnBackground
         {
             get => onBackground;
             set => PropertyChanging(value, ref onBackground, "OnBackground");
         }
 
-        public bool KeepWindowOpen
+        public override bool KeepWindowOpen
         {
             get => keepWindowOpen;
             set => PropertyChanging(value, ref keepWindowOpen, "KeepWindowOpen");
@@ -74,9 +76,10 @@ namespace Right_Click_Commands.Models.Scripts
         //  Constructors
         //  ============
 
-        public BatScriptConfig(string name)
+        public BatScriptConfig(string name, string id)
         {
             Name = name;
+            ID = id;
             ScriptLocation = Path.Combine(appDataFolder, Name + dotBat);
             LoadScript();
         }
@@ -84,7 +87,7 @@ namespace Right_Click_Commands.Models.Scripts
         //  Methods
         //  =======
 
-        public void LoadScript()
+        public override void LoadScript()
         {
             try
             {
@@ -106,7 +109,7 @@ namespace Right_Click_Commands.Models.Scripts
             }
         }
 
-        public void SaveScript()
+        public override void SaveScript()
         {
             try
             {
@@ -125,7 +128,7 @@ namespace Right_Click_Commands.Models.Scripts
             }
         }
 
-        public void ModifyLocation(MenuLocation location, bool enabled = true)
+        public override void ModifyLocation(MenuLocation location, bool enabled = true)
         {
             switch (location)
             {
@@ -144,7 +147,7 @@ namespace Right_Click_Commands.Models.Scripts
             }
         }
 
-        public bool IsForLocation(MenuLocation location)
+        public override bool IsForLocation(MenuLocation location)
         {
             switch (location)
             {

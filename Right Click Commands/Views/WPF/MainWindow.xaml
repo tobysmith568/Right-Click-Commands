@@ -46,11 +46,15 @@
                 <MenuItem Header="_File" Height="{Binding ActualHeight, ElementName=MenuDockPanel, Mode=OneWay}">
                     <MenuItem Header="_New Script" InputGestureText="Ctrl+N" Command="{Binding CreateNewScript}"/>
                     <MenuItem Header="_Reset Parition" Click="ResetPartition_Click" />
+                    <Separator/>
                     <MenuItem Header="_Close" InputGestureText="Alt+F4" />
                 </MenuItem>
                 <MenuItem Header="_Edit" Height="{Binding ActualHeight, ElementName=MenuDockPanel, Mode=OneWay}">
-                    <MenuItem Header="_New Script"/>
-                    <MenuItem Header="_Close"/>
+                    <MenuItem Header="Move Up" InputGestureText="Ctrl+Up" Command="{Binding MoveSelectedUp}"/>
+                    <MenuItem Header="Move Down"/>
+                    <Separator/>
+                    <MenuItem Header="Disable"/>
+                    <MenuItem Header="Delete"/>
                 </MenuItem>
                 <MenuItem Header="_Help" Height="{Binding ActualHeight, ElementName=MenuDockPanel, Mode=OneWay}">
                     <MenuItem Header="_About" InputGestureText="F1" Command="{Binding ElementName=Window, Path=ShowAbout }"/>
@@ -60,7 +64,8 @@
         </DockPanel>
 
         <!-- Left Column -->
-        <ListBox x:Name="MainList" Grid.Column="0" Margin="0" ItemsSource="{Binding Path=ScriptConfigs, Mode=TwoWay}" SelectedItem="{Binding Path=SelectedScriptConfig, Mode=TwoWay}" BorderThickness="0" Grid.Row="1">
+        <ListBox x:Name="MainList" Grid.Column="0" Margin="0" ItemsSource="{Binding Path=ScriptConfigs, Mode=TwoWay}"
+                 SelectedItem="{Binding Path=SelectedScriptConfig, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedScriptConfigIndex}" BorderThickness="0" Grid.Row="1">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid x:Name="MainListTemplate" Height="30" Margin="0,2">

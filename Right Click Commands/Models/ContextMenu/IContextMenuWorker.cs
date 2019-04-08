@@ -8,8 +8,8 @@ namespace Right_Click_Commands.Models.ContextMenu
         //  Methods
         //  =======
 
-        ICollection<IScriptConfig> GetScriptConfigs();
-        void SaveScriptConfigs(ICollection<IScriptConfig> configs);
-        IScriptConfig New();
+        ICollection<ScriptConfig> GetScriptConfigs();
+        void SaveScriptConfigs(ICollection<ScriptConfig> configs);
+        ScriptConfig New(string id);
     }
 }

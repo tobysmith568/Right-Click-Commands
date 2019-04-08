@@ -11,6 +11,7 @@ namespace Right_Click_Commands.Models.Scripts
         //  Properties
         //  ==========
 
+        string ID { get; set; }
         string Name { get; }
         string ScriptLocation { get; }
         string Label { get; set; }

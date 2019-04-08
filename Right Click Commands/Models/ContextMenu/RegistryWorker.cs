@@ -35,9 +35,9 @@ namespace Right_Click_Commands.Models.ContextMenu
         //  Methods
         //  =======
 
-        public ICollection<IScriptConfig> GetScriptConfigs()
+        public ICollection<ScriptConfig> GetScriptConfigs()
         {
-            List<IScriptConfig> results = new List<IScriptConfig>();
+            List<ScriptConfig> results = new List<ScriptConfig>();
 
             foreach (KeyValuePair<MenuLocation, string> location in classesRootOptions)
             {
@@ -54,7 +54,7 @@ namespace Right_Click_Commands.Models.ContextMenu
             return results;
         }
 
-        public void SaveScriptConfigs(ICollection<IScriptConfig> configs)
+        public void SaveScriptConfigs(ICollection<ScriptConfig> configs)
         {
             foreach (KeyValuePair<MenuLocation, string> location in classesRootOptions)
             {
@@ -66,7 +66,7 @@ namespace Right_Click_Commands.Models.ContextMenu
                 {
                 }
 
-                foreach (IScriptConfig scriptConfig in configs)
+                foreach (ScriptConfig scriptConfig in configs)
                 {
                     try
                     {
@@ -83,9 +83,9 @@ namespace Right_Click_Commands.Models.ContextMenu
             }
         }
 
-        public IScriptConfig New()
+        public ScriptConfig New(string id)
         {
-            return new BatScriptConfig(RCC_ + DateTime.UtcNow.Ticks.ToString())
+            return new BatScriptConfig(RCC_ + DateTime.UtcNow.Ticks.ToString(), id)
             {
                 Label = "New Script",
                 OnBackground = true,
@@ -97,7 +97,7 @@ namespace Right_Click_Commands.Models.ContextMenu
         /// <exception cref="System.Security.SecurityException"></exception>
         /// <exception cref="UnauthorizedAccessException"></exception>
         /// <exception cref="System.IO.IOException"></exception>
-        private void ReadParentKey(KeyValuePair<MenuLocation, string> location, ref List<IScriptConfig> results)
+        private void ReadParentKey(KeyValuePair<MenuLocation, string> location, ref List<ScriptConfig> results)
         {
             using (RegistryKey key = Registry.CurrentUser.OpenSubKey(location.Value, true))
             {
@@ -110,8 +110,8 @@ namespace Right_Click_Commands.Models.ContextMenu
                             continue;
                         }
 
-                        IScriptConfig newConfig = MapScriptConfig(key.OpenSubKey(subkey), location.Key);
-                        IScriptConfig original = results.FirstOrDefault(r => r.Name == newConfig.Name);
+                        ScriptConfig newConfig = MapScriptConfig(key.OpenSubKey(subkey), location.Key);
+                        ScriptConfig original = results.FirstOrDefault(r => r.Name == newConfig.Name);
 
                         if (original == null)
                         {
@@ -135,7 +135,29 @@ namespace Right_Click_Commands.Models.ContextMenu
         {
             try
             {
-                BatScriptConfig newConfig = new BatScriptConfig(Path.GetFileName(registryKey.Name))
+                string[] fullAddressParts = Path.GetFileName(registryKey.Name).Split('_');
+
+                if (fullAddressParts.Length != 3)
+                {
+                    ThrowFoundInvalidKey(registryKey.Name);
+                }
+
+                if (fullAddressParts[0] != "RCC")
+                {
+                    ThrowFoundInvalidKey(registryKey.Name);
+                }
+
+                if (fullAddressParts[1].Length != 2 || !int.TryParse(fullAddressParts[1], out int @int))
+                {
+                    ThrowFoundInvalidKey(registryKey.Name);
+                }
+
+                if (fullAddressParts[2].Length < 1)
+                {
+                    ThrowFoundInvalidKey(registryKey.Name);
+                }
+
+                BatScriptConfig newConfig = new BatScriptConfig(fullAddressParts[2], fullAddressParts[1])
                 {
                     Label = registryKey.GetValue(MUIVerb, string.Empty).ToString(),
                     Icon = registryKey.GetValue(Icon, string.Empty).ToString()// TODO
@@ -184,6 +206,12 @@ namespace Right_Click_Commands.Models.ContextMenu
             throw new InvalidDataException($"The right-click command [{label}] appears to be corrupt. Please delete and re-create it");
         }
 
+        /// <exception cref="InvalidDataException"></exception>
+        private void ThrowFoundInvalidKey(string name)
+        {
+            throw new ArgumentException($"The given registry keys name [{name}] must be [RRC_XX_YYY] where [XX] is a number and [YYY] is of any length greater than 0");
+        }
+
         /// <exception cref="ObjectDisposedException"></exception>
         /// <exception cref="System.Security.SecurityException"></exception>
         /// <exception cref="UnauthorizedAccessException"></exception>
@@ -213,11 +241,11 @@ namespace Right_Click_Commands.Models.ContextMenu
         /// <exception cref="System.Security.SecurityException"></exception>
         /// <exception cref="UnauthorizedAccessException"></exception>
         /// <exception cref="IOException"></exception>
-        private void CreateScriptConfig(string location, IScriptConfig scriptConfig)
+        private void CreateScriptConfig(string location, ScriptConfig scriptConfig)
         {
             using (RegistryKey key = Registry.CurrentUser.OpenSubKey(location, true))
             {
-                using (RegistryKey childKey = key.CreateSubKey(scriptConfig.Name, true))
+                using (RegistryKey childKey = key.CreateSubKey($"RCC_{scriptConfig.ID}_{scriptConfig.Name}", true))
                 {
                     childKey.SetValue(MUIVerb, scriptConfig.Label, RegistryValueKind.String);
                     childKey.SetValue(Icon, string.Empty);// TODO

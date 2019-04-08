@@ -18,13 +18,14 @@ namespace Right_Click_Commands.ViewModels
         private readonly IContextMenuWorker contextMenuWorker;
         private readonly ISettings settings;
 
-        private ObservableCollection<IScriptConfig> scriptConfigs;
+        private ObservableCollection<ScriptConfig> scriptConfigs;
         private IScriptConfig selectedScriptConfig;
+        private int selectedScriptConfigIndex;
 
         //  Properties
         //  ==========
 
-        public ObservableCollection<IScriptConfig> ScriptConfigs
+        public ObservableCollection<ScriptConfig> ScriptConfigs
         {
             get => scriptConfigs;
             set => PropertyChanging(value, ref scriptConfigs, "ScriptConfigs");
@@ -36,9 +37,17 @@ namespace Right_Click_Commands.ViewModels
             set => PropertyChanging(value, ref selectedScriptConfig, "SelectedScriptConfig");
         }
 
+        public int SelectedScriptConfigIndex
+        {
+            get => selectedScriptConfigIndex;
+            set => PropertyChanging(value, ref selectedScriptConfigIndex, "SelectedScriptConfigIndex");
+        }
+
         public Command WindowCloseCommand { get; }
 
         public Command CreateNewScript { get; }
+
+        public Command MoveSelectedUp { get; }
 
         //  Constructors
         //  ============
@@ -53,10 +62,11 @@ namespace Right_Click_Commands.ViewModels
             this.contextMenuWorker = contextMenuWorker;
             this.settings = settings;
 
-            ScriptConfigs = new ObservableCollection<IScriptConfig>(this.contextMenuWorker.GetScriptConfigs());
+            ScriptConfigs = new ObservableCollection<ScriptConfig>(this.contextMenuWorker.GetScriptConfigs());
 
             WindowCloseCommand = new Command(DoWindowCloseCommand);
             CreateNewScript = new Command(DoCreateNewScript);
+            MoveSelectedUp = new Command(DoMoveSelectedUp);
         }
 
         //  Methods
@@ -76,7 +86,12 @@ namespace Right_Click_Commands.ViewModels
 
         private void DoCreateNewScript()
         {
-            scriptConfigs.Add(contextMenuWorker.New());
+            scriptConfigs.Add(contextMenuWorker.New(scriptConfigs.Count.ToString()));
+        }
+
+        private void DoMoveSelectedUp()
+        {
+            scriptConfigs.MoveUpOne(SelectedScriptConfigIndex);
         }
     }
 }
