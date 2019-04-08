@@ -50,8 +50,8 @@
                     <MenuItem Header="_Close" InputGestureText="Alt+F4" />
                 </MenuItem>
                 <MenuItem Header="_Edit" Height="{Binding ActualHeight, ElementName=MenuDockPanel, Mode=OneWay}">
-                    <MenuItem Header="Move Up" InputGestureText="Ctrl+Up" Command="{Binding MoveSelectedUp}"/>
-                    <MenuItem Header="Move Down"/>
+                    <MenuItem Header="Move Up" Command="{Binding MoveSelectedUp}"/>
+                    <MenuItem Header="Move Down" Command="{Binding MoveSelectedDown}"/>
                     <Separator/>
                     <MenuItem Header="Disable"/>
                     <MenuItem Header="Delete"/>

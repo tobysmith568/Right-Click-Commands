@@ -49,6 +49,8 @@ namespace Right_Click_Commands.ViewModels
 
         public Command MoveSelectedUp { get; }
 
+        public Command MoveSelectedDown { get; }
+
         //  Constructors
         //  ============
 
@@ -67,6 +69,7 @@ namespace Right_Click_Commands.ViewModels
             WindowCloseCommand = new Command(DoWindowCloseCommand);
             CreateNewScript = new Command(DoCreateNewScript);
             MoveSelectedUp = new Command(DoMoveSelectedUp);
+            MoveSelectedDown = new Command(DoMoveSelectedDown);
         }
 
         //  Methods
@@ -91,7 +94,22 @@ namespace Right_Click_Commands.ViewModels
 
         private void DoMoveSelectedUp()
         {
+            if (SelectedScriptConfigIndex < 1)
+            {
+                return;
+            }
+
             scriptConfigs.MoveUpOne(SelectedScriptConfigIndex);
+        }
+
+        private void DoMoveSelectedDown()
+        {
+            if (SelectedScriptConfigIndex == -1 || SelectedScriptConfigIndex >= ScriptConfigs.Count - 1)
+            {
+                return;
+            }
+
+            scriptConfigs.MoveDownOne(SelectedScriptConfigIndex);
         }
     }
 }
