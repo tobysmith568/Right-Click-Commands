@@ -95,10 +95,10 @@ namespace Right_Click_Commands.Models.ContextMenu
             };
         }
 
-        /// <exception cref="ObjectDisposedException"></exception>
-        /// <exception cref="System.Security.SecurityException"></exception>
-        /// <exception cref="UnauthorizedAccessException"></exception>
-        /// <exception cref="System.IO.IOException"></exception>
+        /// <exception cref="ObjectDisposedException"/>
+        /// <exception cref="System.Security.SecurityException"/>
+        /// <exception cref="UnauthorizedAccessException"/>
+        /// <exception cref="System.IO.IOException"/>
         private void ReadParentKey(KeyValuePair<MenuLocation, string> location, ref List<ScriptConfig> results)
         {
             using (RegistryKey key = Registry.CurrentUser.OpenSubKey(location.Value, true))
@@ -132,7 +132,7 @@ namespace Right_Click_Commands.Models.ContextMenu
             }
         }
 
-        /// <exception cref="UnauthorizedAccessException"></exception>
+        /// <exception cref="UnauthorizedAccessException"/>
         private BatScriptConfig MapScriptConfig(RegistryKey registryKey, MenuLocation location)
         {
             try
@@ -185,16 +185,16 @@ namespace Right_Click_Commands.Models.ContextMenu
             }
         }
 
-        /// <exception cref="InvalidDataException"></exception>
+        /// <exception cref="InvalidDataException"/>
         private void ThrowFoundCorruptKey(string label)
         {
             throw new InvalidDataException($"The right-click command [{label}] appears to be corrupt. Please delete and re-create it");
         }
 
-        /// <exception cref="ObjectDisposedException"></exception>
-        /// <exception cref="System.Security.SecurityException"></exception>
-        /// <exception cref="UnauthorizedAccessException"></exception>
-        /// <exception cref="IOException"></exception>
+        /// <exception cref="ObjectDisposedException"/>
+        /// <exception cref="System.Security.SecurityException"/>
+        /// <exception cref="UnauthorizedAccessException"/>
+        /// <exception cref="IOException"/>
         private void DeleteAllRCCKeys(string location)
         {
             using (RegistryKey key = Registry.CurrentUser.OpenSubKey(location, true))
@@ -216,10 +216,10 @@ namespace Right_Click_Commands.Models.ContextMenu
             }
         }
 
-        /// <exception cref="ObjectDisposedException"></exception>
-        /// <exception cref="System.Security.SecurityException"></exception>
-        /// <exception cref="UnauthorizedAccessException"></exception>
-        /// <exception cref="IOException"></exception>
+        /// <exception cref="ObjectDisposedException"/>
+        /// <exception cref="System.Security.SecurityException"/>
+        /// <exception cref="UnauthorizedAccessException"/>
+        /// <exception cref="IOException"/>
         private void CreateScriptConfig(string location, ScriptConfig scriptConfig)
         {
             using (RegistryKey key = Registry.CurrentUser.OpenSubKey(location, true))
@@ -269,13 +269,6 @@ namespace Right_Click_Commands.Models.ContextMenu
             }
 
             nameParts = fullAddressParts;
-            return true;
-        }
-
-        private bool IsValidRegistryCommand(string value)
-        {
-
-
             return true;
         }
     }

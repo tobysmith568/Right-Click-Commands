@@ -1,4 +1,5 @@
 ﻿using Right_Click_Commands.Models.ContextMenu;
+using Right_Click_Commands.Models.MessagePrompts;
 using Right_Click_Commands.Models.Settings;
 using Right_Click_Commands.ViewModels;
 using Right_Click_Commands.Views;
@@ -26,6 +27,7 @@ namespace Right_Click_Commands
             IUnityContainer container = new UnityContainer();
             container.RegisterType<IContextMenuWorker, RegistryWorker>();
             container.RegisterType<ISettings, WindowsSettings>();
+            container.RegisterType<IMessagePrompt, WinDialogBox>();
 
             var mainWindowViewModel = container.Resolve<MainWindowViewModel>();
             var window = new MainWindow { DataContext = mainWindowViewModel };

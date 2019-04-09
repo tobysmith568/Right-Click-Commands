@@ -20,7 +20,8 @@
     </Window.DataContext>
     <Window.InputBindings>
         <KeyBinding Key="N" Modifiers="Control" Command="{Binding CreateNewScript}"/>
-        <KeyBinding Key="F1" Command="{Binding ElementName=Window, Path=ShowAbout }"/>
+        <KeyBinding Key="F1" Command="{Binding ElementName=Window, Path=ShowAbout}"/>
+        <KeyBinding Key="Delete" Command="{Binding Path=DeleteSelected}"/>
     </Window.InputBindings>
     <Grid x:Name="GrdMain">
         <Grid.RowDefinitions>
@@ -54,7 +55,7 @@
                     <MenuItem Header="Move Down" Command="{Binding MoveSelectedDown}"/>
                     <Separator/>
                     <MenuItem Header="Disable"/>
-                    <MenuItem Header="Delete" Command="{Binding DeleteSelected}"/>
+                    <MenuItem Header="Delete" InputGestureText="Del" Command="{Binding DeleteSelected}"/>
                 </MenuItem>
                 <MenuItem Header="_Help" Height="{Binding ActualHeight, ElementName=MenuDockPanel, Mode=OneWay}">
                     <MenuItem Header="_About" InputGestureText="F1" Command="{Binding ElementName=Window, Path=ShowAbout }"/>

@@ -1,4 +1,5 @@
 ﻿using Right_Click_Commands.Models.ContextMenu;
+using Right_Click_Commands.Models.MessagePrompts;
 using Right_Click_Commands.Models.Scripts;
 using Right_Click_Commands.Models.Settings;
 using System;
@@ -17,6 +18,7 @@ namespace Right_Click_Commands.ViewModels
 
         private readonly IContextMenuWorker contextMenuWorker;
         private readonly ISettings settings;
+        private readonly IMessagePrompt messagePrompt;
 
         private ObservableCollection<ScriptConfig> scriptConfigs;
         private IScriptConfig selectedScriptConfig;
@@ -61,10 +63,11 @@ namespace Right_Click_Commands.ViewModels
 
         }
 
-        public MainWindowViewModel(IContextMenuWorker contextMenuWorker, ISettings settings) : this()
+        public MainWindowViewModel(IContextMenuWorker contextMenuWorker, ISettings settings, IMessagePrompt messagePrompt) : this()
         {
             this.contextMenuWorker = contextMenuWorker;
             this.settings = settings;
+            this.messagePrompt = messagePrompt;
 
             selectedScriptConfigIndex = -1;
 
@@ -134,9 +137,19 @@ namespace Right_Click_Commands.ViewModels
                 return;
             }
 
+            if (MessageResult.No == messagePrompt.PromptYesNo("Are you sure you want to delete the selected script?", "Are you sure?"))
+            {
+                return;
+            }
+
             int selectedindex = SelectedScriptConfigIndex;
 
             scriptConfigs.DeleteAtIndex(SelectedScriptConfigIndex);
+
+            if (selectedindex > ScriptConfigs.Count - 1)
+            {
+                selectedindex = ScriptConfigs.Count - 1;
+            }
 
             SelectedScriptConfigIndex = selectedindex;
         }
