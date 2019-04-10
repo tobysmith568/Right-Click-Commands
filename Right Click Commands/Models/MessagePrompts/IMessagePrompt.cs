@@ -8,20 +8,12 @@ namespace Right_Click_Commands.Models.MessagePrompts
 {
     public interface IMessagePrompt
     {
-        void TellInformation(string message, string title);
-        void TellWarning(string message, string title);
-        void TellError(string message, string title);
-        
-        MessageResult PromptOKCancel(string message, string title);
-        MessageResult PromptYesNo(string message, string title);
-        MessageResult PromptYesNoCancel(string message, string title);
-    }
+        //  Methods
+        //  =======
 
-    public enum MessageResult
-    {
-        Yes,
-        No,
-        OK,
-        Cancel
+        void PromptOK(string message, string title = "", MessageType messageType = MessageType.None);        
+        MessageResult PromptOKCancel(string message, string title = "", MessageType messageType = MessageType.None);
+        MessageResult PromptYesNo(string message, string title = "", MessageType messageType = MessageType.None);
+        MessageResult PromptYesNoCancel(string message, string title = "", MessageType messageType = MessageType.None);
     }
 }

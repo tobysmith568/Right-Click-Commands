@@ -9,24 +9,14 @@ namespace Right_Click_Commands.Models.MessagePrompts
 {
     public class WinDialogBox : IMessagePrompt
     {
-        public void TellInformation(string message, string title)
+        public void PromptOK(string message, string title = "", MessageType messageType = MessageType.None)
         {
-            MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+            MessageBox.Show(message, title, MessageBoxButton.OK, ConvertImage(messageType), MessageBoxResult.OK);
         }
 
-        public void TellWarning(string message, string title)
+        public MessageResult PromptOKCancel(string message, string title = "", MessageType messageType = MessageType.None)
         {
-            MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
-        }
-
-        public void TellError(string message, string title)
-        {
-            MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
-        }
-
-        public MessageResult PromptOKCancel(string message, string title)
-        {
-            switch (MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.None, MessageBoxResult.OK))
+            switch (MessageBox.Show(message, title, MessageBoxButton.OKCancel, ConvertImage(messageType), MessageBoxResult.OK))
             {
                 case MessageBoxResult.OK:
                     return MessageResult.OK;
@@ -35,9 +25,9 @@ namespace Right_Click_Commands.Models.MessagePrompts
             }
         }
 
-        public MessageResult PromptYesNo(string message, string title)
+        public MessageResult PromptYesNo(string message, string title = "", MessageType messageType = MessageType.None)
         {
-            switch (MessageBox.Show(message, title, MessageBoxButton.YesNo, MessageBoxImage.None, MessageBoxResult.Yes))
+            switch (MessageBox.Show(message, title, MessageBoxButton.YesNo, ConvertImage(messageType), MessageBoxResult.Yes))
             {
                 case MessageBoxResult.Yes:
                     return MessageResult.Yes;
@@ -46,9 +36,9 @@ namespace Right_Click_Commands.Models.MessagePrompts
             }
         }
 
-        public MessageResult PromptYesNoCancel(string message, string title)
+        public MessageResult PromptYesNoCancel(string message, string title = "", MessageType messageType = MessageType.None)
         {
-            switch (MessageBox.Show(message, title, MessageBoxButton.YesNoCancel, MessageBoxImage.None, MessageBoxResult.Yes))
+            switch (MessageBox.Show(message, title, MessageBoxButton.YesNoCancel, ConvertImage(messageType), MessageBoxResult.Yes))
             {
                 case MessageBoxResult.Yes:
                     return MessageResult.Yes;
@@ -56,6 +46,21 @@ namespace Right_Click_Commands.Models.MessagePrompts
                     return MessageResult.No;
                 default:
                     return MessageResult.Cancel;
+            }
+        }
+
+        private MessageBoxImage ConvertImage(MessageType type)
+        {
+            switch (type)
+            {
+                case MessageType.Info:
+                    return MessageBoxImage.Information;
+                case MessageType.Warning:
+                    return MessageBoxImage.Warning;
+                case MessageType.Error:
+                    return MessageBoxImage.Error;
+                default:
+                    return MessageBoxImage.None;
             }
         }
     }

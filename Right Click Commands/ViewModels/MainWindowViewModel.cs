@@ -137,7 +137,7 @@ namespace Right_Click_Commands.ViewModels
                 return;
             }
 
-            if (MessageResult.No == messagePrompt.PromptYesNo("Are you sure you want to delete the selected script?", "Are you sure?"))
+            if (MessageResult.No == messagePrompt.PromptYesNo("Are you sure you want to delete the selected script?", "Are you sure?", MessageType.Warning))
             {
                 return;
             }
