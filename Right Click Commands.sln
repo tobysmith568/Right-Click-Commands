@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Right Click Commands", "Right Click Commands\Right Click Commands.csproj", "{30B517C3-CE6B-4D6E-B62F-E14F692582F3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Right Click Commands Tests", "Right Click Commands Tests\Right Click Commands Tests.csproj", "{758401E9-20B9-4E99-BEAE-17FB4580587E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{30B517C3-CE6B-4D6E-B62F-E14F692582F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30B517C3-CE6B-4D6E-B62F-E14F692582F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30B517C3-CE6B-4D6E-B62F-E14F692582F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{758401E9-20B9-4E99-BEAE-17FB4580587E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{758401E9-20B9-4E99-BEAE-17FB4580587E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{758401E9-20B9-4E99-BEAE-17FB4580587E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{758401E9-20B9-4E99-BEAE-17FB4580587E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

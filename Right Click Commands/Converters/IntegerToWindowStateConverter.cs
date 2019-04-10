@@ -16,18 +16,15 @@ namespace Right_Click_Commands.Converters
 
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            WindowState result;
-
-            try
+            switch (value)
             {
-                result = (WindowState)value;
+                case 1:
+                    return WindowState.Minimized;
+                case 2:
+                    return WindowState.Maximized;
+                default:
+                    return WindowState.Normal;
             }
-            catch
-            {
-                result = 0;
-            }
-
-            return result;
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
