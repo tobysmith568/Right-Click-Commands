@@ -54,6 +54,21 @@ namespace Right_Click_Commands.Views
             VMClosingEvent.Command.Execute(e);
         }
 
+        private void MenuItem_Click_DeleteSelected(object sender, RoutedEventArgs e)
+        {
+            MIDelete.Command.Execute(e);
+        }
+
+        private void MenuItem_Click_MoveSelectedUp(object sender, RoutedEventArgs e)
+        {
+            MIMoveUp.Command.Execute(e);
+        }
+
+        private void MenuItem_Click_MoveSelectedDown(object sender, RoutedEventArgs e)
+        {
+            MIMoveDown.Command.Execute(e);
+        }
+
         //  Methods
         //  =======
 

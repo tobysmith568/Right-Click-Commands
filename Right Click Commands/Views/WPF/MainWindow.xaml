@@ -18,6 +18,15 @@
     <Window.DataContext>
         <ViewModels:MainWindowViewModel />
     </Window.DataContext>
+    <Window.Resources>
+        <ContextMenu x:Key="ScriptContextMenu">
+            <MenuItem Header="Move Up" Click="MenuItem_Click_MoveSelectedUp"/>
+            <MenuItem Header="Move Down" Click="MenuItem_Click_MoveSelectedDown"/>
+            <Separator/>
+            <MenuItem Header="Disable" InputGestureText="TBC"/>
+            <MenuItem Header="Delete" InputGestureText="Del" Click="MenuItem_Click_DeleteSelected"/>
+        </ContextMenu>
+    </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Key="N" Modifiers="Control" Command="{Binding CreateNewScript}"/>
         <KeyBinding Key="F1" Command="{Binding ElementName=Window, Path=ShowAbout}"/>
@@ -51,11 +60,11 @@
                     <MenuItem Header="_Close" InputGestureText="Alt+F4" />
                 </MenuItem>
                 <MenuItem Header="_Edit" Height="{Binding ActualHeight, ElementName=MenuDockPanel, Mode=OneWay}">
-                    <MenuItem Header="Move Up" Command="{Binding MoveSelectedUp}"/>
-                    <MenuItem Header="Move Down" Command="{Binding MoveSelectedDown}"/>
+                    <MenuItem Name="MIMoveUp" Header="Move Up" Command="{Binding MoveSelectedUp}"/>
+                    <MenuItem Name="MIMoveDown" Header="Move Down" Command="{Binding MoveSelectedDown}"/>
                     <Separator/>
-                    <MenuItem Header="Disable"/>
-                    <MenuItem Header="Delete" InputGestureText="Del" Command="{Binding DeleteSelected}"/>
+                    <MenuItem Name="MIDisable" Header="Disable" InputGestureText="TBC"/>
+                    <MenuItem Name="MIDelete" Header="Delete" InputGestureText="Del" Command="{Binding DeleteSelected}"/>
                 </MenuItem>
                 <MenuItem Header="_Help" Height="{Binding ActualHeight, ElementName=MenuDockPanel, Mode=OneWay}">
                     <MenuItem Header="_About" InputGestureText="F1" Command="{Binding ElementName=Window, Path=ShowAbout }"/>
@@ -69,8 +78,8 @@
                  SelectedItem="{Binding Path=SelectedScriptConfig, Mode=TwoWay}" SelectedIndex="{Binding Path=SelectedScriptConfigIndex, Mode=TwoWay}" BorderThickness="0" Grid.Row="1" Focusable="False">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid x:Name="MainListTemplate" Height="30" Margin="0,2">
-                        <Grid.ColumnDefinitions>
+                    <Grid x:Name="MainListTemplate" Height="30" Margin="0,0">
+                    <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="{Binding ActualHeight, ElementName=MainListTemplate, Mode=OneWay}"/>
                             <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
@@ -78,6 +87,11 @@
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="ContextMenu" Value="{DynamicResource ScriptContextMenu}"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
         </ListBox>
 
         <!-- Center Column -->
