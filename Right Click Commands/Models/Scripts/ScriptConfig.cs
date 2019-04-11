@@ -38,7 +38,7 @@ namespace Right_Click_Commands.Models.Scripts
         {
             if (indexToMove < 1)
             {
-                throw new ArgumentException("The givne index must be greater than zero");
+                throw new ArgumentException("The given index must be greater than zero");
             }
 
             if (indexToMove > collection.Count - 1)
