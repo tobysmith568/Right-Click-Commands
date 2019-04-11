@@ -81,12 +81,12 @@ namespace Right_Click_Commands.Models.Scripts
             Name = name;
             ID = id;
             ScriptLocation = Path.Combine(appDataFolder, Name + dotBat);
-            LoadScript();
         }
 
         //  Methods
         //  =======
 
+        /// <exception cref="ScriptAccessException"></exception>
         public override void LoadScript()
         {
             try
@@ -101,30 +101,29 @@ namespace Right_Click_Commands.Models.Scripts
                     File.WriteAllText(ScriptLocation, string.Empty);
                 }
 
-                Script = File.Exists(ScriptLocation) ? File.ReadAllText(ScriptLocation) : string.Empty;
+                Script = File.ReadAllText(ScriptLocation);
             }
-            catch // TODO
+            catch (Exception e)
             {
-
+                throw new ScriptAccessException($"Cannot open the script file for the script [{Name}]", e);
             }
         }
 
+        /// <exception cref="ScriptAccessException"></exception>
         public override void SaveScript()
         {
             try
             {
-                string scriptFile = Path.Combine(appDataFolder, Name + dotBat);
-
                 if (!Directory.Exists(appDataFolder))
                 {
                     Directory.CreateDirectory(appDataFolder);
                 }
 
-                File.WriteAllText(scriptFile, Script);
+                File.WriteAllText(ScriptLocation, Script);
             }
-            catch // TODO
+            catch (Exception e)
             {
-
+                throw new ScriptAccessException($"Cannot open the script file for the script [{Name}]", e);
             }
         }
 

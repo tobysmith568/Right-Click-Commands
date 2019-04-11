@@ -87,12 +87,14 @@ namespace Right_Click_Commands.Models.ContextMenu
 
         public ScriptConfig New(string id)
         {
-            return new BatScriptConfig(DateTime.UtcNow.Ticks.ToString(), id)
+            BatScriptConfig batScriptConfig = new BatScriptConfig(DateTime.UtcNow.Ticks.ToString(), id)
             {
                 Label = NewScript,
                 OnBackground = true,
                 OnDirectory = true
             };
+            batScriptConfig.LoadScript();
+            return batScriptConfig;
         }
 
         /// <exception cref="ObjectDisposedException"/>
@@ -147,6 +149,7 @@ namespace Right_Click_Commands.Models.ContextMenu
                     Label = registryKey.GetValue(MUIVerb, string.Empty).ToString(),
                     Icon = registryKey.GetValue(Icon, string.Empty).ToString()// TODO
                 };
+                newConfig.LoadScript();
                 newConfig.ModifyLocation(location, true);
 
                 using (RegistryKey commandKey = registryKey.OpenSubKey(command))

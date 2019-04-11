@@ -24,10 +24,12 @@ namespace Right_Click_Commands.Models.Scripts
         //  Methods
         //  =======
 
-        public abstract bool IsForLocation(MenuLocation location);
+        /// <exception cref="ScriptAccessException"></exception>
         public abstract void LoadScript();
-        public abstract void ModifyLocation(MenuLocation location, bool enabled);
+        /// <exception cref="ScriptAccessException"></exception>
         public abstract void SaveScript();
+        public abstract void ModifyLocation(MenuLocation location, bool enabled);
+        public abstract bool IsForLocation(MenuLocation location);
     }
 
     public static class ScriptConfigUtils
