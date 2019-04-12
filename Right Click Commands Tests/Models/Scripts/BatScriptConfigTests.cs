@@ -205,22 +205,22 @@ namespace Right_Click_Commands.Models.Scripts.Tests
         #region IsForLocation Tests
 
         /// <exception cref="Exception">Ignore.</exception>
-        [TestCase(MenuLocation.Background, false, false, false)]
-        [TestCase(MenuLocation.Background, false, true, true)]
-        [TestCase(MenuLocation.Background, true, false, false)]
-        [TestCase(MenuLocation.Background, true, true, true)]
-        [TestCase(MenuLocation.Directory, false, false, false)]
-        [TestCase(MenuLocation.Directory, false, true, false)]
-        [TestCase(MenuLocation.Directory, true, false,true)]
-        [TestCase(MenuLocation.Directory, true, true, true)]
-        public void Test_IsForLocation(MenuLocation location, bool onDirectory, bool onBackground, bool expectedRusult)
+        [TestCase(MenuLocation.Background, false, false,    ExpectedResult = false)]
+        [TestCase(MenuLocation.Background, false, true,     ExpectedResult = true)]
+        [TestCase(MenuLocation.Background, true, false,     ExpectedResult = false)]
+        [TestCase(MenuLocation.Background, true, true,      ExpectedResult = true)]
+        [TestCase(MenuLocation.Directory, false, false,     ExpectedResult = false)]
+        [TestCase(MenuLocation.Directory, false, true,      ExpectedResult = false)]
+        [TestCase(MenuLocation.Directory, true, false,      ExpectedResult = true)]
+        [TestCase(MenuLocation.Directory, true, true,       ExpectedResult = true)]
+        public bool Test_IsForLocation(MenuLocation location, bool onDirectory, bool onBackground)
         {
             subject.OnBackground = onBackground;
             subject.OnDirectory = onDirectory;
 
             bool result = subject.IsForLocation(location);
 
-            Assert.AreEqual(expectedRusult, result);
+            return result;
         }
 
         #endregion
