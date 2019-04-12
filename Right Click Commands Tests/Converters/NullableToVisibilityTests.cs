@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using Right_Click_Commands.Converters;
 using System;
 using System.Collections.Generic;
@@ -9,54 +9,54 @@ using System.Windows;
 
 namespace Right_Click_Commands.Converters.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class NullableToVisibilityTests
     {
         NullableToVisibility subject;
 
-        [TestInitialize]
+        [SetUp]
         public void TestInitialize()
         {
             subject = new NullableToVisibility();
         }
 
-        [TestMethod]
+        [Test]
         public void Test_Convert_Null()
         {
             object result = subject.Convert(null, null, null, null);
 
-            Assert.IsInstanceOfType(result, typeof(Visibility));
+            Assert.IsInstanceOf(typeof(Visibility), result);
 
             Visibility visibility = (Visibility)result;
 
             Assert.AreEqual(Visibility.Collapsed, visibility);
         }
 
-        [TestMethod]
+        [Test]
         public void Test_Convert_Object()
         {
             object result = subject.Convert(new object(), null, null, null);
 
-            Assert.IsInstanceOfType(result, typeof(Visibility));
+            Assert.IsInstanceOf(typeof(Visibility), result);
 
             Visibility visibility = (Visibility)result;
 
             Assert.AreEqual(Visibility.Visible, visibility);
         }
 
-        [TestMethod]
+        [Test]
         public void Test_Convert_int()
         {
             object result = subject.Convert(4, null, null, null);
 
-            Assert.IsInstanceOfType(result, typeof(Visibility));
+            Assert.IsInstanceOf(typeof(Visibility), result);
 
             Visibility visibility = (Visibility)result;
 
             Assert.AreEqual(Visibility.Visible, visibility);
         }
 
-        [TestMethod]
+        [Test]
         public void Test_ConvertBack_Visible()
         {
             Visibility visibility = Visibility.Visible;
@@ -66,7 +66,7 @@ namespace Right_Click_Commands.Converters.Tests
             Assert.IsNotNull(result);
         }
 
-        [TestMethod]
+        [Test]
         public void Test_ConvertBack_Collapsed()
         {
             Visibility visibility = Visibility.Collapsed;
@@ -76,18 +76,18 @@ namespace Right_Click_Commands.Converters.Tests
             Assert.IsNull(result);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException), "The given value must be a Visibility")]
+        [Test]
         public void Test_ConvertBack_Null()
         {
-            object result = subject.ConvertBack(null, null, null, null);
+            Exception e = Assert.Throws<ArgumentException>(() => subject.ConvertBack(null, null, null, null));
+            Assert.AreEqual("The given value must be a Visibility", e.Message);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException), "The given value must be a Visibility")]
+        [Test]
         public void Test_ConvertBack_UnepectedObject()
         {
-            object result = subject.ConvertBack(new Style(), null, null, null);
+            Exception e = Assert.Throws<ArgumentException>(() => subject.ConvertBack(new Style(), null, null, null));
+            Assert.AreEqual("The given value must be a Visibility", e.Message);
         }
     }
 }

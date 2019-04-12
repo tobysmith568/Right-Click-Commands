@@ -38,7 +38,7 @@ namespace Right_Click_Commands.Models.Scripts
         {
             if (indexToMove < 1)
             {
-                throw new ArgumentException("The given index must be greater than zero");
+                throw new ArgumentException("The given index must be greater than 0");
             }
 
             if (indexToMove > collection.Count - 1)
@@ -61,12 +61,12 @@ namespace Right_Click_Commands.Models.Scripts
         {
             if (indexToMove < 0)
             {
-                throw new ArgumentException("The given index must be greater of equal to zero");
+                throw new ArgumentException("The given index must be greater or equal to 0");
             }
 
             if (indexToMove > collection.Count - 2)
             {
-                throw new ArgumentException("The give index must not be greater than the collections size - 2");
+                throw new ArgumentException("The given index must not be greater than the collections size - 2");
             }
 
             ScriptConfig temp = collection[indexToMove];
@@ -84,7 +84,7 @@ namespace Right_Click_Commands.Models.Scripts
         {
             if (indexToDelete < 0)
             {
-                throw new ArgumentException("The give index must be greater or equal to 0");
+                throw new ArgumentException("The given index must be greater or equal to 0");
             }
 
             if (indexToDelete > collection.Count - 1)

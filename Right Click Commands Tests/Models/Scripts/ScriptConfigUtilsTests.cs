@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using Right_Click_Commands.Models.Scripts;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using Moq;
 
 namespace Right_Click_Commands.Models.Scripts.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class ScriptConfigUtilsTests
     {
         ObservableCollection<ScriptConfig> subject;
@@ -19,7 +19,7 @@ namespace Right_Click_Commands.Models.Scripts.Tests
         Mock<ScriptConfig> second;
         Mock<ScriptConfig> third;
 
-        [TestInitialize]
+        [SetUp]
         public void TestInitialize()
         {
             first = new Mock<ScriptConfig>();
@@ -34,7 +34,7 @@ namespace Right_Click_Commands.Models.Scripts.Tests
             };
         }
 
-        [TestMethod]
+        [Test]
         public void Test_MoveUpOne_AbleToMove()
         {
             subject.MoveUpOne(1);
@@ -42,28 +42,28 @@ namespace Right_Click_Commands.Models.Scripts.Tests
             Assert.AreSame(second.Object, subject[0]);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException), "The given index must be greater than zero")]
+        [Test]
         public void Test_MoveUpOne_NegativeIndex()
         {
-            subject.MoveUpOne(-4);
+            Exception e = Assert.Throws<ArgumentException>(() => subject.MoveUpOne(-4));
+            Assert.AreEqual("The given index must be greater than 0", e.Message);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException), "The given index must not be greater than the collections size - 1")]
+        [Test]
         public void Test_MoveUpOne_AlreadyFirstIndex()
         {
-            subject.MoveUpOne(0);
+            Exception e = Assert.Throws<ArgumentException>(() => subject.MoveUpOne(0));
+            Assert.AreEqual("The given index must be greater than 0", e.Message);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException), "The given index must not be greater than the collections size - 1")]
+        [Test]
         public void Test_MoveUpOne_PositiveIndexOutOfRange()
         {
-            subject.MoveUpOne(4);
+            Exception e = Assert.Throws<ArgumentException>(() => subject.MoveUpOne(4));
+            Assert.AreEqual("The given index must not be greater than the collections size - 1", e.Message);
         }
 
-        [TestMethod]
+        [Test]
         public void Test_MoveDownOne_AbleToMove()
         {
             subject.MoveDownOne(1);
@@ -71,28 +71,28 @@ namespace Right_Click_Commands.Models.Scripts.Tests
             Assert.AreSame(second.Object, subject[2]);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException), "The given index must be greater than zero")]
+        [Test]
         public void Test_MoveDownOne_NegativeIndex()
         {
-            subject.MoveDownOne(-4);
+            Exception e = Assert.Throws<ArgumentException>(() => subject.MoveDownOne(-4));
+            Assert.AreEqual("The given index must be greater or equal to 0", e.Message);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException), "The given index must not be greater than the collections size - 2")]
+        [Test]
         public void Test_MoveDownOne_AlreadyLastIndex()
         {
-            subject.MoveDownOne(2);
+            Exception e = Assert.Throws<ArgumentException>(() => subject.MoveDownOne(2));
+            Assert.AreEqual("The given index must not be greater than the collections size - 2", e.Message);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException), "The given index must not be greater than the collections size - 2")]
+        [Test]
         public void Test_MoveDownOne_PositiveIndexOutOfRange()
         {
-            subject.MoveDownOne(4);
+            Exception e = Assert.Throws<ArgumentException>(() => subject.MoveDownOne(4));
+            Assert.AreEqual("The given index must not be greater than the collections size - 2", e.Message);
         }
 
-        [TestMethod]
+        [Test]
         public void Test_DeleteAtIndex_AbleToDelete()
         {
             subject.DeleteAtIndex(1);
@@ -102,18 +102,18 @@ namespace Right_Click_Commands.Models.Scripts.Tests
             Assert.AreSame(third.Object, subject[1]);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException), "The given index must be greater than zero")]
+        [Test]
         public void Test_DeleteAtIndex_NegativeIndex()
         {
-            subject.DeleteAtIndex(-4);
+            Exception e = Assert.Throws<ArgumentException>(() => subject.DeleteAtIndex(-4));
+            Assert.AreEqual("The given index must be greater or equal to 0", e.Message);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException), "The given index must not be greater than the collections size - 1")]
+        [Test]
         public void Test_DeleteAtIndex_PositiveIndexOutOfRange()
         {
-            subject.DeleteAtIndex(4);
+            Exception e = Assert.Throws<ArgumentException>(() => subject.DeleteAtIndex(4));
+            Assert.AreEqual("The given index must not be greater than the collections size - 1", e.Message);
         }
     }
 }

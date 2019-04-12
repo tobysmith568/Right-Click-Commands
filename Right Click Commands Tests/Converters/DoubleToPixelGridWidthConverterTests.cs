@@ -1,29 +1,29 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using Right_Click_Commands.Converters;
 using System.Windows;
 using System;
 
 namespace Right_Click_Commands.Converters.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class DoubleToPixelGridWidthConverterTests
     {
         DoubleToPixelGridWidthConverter subject;
 
-        [TestInitialize]
+        [SetUp]
         public void TestInitialize()
         {
             subject = new DoubleToPixelGridWidthConverter();
         }
 
-        [TestMethod]
+        [Test]
         public void Test_Convert_ValidValue()
         {
             double value = 31;
 
             object result = subject.Convert(value, null, null, null);
 
-            Assert.IsInstanceOfType(result, typeof(GridLength));
+            Assert.IsInstanceOf(typeof(GridLength), result);
 
             GridLength gridLength = (GridLength)result;
 
@@ -31,14 +31,14 @@ namespace Right_Click_Commands.Converters.Tests
             Assert.AreEqual(value, gridLength.Value);
         }
 
-        [TestMethod]
+        [Test]
         public void Test_Convert_ValidNegativeValue()
         {
             double value = -67;
 
             object result = subject.Convert(value, null, null, null);
 
-            Assert.IsInstanceOfType(result, typeof(GridLength));
+            Assert.IsInstanceOf(typeof(GridLength), result);
 
             GridLength gridLength = (GridLength)result;
 
@@ -46,45 +46,45 @@ namespace Right_Click_Commands.Converters.Tests
             Assert.AreEqual(value, gridLength.Value);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException), "The given value must be a double")]
+        [Test]
         public void Test_Convert_Null()
         {
-            object result = subject.Convert(null, null, null, null);
+            Exception e = Assert.Throws<ArgumentException>(() => subject.Convert(null, null, null, null));
+            Assert.AreEqual("The given value must be a double", e.Message);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException), "The given value must be a double")]
+        [Test]
         public void Test_Convert_UnexpectedObject()
         {
-            object result = subject.Convert(new Style(), null, null, null);
+            Exception e = Assert.Throws<ArgumentException>(() => subject.Convert(new Style(), null, null, null));
+            Assert.AreEqual("The given value must be a double", e.Message);
         }
 
-        [TestMethod]
+        [Test]
         public void Test_ConvertBack_ValidValue()
         {
             GridLength value = new GridLength(54, GridUnitType.Pixel);
 
             object result = subject.ConvertBack(value, null, null, null);
 
-            Assert.IsInstanceOfType(result, typeof(double));
+            Assert.IsInstanceOf(typeof(double), result);
             Assert.AreEqual(value.Value, result);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException), "The given GridLength must be a pixel value")]
+        [Test]
         public void Test_ConvertBack_WrongGridUnitType()
         {
             GridLength value = new GridLength(54, GridUnitType.Auto);
 
-            object result = subject.ConvertBack(value, null, null, null);
+            Exception e = Assert.Throws<ArgumentException>(() => subject.ConvertBack(value, null, null, null));
+            Assert.AreEqual("The given GridLength must be a pixel value", e.Message);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException), "The given value must be a GridLength")]
+        [Test]
         public void Test_ConvertBack_Null()
         {
-            object result = subject.ConvertBack(null, null, null, null);
+            Exception e = Assert.Throws<ArgumentException>(() => subject.ConvertBack(null, null, null, null));
+            Assert.AreEqual("The given value must be a GridLength", e.Message);
         }
     }
 }

@@ -126,7 +126,7 @@ namespace Right_Click_Commands.Models.ContextMenu
                             original.ModifyLocation(location.Key, true);
                         }
                     }
-                    catch (Exception e) // TODO
+                    catch // TODO
                     {
                         //Unable to read a child classesRoot key's values
                     }

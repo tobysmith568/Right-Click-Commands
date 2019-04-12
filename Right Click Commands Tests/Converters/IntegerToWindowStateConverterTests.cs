@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using Right_Click_Commands.Converters;
 using System;
 using System.Collections.Generic;
@@ -9,83 +9,83 @@ using System.Windows;
 
 namespace Right_Click_Commands.Converters.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class IntegerToWindowStateConverterTests
     {
         IntegerToWindowStateConverter subject;
 
-        [TestInitialize]
+        [SetUp]
         public void TestInitialize()
         {
             subject = new IntegerToWindowStateConverter();
         }
 
-        [TestMethod]
+        [Test]
         public void Test_Convert_ValueInRange()
         {
             int value = 2;
 
             object result = subject.Convert(value, null, null, null);
 
-            Assert.IsInstanceOfType(result, typeof(WindowState));
+            Assert.IsInstanceOf(typeof(WindowState), result);
 
             WindowState windowState = (WindowState)result;
 
             Assert.AreEqual(WindowState.Maximized, windowState);
         }
 
-        [TestMethod]
+        [Test]
         public void Test_Convert_ValueOutOfRange()
         {
             int value = 5;
             
             object result = subject.Convert(value, null, null, null);
 
-            Assert.IsInstanceOfType(result, typeof(WindowState));
+            Assert.IsInstanceOf(typeof(WindowState), result);
 
             WindowState windowState = (WindowState)result;
 
             Assert.AreEqual(WindowState.Normal, windowState);
         }
 
-        [TestMethod]
+        [Test]
         public void Test_Convert_Null()
         {
             object result = subject.Convert(null, null, null, null);
 
-            Assert.IsInstanceOfType(result, typeof(WindowState));
+            Assert.IsInstanceOf(typeof(WindowState), result);
 
             WindowState windowState = (WindowState)result;
 
             Assert.AreEqual(WindowState.Normal, windowState);
         }
 
-        [TestMethod]
+        [Test]
         public void Test_ConvertBack_ValidValue()
         {
             WindowState value = WindowState.Maximized;
 
             object result = subject.ConvertBack(value, null, null, null);
 
-            Assert.IsInstanceOfType(result, typeof(int));
+            Assert.IsInstanceOf(typeof(int), result);
 
             int integer = (int)result;
 
             Assert.AreEqual(2, integer);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException), "The given value must be a WindowState")]
+        [Test]
         public void Test_ConvertBack_Null()
         {
-            object result = subject.ConvertBack(null, null, null, null);
+            Exception e = Assert.Throws<ArgumentException>(() => subject.ConvertBack(null, null, null, null));
+            Assert.AreEqual("The given value must be a WindowState", e.Message);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException), "The given value must be a WindowState")]
+        [Test]
         public void Test_ConvertBack_UnexpectedObject()
         {
-            object result = subject.ConvertBack(new Style(), null, null, null);
+            Exception e = Assert.Throws<ArgumentException>(() => subject.ConvertBack(new Style(), null, null, null));
+            Assert.AreEqual("The given value must be a WindowState", e.Message);
         }
     }
 }
