@@ -20,7 +20,7 @@ namespace Right_Click_Commands.Models.Scripts.Tests
         Mock<ScriptConfig> third;
 
         [SetUp]
-        public void TestInitialize()
+        public void SetUp()
         {
             first = new Mock<ScriptConfig>();
             second = new Mock<ScriptConfig>();

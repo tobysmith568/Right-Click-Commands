@@ -20,7 +20,7 @@ namespace Right_Click_Commands.Models.Scripts.Tests
 
         /// <exception cref="Exception">Ignore.</exception>
         [SetUp]
-        public void TestInitialize()
+        public void SetUp()
         {
             FolderPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "testDir");
             FilePath = Path.Combine(FolderPath, "file.bat");
@@ -32,7 +32,7 @@ namespace Right_Click_Commands.Models.Scripts.Tests
 
         /// <exception cref="Exception">Ignore.</exception>
         [TearDown]
-        public void TestCleanup()
+        public void TearDown()
         {
             if (Directory.Exists(FolderPath))
             {

@@ -10,7 +10,7 @@ namespace Right_Click_Commands.Converters.Tests
         DoubleToPixelGridWidthConverter subject;
 
         [SetUp]
-        public void TestInitialize()
+        public void SetUp()
         {
             subject = new DoubleToPixelGridWidthConverter();
         }
