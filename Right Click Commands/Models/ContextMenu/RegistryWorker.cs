@@ -85,6 +85,7 @@ namespace Right_Click_Commands.Models.ContextMenu
             }
         }
 
+        /// <exception cref="ScriptAccessException"></exception>
         public ScriptConfig New(string id)
         {
             BatScriptConfig batScriptConfig = new BatScriptConfig(DateTime.UtcNow.Ticks.ToString(), id)

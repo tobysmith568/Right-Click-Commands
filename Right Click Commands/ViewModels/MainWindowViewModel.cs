@@ -104,8 +104,14 @@ namespace Right_Click_Commands.ViewModels
 
         private void DoMoveSelectedUp()
         {
-            if (SelectedScriptConfigIndex < 1)
+            if (SelectedScriptConfigIndex == -1 || SelectedScriptConfigIndex == 0)
             {
+                return;
+            }
+
+            if (SelectedScriptConfigIndex < -1 || SelectedScriptConfigIndex >= ScriptConfigs.Count)
+            {
+                SelectedScriptConfigIndex = -1;
                 return;
             }
 
@@ -118,8 +124,14 @@ namespace Right_Click_Commands.ViewModels
 
         private void DoMoveSelectedDown()
         {
-            if (SelectedScriptConfigIndex == -1 || SelectedScriptConfigIndex >= ScriptConfigs.Count - 1)
+            if (SelectedScriptConfigIndex == -1)
             {
+                return;
+            }
+
+            if (SelectedScriptConfigIndex < -1 || SelectedScriptConfigIndex >= ScriptConfigs.Count - 1)
+            {
+                SelectedScriptConfigIndex = -1;
                 return;
             }
 
@@ -134,6 +146,12 @@ namespace Right_Click_Commands.ViewModels
         {
             if (SelectedScriptConfigIndex == -1)
             {
+                return;
+            }
+
+            if (SelectedScriptConfigIndex < -1 || SelectedScriptConfigIndex >= ScriptConfigs.Count)
+            {
+                SelectedScriptConfigIndex = -1;
                 return;
             }
 
