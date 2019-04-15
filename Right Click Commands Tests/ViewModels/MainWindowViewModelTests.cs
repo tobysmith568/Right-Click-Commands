@@ -4,13 +4,8 @@ using Right_Click_Commands.Models.ContextMenu;
 using Right_Click_Commands.Models.MessagePrompts;
 using Right_Click_Commands.Models.Scripts;
 using Right_Click_Commands.Models.Settings;
-using Right_Click_Commands.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Right_Click_Commands.ViewModels.Tests
 {
@@ -180,7 +175,7 @@ namespace Right_Click_Commands.ViewModels.Tests
 
         #endregion
         #region MoveSelectedDown
-        
+
         [TestCase(-1)]
         [TestCase(-2)]
         [TestCase(-50)]

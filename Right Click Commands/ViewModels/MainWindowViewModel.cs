@@ -2,12 +2,7 @@
 using Right_Click_Commands.Models.MessagePrompts;
 using Right_Click_Commands.Models.Scripts;
 using Right_Click_Commands.Models.Settings;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
 
 namespace Right_Click_Commands.ViewModels
 {
@@ -30,19 +25,19 @@ namespace Right_Click_Commands.ViewModels
         public ObservableCollection<ScriptConfig> ScriptConfigs
         {
             get => scriptConfigs;
-            set => PropertyChanging(value, ref scriptConfigs, "ScriptConfigs");
+            set => PropertyChanging(value, ref scriptConfigs, nameof(ScriptConfigs));
         }
 
         public IScriptConfig SelectedScriptConfig
         {
             get => selectedScriptConfig;
-            set => PropertyChanging(value, ref selectedScriptConfig, "SelectedScriptConfig");
+            set => PropertyChanging(value, ref selectedScriptConfig, nameof(SelectedScriptConfig));
         }
 
         public int SelectedScriptConfigIndex
         {
             get => selectedScriptConfigIndex;
-            set => PropertyChanging(value, ref selectedScriptConfigIndex, "SelectedScriptConfigIndex");
+            set => PropertyChanging(value, ref selectedScriptConfigIndex, nameof(SelectedScriptConfigIndex));
         }
 
         public Command WindowCloseCommand { get; }
