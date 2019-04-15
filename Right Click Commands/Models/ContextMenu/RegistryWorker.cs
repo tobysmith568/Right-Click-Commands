@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Right_Click_Commands.Models.ContextMenu
@@ -27,6 +29,8 @@ namespace Right_Click_Commands.Models.ContextMenu
 
         //  Variables
         //  =========
+
+        private readonly string RCCLocation = Assembly.GetEntryAssembly().Location;
 
         private readonly Dictionary<MenuLocation, string> classesRootOptions = new Dictionary<MenuLocation, string>()
         {
@@ -162,16 +166,25 @@ namespace Right_Click_Commands.Models.ContextMenu
 
                     string command = commandKey.GetValue(string.Empty, string.Empty).ToString();
 
+                    Regex regex = new Regex("^\".+?\" run ");
+
+                    if (!regex.IsMatch(command))
+                    {
+                        ThrowFoundCorruptKey(newConfig.Label);
+                    }
+
+                    command = regex.Replace(command, string.Empty);
+
                     if (command.Length <= 6 || command.Substring(0, 3) != cmd)
                     {
                         ThrowFoundCorruptKey(newConfig.Label);
                     }
 
-                    if (command.Substring(4, 2) == keepCMDOpen)
+                    if (command.Substring(5, 2) == keepCMDOpen)
                     {
                         newConfig.KeepWindowOpen = true;
                     }
-                    else if (command.Substring(4, 2) == closeCMD)
+                    else if (command.Substring(5, 2) == closeCMD)
                     {
                         newConfig.KeepWindowOpen = false;
                     }
@@ -235,7 +248,8 @@ namespace Right_Click_Commands.Models.ContextMenu
 
                     using (RegistryKey commandKey = childKey.CreateSubKey(command))
                     {
-                        commandKey.SetValue("", $"cmd {(scriptConfig.KeepWindowOpen ? keepCMDOpen : closeCMD)} TITLE {scriptConfig.Label}&\"{scriptConfig.ScriptLocation}\"");
+                        string args = $"cmd \"{(scriptConfig.KeepWindowOpen ? keepCMDOpen : closeCMD)} TITLE {scriptConfig.Label}&|{scriptConfig.ScriptLocation}|\"";
+                        commandKey.SetValue(string.Empty, $"\"{RCCLocation}\" run {args}");
                     }
                 }
             }

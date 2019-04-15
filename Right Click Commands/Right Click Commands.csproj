@@ -76,6 +76,9 @@
     <Compile Include="Models\MessagePrompts\MessageResult.cs" />
     <Compile Include="Models\MessagePrompts\MessageType.cs" />
     <Compile Include="Models\MessagePrompts\WinDialogBox.cs" />
+    <Compile Include="Models\Runner\ExecutionException.cs" />
+    <Compile Include="Models\Runner\IRunner.cs" />
+    <Compile Include="Models\Runner\WindowsRunner.cs" />
     <Compile Include="Models\Scripts\BatScriptConfig.cs" />
     <Compile Include="Models\Scripts\IScriptConfig.cs" />
     <Compile Include="Models\Scripts\ScriptAccessException.cs" />
