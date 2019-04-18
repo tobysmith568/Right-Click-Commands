@@ -40,6 +40,20 @@ namespace Right_Click_Commands.Models.Runner
         /// <exception cref="Right_Click_Commands.Models.Runner.ExecutionException"></exception>
         public async Task Run(string file, string arguements)
         {
+            if (file.StartsWith("hidden-"))
+            {
+                file = file.Substring(7);
+                await RunHidden(file, arguements);
+            }
+            else
+            {
+                await RunVisible(file, arguements);
+            }
+        }
+
+        /// <exception cref="Right_Click_Commands.Models.Runner.ExecutionException"></exception>
+        private async Task RunVisible(string file, string arguements)
+        {
             try
             {
                 await Task.Run(() =>
@@ -65,7 +79,7 @@ namespace Right_Click_Commands.Models.Runner
         }
         
         /// <exception cref="Right_Click_Commands.Models.Runner.ExecutionException"></exception>
-        public async Task RunHidden(string file, string arguements)
+        private async Task RunHidden(string file, string arguements)
         {
             try
             {
