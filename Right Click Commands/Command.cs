@@ -7,13 +7,27 @@ using System.Windows.Input;
 
 namespace Right_Click_Commands
 {
-    public class Command : ICommand
+    public class Command : Command<object>
+    {
+        //  Constructors
+        //  ============
+
+        public Command(Action action, bool canExecute = true) : base(action, canExecute)
+        {
+        }
+
+        public Command(Action<object> parameterizedAction, bool canExecute = true) : base(parameterizedAction, canExecute)
+        {
+        }
+    }
+
+    public class Command<T> : ICommand where T : class
     {
         //  Variables
         //  =========
 
         protected Action action = null;
-        protected Action<string> parameterizedAction = null;
+        protected Action<T> parameterizedAction = null;
         public event EventHandler CanExecuteChanged;
 
         private bool canExecute = false;
@@ -41,7 +55,7 @@ namespace Right_Click_Commands
 
         void ICommand.Execute(object parameter)
         {
-            DoExecute(parameter?.ToString());
+            DoExecute(parameter);
         }
 
         //  Constructors
@@ -53,7 +67,7 @@ namespace Right_Click_Commands
             this.canExecute = canExecute;
         }
 
-        public Command(Action<string> parameterizedAction, bool canExecute = true)
+        public Command(Action<T> parameterizedAction, bool canExecute = true)
         {
             this.parameterizedAction = parameterizedAction;
             this.canExecute = canExecute;
@@ -62,19 +76,19 @@ namespace Right_Click_Commands
         //  Methods
         //  =======
 
-        protected void InvokeAction(string param)
+        public virtual void DoExecute(object param)
+        {
+            InvokeAction((T)param);
+        }
+
+        protected void InvokeAction(T param)
         {
             Action theAction = action;
-            Action<string> theParameterizedAction = parameterizedAction;
+            Action<T> theParameterizedAction = parameterizedAction;
             if (theAction != null)
                 theAction();
             else
                 theParameterizedAction?.Invoke(param);
-        }
-
-        public virtual void DoExecute(string param)
-        {
-            InvokeAction(param);
         }
     }
 }
