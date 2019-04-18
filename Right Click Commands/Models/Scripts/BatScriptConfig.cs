@@ -40,37 +40,37 @@ namespace Right_Click_Commands.Models.Scripts
         public override string Label
         {
             get => label;
-            set => PropertyChanging(value, ref label, "Label");
+            set => PropertyChanging(value, ref label, nameof(Label));
         }
 
         public string Icon
         {
             get => icon;
-            set => PropertyChanging(value, ref icon, "Icon");
+            set => PropertyChanging(value, ref icon, nameof(Icon));
         }
 
         public override string Script
         {
             get => script;
-            set => PropertyChanging(value, ref script, "Script");
+            set => PropertyChanging(value, ref script, nameof(Script));
         }
 
         public override bool OnDirectory
         {
             get => onDirectory;
-            set => PropertyChanging(value, ref onDirectory, "OnDirectory");
+            set => PropertyChanging(value, ref onDirectory, nameof(OnDirectory));
         }
 
         public override bool OnBackground
         {
             get => onBackground;
-            set => PropertyChanging(value, ref onBackground, "OnBackground");
+            set => PropertyChanging(value, ref onBackground, nameof(OnBackground));
         }
 
         public override bool KeepWindowOpen
         {
             get => keepWindowOpen;
-            set => PropertyChanging(value, ref keepWindowOpen, "KeepWindowOpen");
+            set => PropertyChanging(value, ref keepWindowOpen, nameof(KeepWindowOpen));
         }
 
         //  Constructors
