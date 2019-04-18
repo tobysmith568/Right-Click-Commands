@@ -90,7 +90,7 @@ namespace Right_Click_Commands.ViewModels
             contextMenuWorker.SaveScriptConfigs(ScriptConfigs);
         }
 
-        private void DoCreateNewScript()
+        private void DoCreateNewScript(string extension)
         {
             scriptConfigs.Add(contextMenuWorker.New(scriptConfigs.Count.ToString("D2")));
 

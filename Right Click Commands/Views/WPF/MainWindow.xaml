@@ -54,7 +54,9 @@
         <DockPanel Name="MenuDockPanel">
             <Menu DockPanel.Dock="Top" Height="{Binding ActualHeight, ElementName=MenuDockPanel, Mode=OneWay}">
                 <MenuItem Header="_File" Height="{Binding ActualHeight, ElementName=MenuDockPanel, Mode=OneWay}">
-                    <MenuItem Header="_New Script" InputGestureText="Ctrl+N" Command="{Binding CreateNewScript}"/>
+                    <MenuItem Header="_New Script">
+                        <MenuItem Header="_Batch Script" InputGestureText="Ctrl+N" Command="{Binding CreateNewScript}" CommandParameter=".bat"/>
+                    </MenuItem>
                     <MenuItem Header="_Reset Parition" Click="ResetPartition_Click" />
                     <Separator/>
                     <MenuItem Header="_Close" InputGestureText="Alt+F4" />
