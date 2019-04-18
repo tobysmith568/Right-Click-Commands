@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -69,6 +72,7 @@
     <Compile Include="Converters\DoubleToPixelGridWidthConverter.cs" />
     <Compile Include="Converters\IntegerToWindowStateConverter.cs" />
     <Compile Include="Converters\NullableToVisibility.cs" />
+    <Compile Include="Models\Logger\WindowsLogger.cs" />
     <Compile Include="Models\MenuLocation.cs" />
     <Compile Include="Models\ContextMenu\IContextMenuWorker.cs" />
     <Compile Include="Models\ContextMenu\RegistryWorker.cs" />
@@ -92,6 +96,9 @@
     <Compile Include="Views\WPF\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\WPF\ScriptError.xaml.cs">
+      <DependentUpon>ScriptError.xaml</DependentUpon>
+    </Compile>
     <Page Include="Views\WPF\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -108,6 +115,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\WPF\ScriptError.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

@@ -10,5 +10,7 @@ namespace Right_Click_Commands.Models.Runner
     {
         /// <exception cref="Right_Click_Commands.Models.Runner.ExecutionException"></exception>
         Task Run(string file, string arguements);
+        /// <exception cref="Right_Click_Commands.Models.Runner.ExecutionException"></exception>
+        Task RunHidden(string file, string arguements);
     }
 }
