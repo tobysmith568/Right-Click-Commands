@@ -4,6 +4,7 @@ using Right_Click_Commands.Models.Runner;
 using Right_Click_Commands.Models.Settings;
 using Right_Click_Commands.ViewModels;
 using Right_Click_Commands.Views;
+using Right_Click_Commands.Views.WPF;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -12,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Unity;
+using Unity.Resolution;
 
 namespace Right_Click_Commands
 {
@@ -20,6 +22,10 @@ namespace Right_Click_Commands
     /// </summary>
     public partial class App : Application
     {
+        //  Variables
+        //  =========
+
+        private readonly string NL = Environment.NewLine;
         private readonly IUnityContainer container = new UnityContainer();
         private IMessagePrompt messagePrompt;
         private IRunner runner;
@@ -41,7 +47,7 @@ namespace Right_Click_Commands
 
             if (e.Args.Length >= 3 && (e.Args[0] == "run"))
             {
-                await runner.Run(e.Args[1], e.Args[2].Replace('|', '"'));
+                await RunScript(e.Args);
                 Environment.Exit(0);
                 return;
             }
@@ -64,6 +70,29 @@ namespace Right_Click_Commands
             var mainWindowViewModel = container.Resolve<MainWindowViewModel>();
             var window = new MainWindow { DataContext = mainWindowViewModel };
             window.Show();
+        }
+
+        private async Task RunScript(string[] args)
+        {
+            try
+            {
+                string fileName = args[1];
+                string fileArguements = args[2];
+                fileArguements = fileArguements.Replace('|', '"');
+
+                await runner.Run(fileName, fileArguements);
+            }
+            catch (ExecutionException e)
+            {
+                try
+                {
+                    new ScriptError(e.InnerException.StackTrace).ShowDialog();
+                }
+                catch
+                {
+                    messagePrompt.PromptOK($"Your script failed with the following exception:{NL}{e.Message}", "Script failed", MessageType.Error);
+                }
+            }
         }
     }
 }

@@ -1,0 +1,14 @@
+﻿<Window x:Class="Right_Click_Commands.Views.WPF.ScriptError"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Right_Click_Commands.Views.WPF"
+        mc:Ignorable="d"
+        Title="Script Exception" Height="409" Width="525">
+    <Grid>
+        <Label Content="Your script failed to run properly and threw this exception:" Margin="10,10,10,0" VerticalAlignment="Top" FontSize="16"/>
+        <TextBox x:Name="TbError" Margin="10,46,10,43" TextWrapping="Wrap" FontSize="14" AcceptsReturn="True" IsReadOnly="True" IsReadOnlyCaretVisible="True" Background="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" AcceptsTab="True" FontFamily="Consolas"/>
+        <Button x:Name="BtnOK" Content="OK" Margin="0,0,10,10" Height="28" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="86" Click="BtnOK_Click"/>
+    </Grid>
+</Window>
