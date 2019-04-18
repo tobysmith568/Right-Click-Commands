@@ -31,6 +31,8 @@ namespace Right_Click_Commands.Models.Scripts
         //  Properties
         //  ==========
 
+        public override string ScriptType => "Batch Script";
+
         public override string ID { get; set; }
 
         public override string Name { get; }

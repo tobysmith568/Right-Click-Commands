@@ -5,6 +5,7 @@
         //  Properties
         //  ==========
 
+        string ScriptType { get; }
         string ID { get; set; }
         string Name { get; }
         string ScriptLocation { get; }

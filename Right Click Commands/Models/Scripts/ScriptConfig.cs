@@ -5,6 +5,7 @@
         //  Properties
         //  ==========
 
+        public abstract string ScriptType { get; }
         public abstract string ID { get; set; }
         public abstract string Name { get; }
         public abstract string ScriptLocation { get; protected set; }
