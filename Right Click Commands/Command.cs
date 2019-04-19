@@ -21,7 +21,7 @@ namespace Right_Click_Commands
         }
     }
 
-    public class Command<T> : ICommand where T : class
+    public class Command<T> : ICommand// where T : class
     {
         //  Variables
         //  =========
@@ -48,16 +48,6 @@ namespace Right_Click_Commands
             }
         }
 
-        bool ICommand.CanExecute(object parameter)
-        {
-            return canExecute;
-        }
-
-        void ICommand.Execute(object parameter)
-        {
-            DoExecute(parameter);
-        }
-
         //  Constructors
         //  ============
 
@@ -75,6 +65,16 @@ namespace Right_Click_Commands
 
         //  Methods
         //  =======
+
+        bool ICommand.CanExecute(object parameter)
+        {
+            return canExecute;
+        }
+
+        void ICommand.Execute(object parameter)
+        {
+            DoExecute(parameter);
+        }
 
         public virtual void DoExecute(object param)
         {

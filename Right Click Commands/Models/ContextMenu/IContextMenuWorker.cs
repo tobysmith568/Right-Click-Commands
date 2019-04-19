@@ -11,6 +11,6 @@ namespace Right_Click_Commands.Models.ContextMenu
         ICollection<ScriptConfig> GetScriptConfigs();
         void SaveScriptConfigs(ICollection<ScriptConfig> configs);
         /// <exception cref="ScriptAccessException"></exception>
-        ScriptConfig New(string id);
+        ScriptConfig New(ScriptType scriptType, string id);
     }
 }

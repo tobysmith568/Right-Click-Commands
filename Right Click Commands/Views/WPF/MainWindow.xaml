@@ -3,6 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Right_Click_Commands"
+        xmlns:scripts="clr-namespace:Right_Click_Commands.Models.Scripts"
         xmlns:ViewModels="clr-namespace:Right_Click_Commands.ViewModels"
         xmlns:props="clr-namespace:Right_Click_Commands.Properties"
         xmlns:converters="clr-namespace:Right_Click_Commands.Converters"
@@ -55,7 +57,8 @@
             <Menu DockPanel.Dock="Top" Height="{Binding ActualHeight, ElementName=MenuDockPanel, Mode=OneWay}">
                 <MenuItem Header="_File" Height="{Binding ActualHeight, ElementName=MenuDockPanel, Mode=OneWay}">
                     <MenuItem Header="_New Script">
-                        <MenuItem Header="_Batch Script" InputGestureText="Ctrl+N" Command="{Binding CreateNewScript}" CommandParameter=".bat"/>
+                        <MenuItem Header="_Batch Script" InputGestureText="Ctrl+N" Command="{Binding CreateNewScript}" CommandParameter="{x:Static scripts:ScriptType.Batch}"/>
+                        <MenuItem Header="_Powershell Script" Command="{Binding CreateNewScript}" CommandParameter="{x:Static scripts:ScriptType.Powershell}"/>
                     </MenuItem>
                     <MenuItem Header="_Reset Parition" Click="ResetPartition_Click" />
                     <Separator/>

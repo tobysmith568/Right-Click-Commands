@@ -90,16 +90,27 @@ namespace Right_Click_Commands.Models.ContextMenu
         }
 
         /// <exception cref="ScriptAccessException"></exception>
-        public ScriptConfig New(string id)
+        public ScriptConfig New(ScriptType scriptType, string id)
         {
-            BatScriptConfig batScriptConfig = new BatScriptConfig(DateTime.UtcNow.Ticks.ToString(), id)
+            ScriptConfig result;
+
+            switch (scriptType)
             {
-                Label = NewScript,
-                OnBackground = true,
-                OnDirectory = true
-            };
-            batScriptConfig.LoadScript();
-            return batScriptConfig;
+                case ScriptType.Batch:
+                    result = new BatScriptConfig(DateTime.UtcNow.Ticks.ToString(), id);
+                    break;
+                case ScriptType.Powershell:
+                    result = new PowershellScriptConfig(DateTime.UtcNow.Ticks.ToString(), id);
+                    break;
+                default:
+                    throw new ArgumentException($"The scriptType of [{scriptType}] is not valid for the [RegistryWorker]");
+            }
+
+            result.Label = NewScript;
+            result.OnBackground = true;
+            result.OnDirectory = true;
+
+            return result;
         }
 
         /// <exception cref="ObjectDisposedException"/>

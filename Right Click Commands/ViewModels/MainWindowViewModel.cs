@@ -42,7 +42,7 @@ namespace Right_Click_Commands.ViewModels
 
         public Command WindowCloseCommand { get; }
 
-        public Command<string> CreateNewScript { get; }
+        public Command<ScriptType> CreateNewScript { get; }
 
         public Command MoveSelectedUp { get; }
 
@@ -69,7 +69,7 @@ namespace Right_Click_Commands.ViewModels
             ScriptConfigs = new ObservableCollection<ScriptConfig>(this.contextMenuWorker.GetScriptConfigs());
 
             WindowCloseCommand = new Command(DoWindowCloseCommand);
-            CreateNewScript = new Command<string>(DoCreateNewScript);
+            CreateNewScript = new Command<ScriptType>(DoCreateNewScript);
             MoveSelectedUp = new Command(DoMoveSelectedUp);
             MoveSelectedDown = new Command(DoMoveSelectedDown);
             DeleteSelected = new Command(DoDeleteSelected);
@@ -90,9 +90,9 @@ namespace Right_Click_Commands.ViewModels
             contextMenuWorker.SaveScriptConfigs(ScriptConfigs);
         }
 
-        private void DoCreateNewScript(string extension)
+        private void DoCreateNewScript(ScriptType scriptType)
         {
-            scriptConfigs.Add(contextMenuWorker.New(scriptConfigs.Count.ToString("D2")));
+            scriptConfigs.Add(contextMenuWorker.New(scriptType, scriptConfigs.Count.ToString("D2")));
 
             SelectedScriptConfigIndex = ScriptConfigs.Count - 1;
         }
