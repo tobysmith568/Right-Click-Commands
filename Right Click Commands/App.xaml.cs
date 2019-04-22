@@ -6,14 +6,9 @@ using Right_Click_Commands.ViewModels;
 using Right_Click_Commands.Views;
 using Right_Click_Commands.Views.WPF;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Unity;
-using Unity.Resolution;
 
 namespace Right_Click_Commands
 {

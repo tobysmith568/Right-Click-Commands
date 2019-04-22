@@ -15,14 +15,21 @@ namespace Right_Click_Commands.Models.ContextMenu
         private const string Icon = "Icon";
         private const string command = "command";
         private const string cmd = "\"cmd\"";
+        private const string powershell = "\"powershell\"";
         private const string keepCMDOpen = "/K";
         private const string closeCMD = "/C";
+        private const string noExit = "-NoExit";
+        private const string reg_AnyWordThenRun = "^\".+?\" run ";
+
+        //  Variables
+        //  =========
+
+        private static readonly Regex regex = new Regex(reg_AnyWordThenRun);
 
         //  Methods
         //  =======
 
-        /// <exception cref="ScriptAccessException"></exception>
-        /// <exception cref="InvalidDataException"></exception>
+        /// <exception cref="UnauthorizedAccessException"></exception>
         public static BatScriptConfig TryCastToBatScriptConfig(this RegistryKey registryKey, RegistryName registryName, MenuLocation location)
         {
             BatScriptConfig newConfig = null;
@@ -33,58 +40,130 @@ namespace Right_Click_Commands.Models.ContextMenu
                     Label = registryKey.GetValue(MUIVerb, string.Empty).ToString(),
                     Icon = registryKey.GetValue(Icon, string.Empty).ToString()// TODO
                 };
+
                 newConfig.LoadScript();
                 newConfig.ModifyLocation(location, true);
+            }
+            catch (System.Security.SecurityException)
+            {
+                return null;
+            }
+            catch (ObjectDisposedException)
+            {
+                return null;
+            }
+            catch (IOException)
+            {
+                return null;
+            }
+            catch (ScriptAccessException)
+            {
+                return null;
+            }
 
-                using (RegistryKey commandKey = registryKey.OpenSubKey(command))
+            string commandValue = GetCommandValue(registryKey);
+
+            if (commandValue.Length <= 8 || commandValue.Substring(0, 5) != cmd)
+            {
+                return null;
+            }
+
+            if (commandValue.Substring(7, 2) == keepCMDOpen)
+            {
+                newConfig.KeepWindowOpen = true;
+            }
+            else if (commandValue.Substring(7, 2) == closeCMD)
+            {
+                newConfig.KeepWindowOpen = false;
+            }
+            else
+            {
+                return null;
+            }
+
+            return newConfig;
+        }
+
+        /// <exception cref="UnauthorizedAccessException"></exception>
+        public static PowershellScriptConfig TryCastToPowershellScriptConfig(this RegistryKey registryKey, RegistryName registryName, MenuLocation location)
+        {
+            PowershellScriptConfig newConfig = null;
+            try
+            {
+                newConfig = new PowershellScriptConfig(registryName.Name, registryName.ID)
+                {
+                    Label = registryKey.GetValue(MUIVerb, string.Empty).ToString(),
+                    Icon = registryKey.GetValue(Icon, string.Empty).ToString()// TODO
+                };
+
+                newConfig.LoadScript();
+                newConfig.ModifyLocation(location, true);
+            }
+            catch (System.Security.SecurityException)
+            {
+                return null;
+            }
+            catch (ObjectDisposedException)
+            {
+                return null;
+            }
+            catch (IOException)
+            {
+                return null;
+            }
+            catch (ScriptAccessException)
+            {
+                return null;
+            }
+
+            string commandValue = GetCommandValue(registryKey);
+
+            if (commandValue.Length <= 12 || commandValue.Substring(0, 12) != powershell)
+            {
+                return null;
+            }
+
+            newConfig.KeepWindowOpen = commandValue.Contains(noExit);
+
+            return newConfig;
+        }
+
+        private static string GetCommandValue(RegistryKey key)
+        {
+            key = key ?? throw new ArgumentNullException(nameof(key));
+
+            string commandValue;
+            try
+            {
+                using (RegistryKey commandKey = key.OpenSubKey(command))
                 {
                     if (commandKey == null)
                     {
-                        ThrowFoundCorruptKey(newConfig.Label);
+                        return string.Empty;
                     }
 
-                    string command = commandKey.GetValue(string.Empty, string.Empty).ToString();
-
-                    Regex regex = new Regex("^\".+?\" run ");
-
-                    if (!regex.IsMatch(command))
-                    {
-                        ThrowFoundCorruptKey(newConfig.Label);
-                    }
-
-                    command = regex.Replace(command, string.Empty);
-
-                    if (command.Length <= 8 || command.Substring(0, 5) != cmd)
-                    {
-                        ThrowFoundCorruptKey(newConfig.Label);
-                    }
-
-                    if (command.Substring(7, 2) == keepCMDOpen)
-                    {
-                        newConfig.KeepWindowOpen = true;
-                    }
-                    else if (command.Substring(7, 2) == closeCMD)
-                    {
-                        newConfig.KeepWindowOpen = false;
-                    }
-                    else
-                    {
-                        ThrowFoundCorruptKey(newConfig.Label);
-                    }
+                    commandValue = commandKey.GetValue(string.Empty, string.Empty).ToString();
                 }
 
-                return newConfig;
+                if (!regex.IsMatch(commandValue))
+                {
+                    return null;
+                }
+
+                commandValue = regex.Replace(commandValue, string.Empty);
             }
-            catch (Exception e) when (!(e is InvalidDataException))
+            catch (Exception)
             {
-                throw new InvalidDataException($"The right-click command [{newConfig.Label}] appears to be corrupt. Please delete and re-create it", e);
+                return string.Empty;
             }
+
+            return commandValue;
         }
 
-        /// <exception cref="InvalidDataException"/>
-        private static void ThrowFoundCorruptKey(string label, Exception inner = null)
+        /// <exception cref="UnauthorizedAccessException"></exception>
+        private static void ThrowNoRegistryAccess(Exception e = null)
         {
-            throw new InvalidDataException($"The right-click command [{label}] appears to be corrupt. Please delete and re-create it", inner);
+            throw new UnauthorizedAccessException("Unable to access your right-click menu. Please close and re-open the program", e);
         }
     }
 }

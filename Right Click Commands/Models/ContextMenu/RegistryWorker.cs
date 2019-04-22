@@ -6,8 +6,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Right_Click_Commands.Models.ContextMenu
 {
@@ -152,7 +150,7 @@ namespace Right_Click_Commands.Models.ContextMenu
                     {
                         messagePrompt.PromptOK(e.Message, "Invalid Data", MessageType.Error);
                     }
-                    catch (Exception e)// TODO
+                    catch (Exception)// TODO
                     {
 
                     }
@@ -173,7 +171,12 @@ namespace Right_Click_Commands.Models.ContextMenu
 
             if (newConfig == null)
             {
-                throw new NotImplementedException();
+                newConfig = registryKey.TryCastToPowershellScriptConfig(registryName, location);
+            }
+
+            if (newConfig == null)
+            {
+                throw new InvalidDataException($"The right-click command [{registryName.Name}] appears to be corrupt. Please delete and re-create it");
             }
 
             return newConfig;
