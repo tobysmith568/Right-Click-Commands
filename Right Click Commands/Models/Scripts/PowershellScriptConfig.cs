@@ -16,7 +16,7 @@ namespace Right_Click_Commands.Models.Scripts
 
         public override string ExePath => "powershell";
 
-        public override string ScriptArgs => $"\"{ExePath}\" -file \"{ScriptLocation}\"";
+        public override string ScriptArgs => $"\"{ExePath}\" \"-NoExit -ExecutionPolicy Bypass -file |{ScriptLocation}|\"";
 
         //  Constructors
         //  ============
