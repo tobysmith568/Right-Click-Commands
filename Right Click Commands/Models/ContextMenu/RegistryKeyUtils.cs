@@ -8,6 +8,8 @@ namespace Right_Click_Commands.Models.ContextMenu
 {
     public static class RegistryKeyUtils
     {
+        //  Constants
+        //  =========
 
         private const string MUIVerb = "MUIVerb";
         private const string Icon = "Icon";
@@ -15,6 +17,9 @@ namespace Right_Click_Commands.Models.ContextMenu
         private const string cmd = "\"cmd\"";
         private const string keepCMDOpen = "/K";
         private const string closeCMD = "/C";
+
+        //  Methods
+        //  =======
 
         /// <exception cref="ScriptAccessException"></exception>
         /// <exception cref="InvalidDataException"></exception>

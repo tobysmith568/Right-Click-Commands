@@ -5,6 +5,9 @@ namespace Right_Click_Commands.Models.Scripts
 {
     public static class ScriptConfigUtils
     {
+        //  Methods
+        //  =======
+
         public static ObservableCollection<IScriptConfig> MoveUpOne(this ObservableCollection<IScriptConfig> collection, int indexToMove)
         {
             if (indexToMove < 1)

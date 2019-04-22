@@ -30,6 +30,9 @@ namespace Right_Click_Commands
         private IMessagePrompt messagePrompt;
         private IRunner runner;
 
+        //  Events
+        //  ======
+
         /// <exception cref="InvalidOperationException">Ignore.</exception>
         /// <exception cref="System.Security.SecurityException">Ignore.</exception>
         protected async override void OnStartup(StartupEventArgs e)
@@ -55,6 +58,9 @@ namespace Right_Click_Commands
             messagePrompt.PromptOK("Unknown command arguments", "Error", MessageType.Error);
             Environment.Exit(0);
         }
+
+        //  Methods
+        //  =======
 
         private void SetUpImplementations()
         {

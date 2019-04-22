@@ -9,6 +9,9 @@ namespace Right_Click_Commands.Models.MessagePrompts
 {
     public class WinDialogBox : IMessagePrompt
     {
+        //  Methods
+        //  =======
+
         public void PromptOK(string message, string title = "", MessageType messageType = MessageType.None)
         {
             MessageBox.Show(message, title, MessageBoxButton.OK, ConvertImage(messageType), MessageBoxResult.OK);
