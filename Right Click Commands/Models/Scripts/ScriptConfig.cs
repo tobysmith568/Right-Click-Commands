@@ -22,6 +22,10 @@ namespace Right_Click_Commands.Models.Scripts
 
         public abstract string ScriptType { get; }
 
+        public abstract string ExePath { get; }
+
+        public abstract string ScriptArgs { get; }
+
         public string ID { get; set; }
 
         public string Name { get; }

@@ -6,6 +6,9 @@
         //  ==========
 
         string ScriptType { get; }
+        string ExePath { get; }
+        string ScriptArgs { get; }
+
         string ID { get; set; }
         string Name { get; }
         string ScriptLocation { get; }

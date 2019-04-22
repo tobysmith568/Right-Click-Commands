@@ -8,9 +8,9 @@ namespace Right_Click_Commands.Models.ContextMenu
         //  Methods
         //  =======
 
-        ICollection<ScriptConfig> GetScriptConfigs();
-        void SaveScriptConfigs(ICollection<ScriptConfig> configs);
+        ICollection<IScriptConfig> GetScriptConfigs();
+        void SaveScriptConfigs(ICollection<IScriptConfig> configs);
         /// <exception cref="ScriptAccessException"></exception>
-        ScriptConfig New(ScriptType scriptType, string id);
+        IScriptConfig New(ScriptType scriptType, string id);
     }
 }

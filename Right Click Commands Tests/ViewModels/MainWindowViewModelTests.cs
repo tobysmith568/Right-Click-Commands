@@ -20,7 +20,7 @@ namespace Right_Click_Commands.ViewModels.Tests
         Mock<ScriptConfig> mockScriptTwo;
         Mock<ScriptConfig> mockScriptThree;
 
-        ObservableCollection<ScriptConfig> configs;
+        ObservableCollection<IScriptConfig> configs;
 
         [SetUp]
         public void SetUp()
@@ -33,7 +33,7 @@ namespace Right_Click_Commands.ViewModels.Tests
             mockScriptTwo = new Mock<ScriptConfig>();
             mockScriptThree = new Mock<ScriptConfig>();
 
-            configs = new ObservableCollection<ScriptConfig>
+            configs = new ObservableCollection<IScriptConfig>
             {
                 mockScriptOne.Object,
                 mockScriptTwo.Object,
@@ -123,7 +123,7 @@ namespace Right_Click_Commands.ViewModels.Tests
         [TestCase(2)]
         public void Test_MoveSelectedUp_MovesScriptsWithAValidIndex(int index)
         {
-            ScriptConfig configAtIndex = subject.ScriptConfigs[index];
+            IScriptConfig configAtIndex = subject.ScriptConfigs[index];
 
             subject.SelectedScriptConfigIndex = index;
             subject.MoveSelectedUp.DoExecute(null);
@@ -211,7 +211,7 @@ namespace Right_Click_Commands.ViewModels.Tests
         [TestCase(1)]
         public void Test_MoveSelectedDown_MovesScriptsWithAValidIndex(int index)
         {
-            ScriptConfig configAtIndex = subject.ScriptConfigs[index];
+            IScriptConfig configAtIndex = subject.ScriptConfigs[index];
 
             subject.SelectedScriptConfigIndex = index;
             subject.MoveSelectedDown.DoExecute(null);

@@ -8,11 +8,17 @@ namespace Right_Click_Commands.Models.Scripts
         //  =========
 
         private const string dotBat = ".bat";
+        private const string keepCMDOpen = "/K";
+        private const string closeCMD = "/C";
 
         //  Properties
         //  ==========
 
         public override string ScriptType => "Batch Script";
+
+        public override string ExePath => "cmd";
+
+        public override string ScriptArgs => $"\"{ExePath}\" \"{(KeepWindowOpen ? keepCMDOpen : closeCMD)} TITLE {Label}&|{ScriptLocation}|\"";
 
         //  Constructors
         //  ============

@@ -1,4 +1,5 @@
 using Microsoft.Win32;
+using Right_Click_Commands.Models.MessagePrompts;
 using Right_Click_Commands.Models.Scripts;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Right_Click_Commands.Models.ContextMenu
@@ -21,10 +21,7 @@ namespace Right_Click_Commands.Models.ContextMenu
         private const string RCC = "RCC";
         private const string RCC_ = "RCC_";
         private const string cmd = "cmd";
-        private const string KeepCMDOpen = "/K";
         private const string command = "command";
-        private const string keepCMDOpen = "/K";
-        private const string closeCMD = "/C";
         private const string NewScript = "New Script";
 
         //  Variables
@@ -38,18 +35,28 @@ namespace Right_Click_Commands.Models.ContextMenu
             { MenuLocation.Directory, @"Software\Classes\Directory\shell" }
         };
 
+        private readonly IMessagePrompt messagePrompt;
+
+        //  Constructors
+        //  ============
+
+        public RegistryWorker(IMessagePrompt messagePrompt)
+        {
+            this.messagePrompt = messagePrompt;
+        }
+
         //  Methods
         //  =======
 
-        public ICollection<ScriptConfig> GetScriptConfigs()
+        public ICollection<IScriptConfig> GetScriptConfigs()
         {
-            List<ScriptConfig> results = new List<ScriptConfig>();
+            List<IScriptConfig> results = new List<IScriptConfig>();
 
             foreach (KeyValuePair<MenuLocation, string> location in classesRootOptions)
             {
                 try
                 {
-                    ReadParentKey(location, ref results);
+                    ReadClassRoot(location, ref results);
                 }
                 catch // TODO
                 {
@@ -60,7 +67,7 @@ namespace Right_Click_Commands.Models.ContextMenu
             return results;
         }
 
-        public void SaveScriptConfigs(ICollection<ScriptConfig> configs)
+        public void SaveScriptConfigs(ICollection<IScriptConfig> configs)
         {
             foreach (KeyValuePair<MenuLocation, string> location in classesRootOptions)
             {
@@ -72,7 +79,7 @@ namespace Right_Click_Commands.Models.ContextMenu
                 {
                 }
 
-                foreach (ScriptConfig scriptConfig in configs)
+                foreach (IScriptConfig scriptConfig in configs)
                 {
                     try
                     {
@@ -80,7 +87,6 @@ namespace Right_Click_Commands.Models.ContextMenu
                         {
                             CreateScriptConfig(location.Value, scriptConfig);
                         }
-
                     }
                     catch // TODO
                     {
@@ -90,9 +96,9 @@ namespace Right_Click_Commands.Models.ContextMenu
         }
 
         /// <exception cref="ScriptAccessException"></exception>
-        public ScriptConfig New(ScriptType scriptType, string id)
+        public IScriptConfig New(ScriptType scriptType, string id)
         {
-            ScriptConfig result;
+            IScriptConfig result;
 
             switch (scriptType)
             {
@@ -113,15 +119,15 @@ namespace Right_Click_Commands.Models.ContextMenu
             return result;
         }
 
-        /// <exception cref="ObjectDisposedException"/>
-        /// <exception cref="System.Security.SecurityException"/>
-        /// <exception cref="UnauthorizedAccessException"/>
-        /// <exception cref="System.IO.IOException"/>
-        private void ReadParentKey(KeyValuePair<MenuLocation, string> location, ref List<ScriptConfig> results)
+        /// <exception cref="ObjectDisposedException"></exception>
+        /// <exception cref="System.Security.SecurityException"></exception>
+        /// <exception cref="UnauthorizedAccessException"></exception>
+        /// <exception cref="IOException"></exception>
+        private void ReadClassRoot(KeyValuePair<MenuLocation, string> location, ref List<IScriptConfig> results)
         {
-            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(location.Value, true))
+            using (RegistryKey classRoot = Registry.CurrentUser.OpenSubKey(location.Value, true))
             {
-                foreach (string subkey in key.GetSubKeyNames())
+                foreach (string subkey in classRoot.GetSubKeyNames())
                 {
                     try
                     {
@@ -130,8 +136,8 @@ namespace Right_Click_Commands.Models.ContextMenu
                             continue;
                         }
 
-                        ScriptConfig newConfig = MapScriptConfig(key.OpenSubKey(subkey), location.Key);
-                        ScriptConfig original = results.FirstOrDefault(r => r.Name == newConfig.Name);
+                        IScriptConfig newConfig = MapScriptConfig(classRoot.OpenSubKey(subkey), location.Key);
+                        IScriptConfig original = results.FirstOrDefault(r => r.Name == newConfig.Name);
 
                         if (original == null)
                         {
@@ -142,81 +148,35 @@ namespace Right_Click_Commands.Models.ContextMenu
                             original.ModifyLocation(location.Key, true);
                         }
                     }
-                    catch // TODO
+                    catch (InvalidDataException e)
                     {
-                        //Unable to read a child classesRoot key's values
+                        messagePrompt.PromptOK(e.Message, "Invalid Data", MessageType.Error);
+                    }
+                    catch (Exception e)// TODO
+                    {
+
                     }
                 }
             }
         }
 
-        /// <exception cref="UnauthorizedAccessException"/>
-        private BatScriptConfig MapScriptConfig(RegistryKey registryKey, MenuLocation location)
+        /// <exception cref="ScriptAccessException"></exception>
+        /// <exception cref="InvalidDataException"></exception>
+        private IScriptConfig MapScriptConfig(RegistryKey registryKey, MenuLocation location)
         {
-            try
+            if (!IsValidRegistryKeyName(registryKey.Name, out RegistryName registryName))
             {
-                if (!IsValidRegistryKeyName(registryKey.Name, out string[] fullAddressParts))
-                {
-                    throw new ArgumentException($"The given registry keys name [{registryKey.Name}] must be [RRC_XX_YYY] where [XX] is a number and [YYY] is of any length greater than 0");
-                }
-
-                BatScriptConfig newConfig = new BatScriptConfig(fullAddressParts[2], fullAddressParts[1])
-                {
-                    Label = registryKey.GetValue(MUIVerb, string.Empty).ToString(),
-                    Icon = registryKey.GetValue(Icon, string.Empty).ToString()// TODO
-                };
-                newConfig.LoadScript();
-                newConfig.ModifyLocation(location, true);
-
-                using (RegistryKey commandKey = registryKey.OpenSubKey(command))
-                {
-                    if (commandKey == null)
-                    {
-                        ThrowFoundCorruptKey(newConfig.Label);
-                    }
-
-                    string command = commandKey.GetValue(string.Empty, string.Empty).ToString();
-
-                    Regex regex = new Regex("^\".+?\" run ");
-
-                    if (!regex.IsMatch(command))
-                    {
-                        ThrowFoundCorruptKey(newConfig.Label);
-                    }
-
-                    command = regex.Replace(command, string.Empty);
-
-                    if (command.Length <= 6 || command.Substring(0, 3) != cmd)
-                    {
-                        ThrowFoundCorruptKey(newConfig.Label);
-                    }
-
-                    if (command.Substring(5, 2) == keepCMDOpen)
-                    {
-                        newConfig.KeepWindowOpen = true;
-                    }
-                    else if (command.Substring(5, 2) == closeCMD)
-                    {
-                        newConfig.KeepWindowOpen = false;
-                    }
-                    else
-                    {
-                        ThrowFoundCorruptKey(newConfig.Label);
-                    }
-                }
-
-                return newConfig;
+                throw new ArgumentException($"The given registry keys name [{registryKey.Name}] must be [RRC_XX_YYY] where [XX] is a number and [YYY] is of any length greater than 0");
             }
-            catch (Exception e)
+
+            IScriptConfig newConfig = registryKey.TryCastToBatScriptConfig(registryName, location);
+
+            if (newConfig == null)
             {
-                throw new UnauthorizedAccessException("Cannot access registry key value", e);
+                throw new NotImplementedException();
             }
-        }
 
-        /// <exception cref="InvalidDataException"/>
-        private void ThrowFoundCorruptKey(string label)
-        {
-            throw new InvalidDataException($"The right-click command [{label}] appears to be corrupt. Please delete and re-create it");
+            return newConfig;
         }
 
         /// <exception cref="ObjectDisposedException"/>
@@ -248,7 +208,7 @@ namespace Right_Click_Commands.Models.ContextMenu
         /// <exception cref="System.Security.SecurityException"/>
         /// <exception cref="UnauthorizedAccessException"/>
         /// <exception cref="IOException"/>
-        private void CreateScriptConfig(string location, ScriptConfig scriptConfig)
+        private void CreateScriptConfig(string location, IScriptConfig scriptConfig)
         {
             using (RegistryKey key = Registry.CurrentUser.OpenSubKey(location, true))
             {
@@ -259,16 +219,15 @@ namespace Right_Click_Commands.Models.ContextMenu
 
                     using (RegistryKey commandKey = childKey.CreateSubKey(command))
                     {
-                        string args = $"cmd \"{(scriptConfig.KeepWindowOpen ? keepCMDOpen : closeCMD)} TITLE {scriptConfig.Label}&|{scriptConfig.ScriptLocation}|\"";
-                        commandKey.SetValue(string.Empty, $"\"{RCCLocation}\" run {args}");
+                        commandKey.SetValue(string.Empty, $"\"{RCCLocation}\" run {scriptConfig.ScriptArgs}");
                     }
                 }
             }
         }
 
-        private bool IsValidRegistryKeyName(string value, out string[] nameParts)
+        private bool IsValidRegistryKeyName(string value, out RegistryName registryName)
         {
-            nameParts = new string[0];
+            registryName = new RegistryName();
 
             if (value == null)
             {
@@ -297,7 +256,7 @@ namespace Right_Click_Commands.Models.ContextMenu
                 return false;
             }
 
-            nameParts = fullAddressParts;
+            registryName = new RegistryName(fullAddressParts[1], fullAddressParts[2]);
             return true;
         }
     }

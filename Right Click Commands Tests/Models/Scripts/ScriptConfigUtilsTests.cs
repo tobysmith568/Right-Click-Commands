@@ -13,7 +13,7 @@ namespace Right_Click_Commands.Models.Scripts.Tests
     [TestFixture]
     public class ScriptConfigUtilsTests
     {
-        ObservableCollection<ScriptConfig> subject;
+        ObservableCollection<IScriptConfig> subject;
 
         Mock<ScriptConfig> first;
         Mock<ScriptConfig> second;
@@ -26,7 +26,7 @@ namespace Right_Click_Commands.Models.Scripts.Tests
             second = new Mock<ScriptConfig>();
             third = new Mock<ScriptConfig>();
 
-            subject = new ObservableCollection<ScriptConfig>
+            subject = new ObservableCollection<IScriptConfig>
             {
                 first.Object,
                 second.Object,

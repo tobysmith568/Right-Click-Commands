@@ -15,14 +15,14 @@ namespace Right_Click_Commands.ViewModels
         private readonly ISettings settings;
         private readonly IMessagePrompt messagePrompt;
 
-        private ObservableCollection<ScriptConfig> scriptConfigs;
+        private ObservableCollection<IScriptConfig> scriptConfigs;
         private IScriptConfig selectedScriptConfig;
         private int selectedScriptConfigIndex;
 
         //  Properties
         //  ==========
 
-        public ObservableCollection<ScriptConfig> ScriptConfigs
+        public ObservableCollection<IScriptConfig> ScriptConfigs
         {
             get => scriptConfigs;
             set => PropertyChanging(value, ref scriptConfigs, nameof(ScriptConfigs));
@@ -66,7 +66,7 @@ namespace Right_Click_Commands.ViewModels
 
             selectedScriptConfigIndex = -1;
 
-            ScriptConfigs = new ObservableCollection<ScriptConfig>(this.contextMenuWorker.GetScriptConfigs());
+            ScriptConfigs = new ObservableCollection<IScriptConfig>(this.contextMenuWorker.GetScriptConfigs());
 
             WindowCloseCommand = new Command(DoWindowCloseCommand);
             CreateNewScript = new Command<ScriptType>(DoCreateNewScript);

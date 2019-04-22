@@ -7,12 +7,16 @@ namespace Right_Click_Commands.Models.Scripts
         //  Constants
         //  =========
 
-        private const string dotPS = ".ps";
+        private const string dotPS = ".ps1";
 
         //  Properties
         //  ==========
 
         public override string ScriptType => "Powershell Script";
+
+        public override string ExePath => "powershell";
+
+        public override string ScriptArgs => $"\"{ExePath}\" -file \"{ScriptLocation}\"";
 
         //  Constructors
         //  ============

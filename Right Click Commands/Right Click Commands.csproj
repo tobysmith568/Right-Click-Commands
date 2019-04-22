@@ -72,6 +72,8 @@
     <Compile Include="Converters\DoubleToPixelGridWidthConverter.cs" />
     <Compile Include="Converters\IntegerToWindowStateConverter.cs" />
     <Compile Include="Converters\NullableToVisibility.cs" />
+    <Compile Include="Models\ContextMenu\RegistryKeyUtils.cs" />
+    <Compile Include="Models\ContextMenu\RegistryName.cs" />
     <Compile Include="Models\Logger\WindowsLogger.cs" />
     <Compile Include="Models\MenuLocation.cs" />
     <Compile Include="Models\ContextMenu\IContextMenuWorker.cs" />
