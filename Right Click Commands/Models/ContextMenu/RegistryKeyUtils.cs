@@ -10,15 +10,10 @@ namespace Right_Click_Commands.Models.ContextMenu
     {
         //  Constants
         //  =========
-
-        private const string MUIVerb = "MUIVerb";
-        private const string Icon = "Icon";
+        
         private const string command = "command";
         private const string cmd = "\"cmd\"";
         private const string powershell = "\"powershell\"";
-        private const string keepCMDOpen = "/K";
-        private const string closeCMD = "/C";
-        private const string noExit = "-NoExit";
         private const string reg_AnyWordThenRun = "^\".+?\" run ";
 
         //  Variables
@@ -37,8 +32,8 @@ namespace Right_Click_Commands.Models.ContextMenu
             {
                 newConfig = new BatScriptConfig(registryName.Name, registryName.ID)
                 {
-                    Label = registryKey.GetValue(MUIVerb, string.Empty).ToString(),
-                    Icon = registryKey.GetValue(Icon, string.Empty).ToString()// TODO
+                    Label = registryKey.GetValue(RegistryWorker.MUIVerb, string.Empty).ToString(),
+                    Icon = registryKey.GetValue(RegistryWorker.Icon, string.Empty).ToString()// TODO
                 };
 
                 newConfig.LoadScript();
@@ -68,11 +63,11 @@ namespace Right_Click_Commands.Models.ContextMenu
                 return null;
             }
 
-            if (commandValue.Substring(7, 2) == keepCMDOpen)
+            if (commandValue.Substring(7, 2) == BatScriptConfig.keepCMDOpen)
             {
                 newConfig.KeepWindowOpen = true;
             }
-            else if (commandValue.Substring(7, 2) == closeCMD)
+            else if (commandValue.Substring(7, 2) == BatScriptConfig.closeCMD)
             {
                 newConfig.KeepWindowOpen = false;
             }
@@ -92,8 +87,8 @@ namespace Right_Click_Commands.Models.ContextMenu
             {
                 newConfig = new PowershellScriptConfig(registryName.Name, registryName.ID)
                 {
-                    Label = registryKey.GetValue(MUIVerb, string.Empty).ToString(),
-                    Icon = registryKey.GetValue(Icon, string.Empty).ToString()// TODO
+                    Label = registryKey.GetValue(RegistryWorker.MUIVerb, string.Empty).ToString(),
+                    Icon = registryKey.GetValue(RegistryWorker.Icon, string.Empty).ToString()// TODO
                 };
 
                 newConfig.LoadScript();
@@ -123,7 +118,7 @@ namespace Right_Click_Commands.Models.ContextMenu
                 return null;
             }
 
-            newConfig.KeepWindowOpen = commandValue.Contains(noExit);
+            newConfig.KeepWindowOpen = commandValue.Contains(PowershellScriptConfig.noExit);
 
             return newConfig;
         }

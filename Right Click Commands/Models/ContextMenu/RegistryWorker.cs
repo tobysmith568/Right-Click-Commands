@@ -14,11 +14,10 @@ namespace Right_Click_Commands.Models.ContextMenu
         //  Constants
         //  =========
 
-        private const string MUIVerb = "MUIVerb";
-        private const string Icon = "Icon";
+        public const string MUIVerb = "MUIVerb";
+        public const string Icon = "Icon";
         private const string RCC = "RCC";
         private const string RCC_ = "RCC_";
-        private const string cmd = "cmd";
         private const string command = "command";
         private const string NewScript = "New Script";
 
