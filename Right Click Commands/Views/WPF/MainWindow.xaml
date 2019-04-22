@@ -30,6 +30,7 @@
         </ContextMenu>
     </Window.Resources>
     <Window.InputBindings>
+        <!-- Input Key Bindings -->
         <KeyBinding Key="N" Modifiers="Control" Command="{Binding CreateNewScript}"/>
         <KeyBinding Key="F1" Command="{Binding ElementName=Window, Path=ShowAbout}"/>
         <KeyBinding Key="Delete" Command="{Binding Path=DeleteSelected}"/>

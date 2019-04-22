@@ -21,7 +21,7 @@ namespace Right_Click_Commands
         }
     }
 
-    public class Command<T> : ICommand// where T : class
+    public class Command<T> : ICommand
     {
         //  Variables
         //  =========
@@ -78,7 +78,7 @@ namespace Right_Click_Commands
 
         public virtual void DoExecute(object param)
         {
-            InvokeAction((T)param);
+            InvokeAction(param == null ? default(T) : ((T)param));
         }
 
         protected void InvokeAction(T param)
@@ -86,9 +86,13 @@ namespace Right_Click_Commands
             Action theAction = action;
             Action<T> theParameterizedAction = parameterizedAction;
             if (theAction != null)
+            {
                 theAction();
+            }
             else
+            {
                 theParameterizedAction?.Invoke(param);
+            }
         }
     }
 }
