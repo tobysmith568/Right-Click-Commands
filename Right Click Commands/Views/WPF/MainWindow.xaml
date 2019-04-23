@@ -12,6 +12,7 @@
         mc:Ignorable="d"
         x:Name="Window"
         Title="MainWindow" Closing="Window_Closing"
+        Icon="/Right Click Commands;component/Images/Icon_130_Filled.ico"
         WindowState="{Binding Source={x:Static props:Settings.Default}, Path=WindowState, Mode=TwoWay, Converter={converters:IntegerToWindowStateConverter}}"
         Height="{Binding Source={x:Static props:Settings.Default}, Path=Height, Mode=TwoWay}" 
         Width="{Binding Source={x:Static props:Settings.Default}, Path=Width, Mode=TwoWay}"

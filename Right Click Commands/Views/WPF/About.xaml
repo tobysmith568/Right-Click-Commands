@@ -5,10 +5,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="About Right-Click Commands" Height="353" Width="649" MinHeight="353" MinWidth="649" FontSize="14" Topmost="True" WindowStyle="SingleBorderWindow"
-        DataContext="{Binding Mode=OneWay, RelativeSource={RelativeSource Self}}">
+        DataContext="{Binding Mode=OneWay, RelativeSource={RelativeSource Self}}" Icon="/Right Click Commands;component/Images/Icon_32_Filled.png">
     <Grid Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}">
         <Label Content="About Right-Click Commands" FontSize="38" FontWeight="Bold" VerticalContentAlignment="Bottom" IsHitTestVisible="False" Height="62" VerticalAlignment="Top"/>
-        <Image HorizontalAlignment="Right" Height="130" Margin="0,62,10,0" VerticalAlignment="Top" Width="130" Stretch="UniformToFill"/>
+        <Image HorizontalAlignment="Right" Height="130" Margin="0,62,10,0" VerticalAlignment="Top" Width="130" Stretch="UniformToFill" Source="/Right Click Commands;component/Images/Icon_130_Filled.png"/>
         <TextBlock Margin="10,91,145,0" VerticalAlignment="Top" >
             <Run Text="Developed by Toby Smith -"/>
             <Hyperlink NavigateUri="https://tobysmith.uk" RequestNavigate="Hyperlink_RequestNavigate">
@@ -23,10 +23,10 @@
             </Hyperlink>
             <Run Text="."/>
         </TextBlock>
-        <TextBlock Margin="10,139,145,0" VerticalAlignment="Top">
+        <TextBlock Margin="10,139,300,0" VerticalAlignment="Top">
             <Run Text="This software uses the following software libraries:"/>
         </TextBlock>
-        <ScrollViewer Margin="60,163,300,88">
+        <ScrollViewer Margin="60,163,0,88" VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" Width="281">
             <ItemsControl ItemsSource="{Binding Projects}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
