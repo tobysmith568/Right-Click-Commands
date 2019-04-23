@@ -4,7 +4,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="About Right-Click Commands" Height="353.333" Width="649" FontSize="14" Topmost="True" ResizeMode="NoResize" WindowStyle="SingleBorderWindow">
+        Title="About Right-Click Commands" Height="353" Width="649" MinHeight="353" MinWidth="649" FontSize="14" Topmost="True" WindowStyle="SingleBorderWindow"
+        DataContext="{Binding Mode=OneWay, RelativeSource={RelativeSource Self}}">
     <Grid Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}">
         <Label Content="About Right-Click Commands" FontSize="38" FontWeight="Bold" VerticalContentAlignment="Bottom" IsHitTestVisible="False" Height="62" VerticalAlignment="Top"/>
         <Image HorizontalAlignment="Right" Height="130" Margin="0,62,10,0" VerticalAlignment="Top" Width="130" Stretch="UniformToFill"/>
@@ -22,28 +23,34 @@
             </Hyperlink>
             <Run Text="."/>
         </TextBlock>
-        <TextBlock Margin="10,139,10,0" VerticalAlignment="Top">
+        <TextBlock Margin="10,139,145,0" VerticalAlignment="Top">
             <Run Text="This software uses the following software libraries:"/>
         </TextBlock>
-        <ScrollViewer HorizontalAlignment="Left" Height="76" Margin="10,158,0,0" VerticalAlignment="Top" Width="488">
-            <TextBlock Margin="0">
-                <Run Text="        "/>
-                <Hyperlink NavigateUri="" RequestNavigate="Hyperlink_RequestNavigate">
-                    <Run Text=""/>
-                </Hyperlink>
-                <Run Text=""/>
-                <LineBreak/>
-            </TextBlock>
+        <ScrollViewer Margin="60,163,300,88">
+            <ItemsControl ItemsSource="{Binding Projects}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Height="20">
+                            <Hyperlink NavigateUri="{Binding URL}" RequestNavigate="Hyperlink_RequestNavigate">
+                                <Run Text="{Binding Name}"/>
+                            </Hyperlink>
+                            <Run Text="-"/>
+                            <Run Text="{Binding Licence}"/>
+                            <LineBreak/>
+                        </TextBlock>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </ScrollViewer>
-        <TextBlock x:Name="tbVersion" Margin="10,67,145,0" VerticalAlignment="Top" Text="" />
-        <TextBlock Margin="10,239,10,0" TextWrapping="Wrap" VerticalAlignment="Top">
+        <TextBlock x:Name="tbVersion" Margin="10,67,145,0" VerticalAlignment="Top" Text="[Version placeholder]" />
+        <TextBlock Margin="10,0,10,64" TextWrapping="Wrap" VerticalAlignment="Bottom">
             <Run Text="Icons used with permission from"/>
             <Hyperlink NavigateUri="https://icons8.com/" RequestNavigate="Hyperlink_RequestNavigate">
                 <Run Text="Icons8"/>
             </Hyperlink>
             <Run Text="- Creative Commons Attribution-NoDerivs 3.0 Unported."/>
         </TextBlock>
-        <TextBlock Margin="10,263,10,0" VerticalAlignment="Top">
+        <TextBlock Margin="10,0,10,40" VerticalAlignment="Bottom">
             <Run Text="This software is protected by the"/>
             <Hyperlink NavigateUri="https://www.gnu.org/licenses/gpl-3.0.en.html" RequestNavigate="Hyperlink_RequestNavigate">
                 <Run Text="GNU GPLv3 copyleft license"/>

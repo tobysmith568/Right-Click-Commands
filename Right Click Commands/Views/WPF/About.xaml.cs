@@ -11,6 +11,43 @@ namespace Right_Click_Commands.Views.WPF
     /// </summary>
     public partial class About : Window
     {
+        public Library[] Projects
+        {
+            get => new Library[]
+            {
+                new Library
+                {
+                    Name = "Castle Core",
+                    URL = "http://www.castleproject.org",
+                    Licence = "Apache License 2.0"
+                },
+                new Library
+                {
+                    Name = "log4net",
+                    URL = "http://logging.apache.org/log4net/",
+                    Licence = "Apache License 2.0"
+                },
+                new Library
+                {
+                    Name = "Moq",
+                    URL = "https://github.com/moq/moq4",
+                    Licence = "BSD 3-Clause License"
+                },
+                new Library
+                {
+                    Name = "NUnit",
+                    URL = "http://nunit.org",
+                    Licence = "MIT License"
+                },
+                new Library
+                {
+                    Name = "Unity",
+                    URL = "https://github.com/unitycontainer/unity",
+                    Licence = "Apache License 2.0"
+                }
+            };
+        }
+
         //  Constructors
         //  ============
 
@@ -42,5 +79,15 @@ namespace Right_Click_Commands.Views.WPF
         {
             Close();
         }
+    }
+
+    public struct Library
+    {
+        //  Properties
+        //  ==========
+
+        public string Name { get; set; }
+        public string URL { get; set; }
+        public string Licence { get; set; }
     }
 }
