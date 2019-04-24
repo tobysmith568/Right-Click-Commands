@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Right Click Commands", "Rig
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Right Click Commands Tests", "Right Click Commands Tests\Right Click Commands Tests.csproj", "{758401E9-20B9-4E99-BEAE-17FB4580587E}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "WPF Installer", "WPF Installer\WPF Installer.vdproj", "{4807BD3B-F799-483B-B8E7-E79CFCE0AAAE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,8 @@ Global
 		{758401E9-20B9-4E99-BEAE-17FB4580587E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{758401E9-20B9-4E99-BEAE-17FB4580587E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{758401E9-20B9-4E99-BEAE-17FB4580587E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4807BD3B-F799-483B-B8E7-E79CFCE0AAAE}.Debug|Any CPU.ActiveCfg = Debug
+		{4807BD3B-F799-483B-B8E7-E79CFCE0AAAE}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Right_Click_Commands.Models.Settings
 {
@@ -13,6 +9,12 @@ namespace Right_Click_Commands.Models.Settings
         //  ==========
 
         public string ScriptLocation { get; }
+
+        public bool JustInstalled
+        {
+            get => Properties.Settings.Default.JustInstalled;
+            set => Properties.Settings.Default.JustInstalled = value;
+        }
 
         //  Constructor
         //  ===========
@@ -24,6 +26,11 @@ namespace Right_Click_Commands.Models.Settings
 
         //  Methods
         //  =======
+
+        public void Upgrade()
+        {
+            Properties.Settings.Default.Upgrade();
+        }
 
         public void SaveAll()
         {

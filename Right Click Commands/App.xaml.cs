@@ -6,6 +6,7 @@ using Right_Click_Commands.ViewModels;
 using Right_Click_Commands.Views;
 using Right_Click_Commands.Views.WPF;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using Unity;
@@ -17,6 +18,11 @@ namespace Right_Click_Commands
     /// </summary>
     public partial class App : Application
     {
+        //  Constants
+        //  =========
+
+        private const string INSTALLER = "INSTALLER";
+
         //  Variables
         //  =========
 
@@ -24,6 +30,7 @@ namespace Right_Click_Commands
         private readonly IUnityContainer container = new UnityContainer();
         private IMessagePrompt messagePrompt;
         private IRunner runner;
+        private ISettings settings;
 
         //  Events
         //  ======
@@ -32,10 +39,32 @@ namespace Right_Click_Commands
         /// <exception cref="System.Security.SecurityException">Ignore.</exception>
         protected async override void OnStartup(StartupEventArgs e)
         {
+            if (e.Args.Length == 1 && e.Args[0] == INSTALLER)
+            {
+                try
+                {
+                    Process.Start(ResourceAssembly.Location);
+                }
+                catch
+                {
+                }
+
+                Environment.Exit(0);
+                return;
+            }
+
             base.OnStartup(e);
             SetUpImplementations();
             messagePrompt = container.Resolve<IMessagePrompt>();
             runner = container.Resolve<IRunner>();
+            settings = container.Resolve<ISettings>();
+
+            if (settings.JustInstalled)
+            {
+                settings.Upgrade();
+                settings.JustInstalled = false;
+                settings.SaveAll();
+            }
 
             if (e.Args.Length == 0)
             {

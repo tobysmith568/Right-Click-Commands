@@ -94,5 +94,17 @@ namespace Right_Click_Commands.Properties {
                 this["Top"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool JustInstalled {
+            get {
+                return ((bool)(this["JustInstalled"]));
+            }
+            set {
+                this["JustInstalled"] = value;
+            }
+        }
     }
 }
