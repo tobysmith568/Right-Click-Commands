@@ -9,7 +9,7 @@ namespace Right_Click_Commands.Models.Scripts
         //  Variables
         //  =========
 
-        protected readonly string appDataFolder;
+        protected readonly ISettings settings;
 
         private string label = string.Empty;
         private string icon;
@@ -77,7 +77,7 @@ namespace Right_Click_Commands.Models.Scripts
             Name = name;
             ID = id;
 
-            appDataFolder = settings.ScriptLocation;
+            this.settings = settings;
         }
 
         //  Methods
@@ -88,9 +88,9 @@ namespace Right_Click_Commands.Models.Scripts
         {
             try
             {
-                if (!Directory.Exists(appDataFolder))
+                if (!Directory.Exists(settings.ScriptLocation))
                 {
-                    Directory.CreateDirectory(appDataFolder);
+                    Directory.CreateDirectory(settings.ScriptLocation);
                 }
 
                 if (!File.Exists(ScriptLocation))
@@ -111,9 +111,9 @@ namespace Right_Click_Commands.Models.Scripts
         {
             try
             {
-                if (!Directory.Exists(appDataFolder))
+                if (!Directory.Exists(settings.ScriptLocation))
                 {
-                    Directory.CreateDirectory(appDataFolder);
+                    Directory.CreateDirectory(settings.ScriptLocation);
                 }
 
                 File.WriteAllText(ScriptLocation, Script);

@@ -26,7 +26,7 @@ namespace Right_Click_Commands.Models.Scripts
 
         public BatScriptConfig(string name, string id, ISettings settings) : base(name, id, settings)
         {
-            ScriptLocation = Path.Combine(appDataFolder, Name + dotBat);
+            ScriptLocation = Path.Combine(settings.ScriptLocation, Name + dotBat);
         }
     }
 }

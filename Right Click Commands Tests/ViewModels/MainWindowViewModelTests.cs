@@ -6,6 +6,7 @@ using Right_Click_Commands.Models.Scripts;
 using Right_Click_Commands.Models.Settings;
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
 
 namespace Right_Click_Commands.ViewModels.Tests
 {
@@ -16,9 +17,9 @@ namespace Right_Click_Commands.ViewModels.Tests
         Mock<IContextMenuWorker> contextMenuWorker;
         Mock<ISettings> settings;
         Mock<IMessagePrompt> messagePrompt;
-        Mock<ScriptConfig> mockScriptOne;
-        Mock<ScriptConfig> mockScriptTwo;
-        Mock<ScriptConfig> mockScriptThree;
+        Mock<IScriptConfig> mockScriptOne;
+        Mock<IScriptConfig> mockScriptTwo;
+        Mock<IScriptConfig> mockScriptThree;
 
         ObservableCollection<IScriptConfig> configs;
 
@@ -26,12 +27,15 @@ namespace Right_Click_Commands.ViewModels.Tests
         public void SetUp()
         {
             contextMenuWorker = new Mock<IContextMenuWorker>();
+
             settings = new Mock<ISettings>();
+            settings.Setup(s => s.ScriptLocation).Returns(Path.Combine(TestContext.CurrentContext.TestDirectory, "testDir"));
+
             messagePrompt = new Mock<IMessagePrompt>();
 
-            mockScriptOne = new Mock<ScriptConfig>();
-            mockScriptTwo = new Mock<ScriptConfig>();
-            mockScriptThree = new Mock<ScriptConfig>();
+            mockScriptOne = new Mock<IScriptConfig>();
+            mockScriptTwo = new Mock<IScriptConfig>();
+            mockScriptThree = new Mock<IScriptConfig>();
 
             configs = new ObservableCollection<IScriptConfig>
             {
@@ -57,8 +61,8 @@ namespace Right_Click_Commands.ViewModels.Tests
 
             settings.Verify(s => s.SaveAll(), Times.Once);
             mockScriptOne.Verify(s => s.SaveScript(), Times.Once);
-            mockScriptOne.Verify(s => s.SaveScript(), Times.Once);
-            mockScriptOne.Verify(s => s.SaveScript(), Times.Once);
+            mockScriptTwo.Verify(s => s.SaveScript(), Times.Once);
+            mockScriptThree.Verify(s => s.SaveScript(), Times.Once);
             contextMenuWorker.Verify(c => c.SaveScriptConfigs(configs), Times.Once);
         }
 
