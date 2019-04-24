@@ -8,6 +8,11 @@ namespace Right_Click_Commands.Models.Settings
 {
     public interface ISettings
     {
+        //  Properties
+        //  ==========
+
+        string ScriptLocation { get; }
+
         //  Methods
         //  =======
 

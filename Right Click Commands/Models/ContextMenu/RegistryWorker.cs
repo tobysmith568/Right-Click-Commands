@@ -1,6 +1,7 @@
 using Microsoft.Win32;
 using Right_Click_Commands.Models.MessagePrompts;
 using Right_Click_Commands.Models.Scripts;
+using Right_Click_Commands.Models.Settings;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,6 +25,8 @@ namespace Right_Click_Commands.Models.ContextMenu
         //  Variables
         //  =========
 
+        private readonly ISettings settings;
+
         private readonly string RCCLocation = Assembly.GetEntryAssembly().Location;
 
         private readonly Dictionary<MenuLocation, string> classesRootOptions = new Dictionary<MenuLocation, string>()
@@ -37,9 +40,10 @@ namespace Right_Click_Commands.Models.ContextMenu
         //  Constructors
         //  ============
 
-        public RegistryWorker(IMessagePrompt messagePrompt)
+        public RegistryWorker(IMessagePrompt messagePrompt, ISettings settings)
         {
             this.messagePrompt = messagePrompt;
+            this.settings = settings;
         }
 
         //  Methods
@@ -100,10 +104,10 @@ namespace Right_Click_Commands.Models.ContextMenu
             switch (scriptType)
             {
                 case ScriptType.Batch:
-                    result = new BatScriptConfig(DateTime.UtcNow.Ticks.ToString(), id);
+                    result = new BatScriptConfig(DateTime.UtcNow.Ticks.ToString(), id, settings);
                     break;
                 case ScriptType.Powershell:
-                    result = new PowershellScriptConfig(DateTime.UtcNow.Ticks.ToString(), id);
+                    result = new PowershellScriptConfig(DateTime.UtcNow.Ticks.ToString(), id, settings);
                     break;
                 default:
                     throw new ArgumentException($"The scriptType of [{scriptType}] is not valid for the [RegistryWorker]");
@@ -166,11 +170,11 @@ namespace Right_Click_Commands.Models.ContextMenu
                 throw new ArgumentException($"The given registry keys name [{registryKey.Name}] must be [RRC_XX_YYY] where [XX] is a number and [YYY] is of any length greater than 0");
             }
 
-            IScriptConfig newConfig = registryKey.TryCastToBatScriptConfig(registryName, location);
+            IScriptConfig newConfig = registryKey.TryCastToBatScriptConfig(registryName, location, settings);
 
             if (newConfig == null)
             {
-                newConfig = registryKey.TryCastToPowershellScriptConfig(registryName, location);
+                newConfig = registryKey.TryCastToPowershellScriptConfig(registryName, location, settings);
             }
 
             if (newConfig == null)

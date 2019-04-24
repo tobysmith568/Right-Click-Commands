@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using Right_Click_Commands.Models.Settings;
+using System.IO;
 
 namespace Right_Click_Commands.Models.Scripts
 {
@@ -23,7 +24,7 @@ namespace Right_Click_Commands.Models.Scripts
         //  Constructors
         //  ============
 
-        public PowershellScriptConfig(string name, string id) : base(name, id)
+        public PowershellScriptConfig(string name, string id, ISettings settings) : base(name, id, settings)
         {
             ScriptLocation = Path.Combine(appDataFolder, Name + dotPS);
         }

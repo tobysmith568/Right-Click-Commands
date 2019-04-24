@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using Right_Click_Commands.Models.Scripts;
+using Right_Click_Commands.Models.Settings;
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -25,12 +26,12 @@ namespace Right_Click_Commands.Models.ContextMenu
         //  =======
 
         /// <exception cref="UnauthorizedAccessException"></exception>
-        public static BatScriptConfig TryCastToBatScriptConfig(this RegistryKey registryKey, RegistryName registryName, MenuLocation location)
+        public static BatScriptConfig TryCastToBatScriptConfig(this RegistryKey registryKey, RegistryName registryName, MenuLocation location, ISettings settings)
         {
             BatScriptConfig newConfig = null;
             try
             {
-                newConfig = new BatScriptConfig(registryName.Name, registryName.ID)
+                newConfig = new BatScriptConfig(registryName.Name, registryName.ID, settings)
                 {
                     Label = registryKey.GetValue(RegistryWorker.MUIVerb, string.Empty).ToString(),
                     Icon = registryKey.GetValue(RegistryWorker.Icon, string.Empty).ToString()// TODO
@@ -80,12 +81,12 @@ namespace Right_Click_Commands.Models.ContextMenu
         }
 
         /// <exception cref="UnauthorizedAccessException"></exception>
-        public static PowershellScriptConfig TryCastToPowershellScriptConfig(this RegistryKey registryKey, RegistryName registryName, MenuLocation location)
+        public static PowershellScriptConfig TryCastToPowershellScriptConfig(this RegistryKey registryKey, RegistryName registryName, MenuLocation location, ISettings settings)
         {
             PowershellScriptConfig newConfig = null;
             try
             {
-                newConfig = new PowershellScriptConfig(registryName.Name, registryName.ID)
+                newConfig = new PowershellScriptConfig(registryName.Name, registryName.ID, settings)
                 {
                     Label = registryKey.GetValue(RegistryWorker.MUIVerb, string.Empty).ToString(),
                     Icon = registryKey.GetValue(RegistryWorker.Icon, string.Empty).ToString()// TODO

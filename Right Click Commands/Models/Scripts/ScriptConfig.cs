@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Right_Click_Commands.Models.Settings;
+using System;
 using System.IO;
 
 namespace Right_Click_Commands.Models.Scripts
@@ -8,7 +9,7 @@ namespace Right_Click_Commands.Models.Scripts
         //  Variables
         //  =========
 
-        protected static readonly string appDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Right-Click Commands");
+        protected readonly string appDataFolder;
 
         private string label = string.Empty;
         private string icon;
@@ -30,7 +31,7 @@ namespace Right_Click_Commands.Models.Scripts
 
         public string Name { get; }
 
-        public string ScriptLocation { get; protected set; }
+        public virtual string ScriptLocation { get; protected set; }
 
         public string Label
         {
@@ -71,10 +72,12 @@ namespace Right_Click_Commands.Models.Scripts
         //  Constructors
         //  ============
 
-        public ScriptConfig(string name, string id)
+        public ScriptConfig(string name, string id, ISettings settings)
         {
             Name = name;
             ID = id;
+
+            appDataFolder = settings.ScriptLocation;
         }
 
         //  Methods

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Moq;
+using Right_Click_Commands.Models.Settings;
 
 namespace Right_Click_Commands.Models.Scripts.Tests
 {
@@ -15,6 +16,7 @@ namespace Right_Click_Commands.Models.Scripts.Tests
     {
         ObservableCollection<IScriptConfig> subject;
 
+        Mock<ISettings> settings;
         Mock<ScriptConfig> first;
         Mock<ScriptConfig> second;
         Mock<ScriptConfig> third;
@@ -22,9 +24,11 @@ namespace Right_Click_Commands.Models.Scripts.Tests
         [SetUp]
         public void SetUp()
         {
-            first = new Mock<ScriptConfig>();
-            second = new Mock<ScriptConfig>();
-            third = new Mock<ScriptConfig>();
+            settings = new Mock<ISettings>();
+
+            first = new Mock<ScriptConfig>("first", "01", settings.Object);
+            second = new Mock<ScriptConfig>("second", "02", settings.Object);
+            third = new Mock<ScriptConfig>("third", "03", settings.Object);
 
             subject = new ObservableCollection<IScriptConfig>
             {
