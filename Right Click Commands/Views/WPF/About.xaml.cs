@@ -35,9 +35,21 @@ namespace Right_Click_Commands.Views.WPF
                 },
                 new Library
                 {
+                    Name = "Newtonsoft.Json",
+                    URL = "https://www.newtonsoft.com/json",
+                    Licence = "MIT Licence"
+                },
+                new Library
+                {
                     Name = "NUnit",
                     URL = "http://nunit.org",
                     Licence = "MIT License"
+                },
+                new Library
+                {
+                    Name = "RestSharp",
+                    URL = "http://restsharp.org",
+                    Licence = "Apache License 2.0"
                 },
                 new Library
                 {

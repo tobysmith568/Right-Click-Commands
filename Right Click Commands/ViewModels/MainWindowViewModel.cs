@@ -2,6 +2,8 @@
 using Right_Click_Commands.Models.MessagePrompts;
 using Right_Click_Commands.Models.Scripts;
 using Right_Click_Commands.Models.Settings;
+using Right_Click_Commands.Models.Updater;
+using System;
 using System.Collections.ObjectModel;
 
 namespace Right_Click_Commands.ViewModels
@@ -14,6 +16,7 @@ namespace Right_Click_Commands.ViewModels
         private readonly IContextMenuWorker contextMenuWorker;
         private readonly ISettings settings;
         private readonly IMessagePrompt messagePrompt;
+        private readonly IUpdater updater;
 
         private ObservableCollection<IScriptConfig> scriptConfigs;
         private IScriptConfig selectedScriptConfig;
@@ -40,14 +43,11 @@ namespace Right_Click_Commands.ViewModels
             set => PropertyChanging(value, ref selectedScriptConfigIndex, nameof(SelectedScriptConfigIndex));
         }
 
+        public Command WindowFullyLoaded { get; }
         public Command WindowCloseCommand { get; }
-
         public Command<ScriptType> CreateNewScript { get; }
-
         public Command MoveSelectedUp { get; }
-
         public Command MoveSelectedDown { get; }
-
         public Command DeleteSelected { get; }
 
         //  Constructors
@@ -55,19 +55,7 @@ namespace Right_Click_Commands.ViewModels
 
         public MainWindowViewModel()
         {
-
-        }
-
-        public MainWindowViewModel(IContextMenuWorker contextMenuWorker, ISettings settings, IMessagePrompt messagePrompt) : this()
-        {
-            this.contextMenuWorker = contextMenuWorker;
-            this.settings = settings;
-            this.messagePrompt = messagePrompt;
-
-            selectedScriptConfigIndex = -1;
-
-            ScriptConfigs = new ObservableCollection<IScriptConfig>(this.contextMenuWorker.GetScriptConfigs());
-
+            WindowFullyLoaded = new Command(DoWindowFullyLoaded);
             WindowCloseCommand = new Command(DoWindowCloseCommand);
             CreateNewScript = new Command<ScriptType>(DoCreateNewScript);
             MoveSelectedUp = new Command(DoMoveSelectedUp);
@@ -75,8 +63,30 @@ namespace Right_Click_Commands.ViewModels
             DeleteSelected = new Command(DoDeleteSelected);
         }
 
+        public MainWindowViewModel(IContextMenuWorker contextMenuWorker, ISettings settings, IMessagePrompt messagePrompt, IUpdater updater) : this()
+        {
+            this.contextMenuWorker = contextMenuWorker ?? throw new ArgumentNullException(nameof(contextMenuWorker));
+            this.settings = settings ?? throw new ArgumentNullException(nameof(settings));
+            this.messagePrompt = messagePrompt ?? throw new ArgumentNullException(nameof(messagePrompt));
+            this.updater = updater ?? throw new ArgumentNullException(nameof(updater));
+
+            selectedScriptConfigIndex = -1;
+
+            ScriptConfigs = new ObservableCollection<IScriptConfig>(this.contextMenuWorker.GetScriptConfigs());            
+        }
+
         //  Methods
         //  =======
+
+        private async void DoWindowFullyLoaded()
+        {
+            Asset asset = await updater.CheckForUpdateAsync();
+
+            if (asset != null)
+            {
+                updater.UpdateTo(asset);
+            }
+        }
 
         private void DoWindowCloseCommand()
         {

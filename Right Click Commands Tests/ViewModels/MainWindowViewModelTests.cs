@@ -1,9 +1,10 @@
-﻿using Moq;
+using Moq;
 using NUnit.Framework;
 using Right_Click_Commands.Models.ContextMenu;
 using Right_Click_Commands.Models.MessagePrompts;
 using Right_Click_Commands.Models.Scripts;
 using Right_Click_Commands.Models.Settings;
+using Right_Click_Commands.Models.Updater;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -16,6 +17,7 @@ namespace Right_Click_Commands.ViewModels.Tests
         MainWindowViewModel subject;
         Mock<IContextMenuWorker> contextMenuWorker;
         Mock<ISettings> settings;
+        Mock<IUpdater> updater;
         Mock<IMessagePrompt> messagePrompt;
         Mock<IScriptConfig> mockScriptOne;
         Mock<IScriptConfig> mockScriptTwo;
@@ -33,6 +35,8 @@ namespace Right_Click_Commands.ViewModels.Tests
 
             messagePrompt = new Mock<IMessagePrompt>();
 
+            updater = new Mock<IUpdater>();
+
             mockScriptOne = new Mock<IScriptConfig>();
             mockScriptTwo = new Mock<IScriptConfig>();
             mockScriptThree = new Mock<IScriptConfig>();
@@ -45,7 +49,7 @@ namespace Right_Click_Commands.ViewModels.Tests
             };
             contextMenuWorker.Setup(c => c.GetScriptConfigs()).Returns(configs);
 
-            subject = new MainWindowViewModel(contextMenuWorker.Object, settings.Object, messagePrompt.Object)
+            subject = new MainWindowViewModel(contextMenuWorker.Object, settings.Object, messagePrompt.Object, updater.Object)
             {
                 SelectedScriptConfigIndex = 1
             };

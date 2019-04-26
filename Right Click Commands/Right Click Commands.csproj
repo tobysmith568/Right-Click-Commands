@@ -41,11 +41,18 @@
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=106.6.9.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.6.9\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -97,6 +104,10 @@
     <Compile Include="Models\Scripts\ScriptType.cs" />
     <Compile Include="Models\Settings\ISettings.cs" />
     <Compile Include="Models\Settings\WindowsSettings.cs" />
+    <Compile Include="Models\Updater\Asset.cs" />
+    <Compile Include="Models\Updater\GithubRelease.cs" />
+    <Compile Include="Models\Updater\IUpdater.cs" />
+    <Compile Include="Models\Updater\WindowsUpdater.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
@@ -105,6 +116,12 @@
     </Compile>
     <Compile Include="Views\WPF\ScriptError.xaml.cs">
       <DependentUpon>ScriptError.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\WPF\UpdateFound.xaml.cs">
+      <DependentUpon>UpdateFound.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\WPF\UpdateWindow.xaml.cs">
+      <DependentUpon>UpdateWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\WPF\About.xaml">
       <SubType>Designer</SubType>
@@ -123,6 +140,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\WPF\ScriptError.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\WPF\UpdateFound.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\WPF\UpdateWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

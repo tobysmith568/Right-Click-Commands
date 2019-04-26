@@ -48,6 +48,11 @@ namespace Right_Click_Commands.Views
             ResetPartition();
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            VMLoadedEvent.Command.Execute(e);
+        }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             FocusStealer.Focus();

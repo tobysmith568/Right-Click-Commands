@@ -1,7 +1,8 @@
-﻿using Right_Click_Commands.Models.ContextMenu;
+using Right_Click_Commands.Models.ContextMenu;
 using Right_Click_Commands.Models.MessagePrompts;
 using Right_Click_Commands.Models.Runner;
 using Right_Click_Commands.Models.Settings;
+using Right_Click_Commands.Models.Updater;
 using Right_Click_Commands.ViewModels;
 using Right_Click_Commands.Views;
 using Right_Click_Commands.Views.WPF;
@@ -92,6 +93,7 @@ namespace Right_Click_Commands
             container.RegisterType<ISettings, WindowsSettings>();
             container.RegisterType<IMessagePrompt, WinDialogBox>();
             container.RegisterType<IRunner, WindowsRunner>();
+            container.RegisterType<IUpdater, WindowsUpdater>();
         }
 
         /// <exception cref="InvalidOperationException"></exception>
