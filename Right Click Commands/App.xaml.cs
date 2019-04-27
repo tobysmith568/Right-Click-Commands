@@ -1,4 +1,5 @@
-using Right_Click_Commands.Models.ContextMenu;
+﻿using Right_Click_Commands.Models.ContextMenu;
+using Right_Click_Commands.Models.JSON_Converter;
 using Right_Click_Commands.Models.MessagePrompts;
 using Right_Click_Commands.Models.Runner;
 using Right_Click_Commands.Models.Settings;
@@ -94,6 +95,7 @@ namespace Right_Click_Commands
             container.RegisterType<IMessagePrompt, WinDialogBox>();
             container.RegisterType<IRunner, WindowsRunner>();
             container.RegisterType<IUpdater, WindowsUpdater>();
+            container.RegisterType<IJSONConverter, JSONConverter>();
         }
 
         /// <exception cref="InvalidOperationException"></exception>

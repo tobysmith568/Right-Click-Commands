@@ -1,13 +1,11 @@
-﻿using Newtonsoft.Json;
-using RestSharp;
+﻿using RestSharp;
+using Right_Click_Commands.Models.JSON_Converter;
 using Right_Click_Commands.Models.MessagePrompts;
 using Right_Click_Commands.Views.WPF;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Right_Click_Commands.Models.Updater
@@ -25,14 +23,18 @@ namespace Right_Click_Commands.Models.Updater
         //  =========
 
         private readonly IMessagePrompt messagePrompt;
+        private readonly IJSONConverter jsonConverter;
         private readonly IRestClient restClient;
+
+        private readonly AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();
 
         //  Constructors
         //  ============
 
-        public WindowsUpdater(IMessagePrompt messagePrompt)
+        public WindowsUpdater(IMessagePrompt messagePrompt, IJSONConverter jsonConverter)
         {
             this.messagePrompt = messagePrompt;
+            this.jsonConverter = jsonConverter;
             restClient = new RestClient(repoURL);
         }
 
@@ -62,8 +64,8 @@ namespace Right_Click_Commands.Models.Updater
                     return null;
 
                 case ResponseStatus.Completed when response.StatusCode == HttpStatusCode.OK:
-                    GithubRelease release = JsonConvert.DeserializeObject<GithubRelease>(response.Content);
-
+                    GithubRelease release = jsonConverter.FromJson<GithubRelease>(response.Content);
+                    
                     if (release == null)
                         return null;
 
@@ -72,7 +74,7 @@ namespace Right_Click_Commands.Models.Updater
 
                     Version.TryParse(release.Tag.Split('-')[0].Replace(vPrefix, string.Empty), out Version version);
 
-                    if (Assembly.GetExecutingAssembly().GetName().Version.CompareTo(version) >= 0)
+                    if (assemblyName.Version.CompareTo(version) >= 0)
                         return null;
 
                     Asset asset = release.Assets.FirstOrDefault(r => r.URL.EndsWith(msiExtension));

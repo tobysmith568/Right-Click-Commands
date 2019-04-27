@@ -1,4 +1,4 @@
-using Moq;
+﻿using Moq;
 using NUnit.Framework;
 using Right_Click_Commands.Models.ContextMenu;
 using Right_Click_Commands.Models.MessagePrompts;
@@ -55,6 +55,33 @@ namespace Right_Click_Commands.ViewModels.Tests
             };
         }
 
+        #region ViewFullyLoaded
+
+        /// <exception cref="Exception"></exception>
+        [Test]
+        public void Test_ViewFullyLoaded_DoesNotUpdateWithNullAsset()
+        {
+            updater.Setup(u => u.CheckForUpdateAsync()).ReturnsAsync((Asset)null);
+
+            subject.ViewFullyLoaded.DoExecute(null);
+
+            updater.Verify(u => u.UpdateTo(It.IsAny<Asset>()), Times.Never);
+        }
+
+        /// <exception cref="Exception"></exception>
+        [Test]
+        public void Test_ViewFullyLoaded_UpdatesToAnyGivenAsset()
+        {
+            Asset asset = new Asset();
+
+            updater.Setup(u => u.CheckForUpdateAsync()).ReturnsAsync(asset);
+
+            subject.ViewFullyLoaded.DoExecute(null);
+
+            updater.Verify(u => u.UpdateTo(asset), Times.Once);
+        }
+
+        #endregion
         #region WindowCloseComamnd
 
         /// <exception cref="Exception"></exception>
