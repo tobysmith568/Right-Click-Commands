@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="Right_Click_Commands.Views.WPF.UpdateDownloading"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Right_Click_Commands.Views.WPF"
+             mc:Ignorable="d"
+             d:DesignHeight="120" d:DesignWidth="460"
+             x:Name="UpdateFoundUserControl" Loaded="UpdateFoundUserControl_Loaded">
+    <Grid>
+        
+        <Label x:Name="lblActivity" Content="Downloading..." Margin="10,5,10,0" VerticalAlignment="Top" FontSize="18"/>
+        <ProgressBar x:Name="pbDownloadingProgress" Height="25" VerticalAlignment="Top" Margin="10,39,10,0" Value="0"/>
+        <Button x:Name="BtnInstall" Click="BtnInstall_Click" Content="Install" FontSize="18" HorizontalAlignment="Right" Height="36" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="94" Grid.Row="1" Visibility="Hidden"/>
+        <Button x:Name="BtnCancel" Click="BtnCancel_Click" Content="Cancel" FontSize="18" HorizontalAlignment="Left" Height="36" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="94" Padding="1"/>
+
+    </Grid>
+</UserControl>

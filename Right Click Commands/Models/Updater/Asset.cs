@@ -39,5 +39,7 @@ namespace Right_Click_Commands.Models.Updater
         //  ==========
 
         public string ReadableSize { get; private set; }
+
+        public string UpdateURL { get; set; }
     }
 }

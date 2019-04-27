@@ -117,6 +117,9 @@
     <Compile Include="Views\WPF\ScriptError.xaml.cs">
       <DependentUpon>ScriptError.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\WPF\UpdateDownloading.xaml.cs">
+      <DependentUpon>UpdateDownloading.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\WPF\UpdateFound.xaml.cs">
       <DependentUpon>UpdateFound.xaml</DependentUpon>
     </Compile>
@@ -140,6 +143,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\WPF\ScriptError.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\WPF\UpdateDownloading.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

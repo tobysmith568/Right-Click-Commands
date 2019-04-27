@@ -43,7 +43,7 @@ namespace Right_Click_Commands.ViewModels
             set => PropertyChanging(value, ref selectedScriptConfigIndex, nameof(SelectedScriptConfigIndex));
         }
 
-        public Command WindowFullyLoaded { get; }
+        public Command ViewFullyLoaded { get; }
         public Command WindowCloseCommand { get; }
         public Command<ScriptType> CreateNewScript { get; }
         public Command MoveSelectedUp { get; }
@@ -55,7 +55,7 @@ namespace Right_Click_Commands.ViewModels
 
         public MainWindowViewModel()
         {
-            WindowFullyLoaded = new Command(DoWindowFullyLoaded);
+            ViewFullyLoaded = new Command(DoViewFullyLoaded);
             WindowCloseCommand = new Command(DoWindowCloseCommand);
             CreateNewScript = new Command<ScriptType>(DoCreateNewScript);
             MoveSelectedUp = new Command(DoMoveSelectedUp);
@@ -78,7 +78,7 @@ namespace Right_Click_Commands.ViewModels
         //  Methods
         //  =======
 
-        private async void DoWindowFullyLoaded()
+        private async void DoViewFullyLoaded()
         {
             Asset asset = await updater.CheckForUpdateAsync();
 

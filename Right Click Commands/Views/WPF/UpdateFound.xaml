@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="Right_Click_Commands.Views.WPF.UpdateFound"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="120" d:DesignWidth="460"
+             x:Name="UpdateFoundUserControl">    
+    <Grid>
+
+        <TextBlock Margin="10,16,10,0" FontSize="18" TextWrapping="Wrap" VerticalAlignment="Top">
+            <Run Text="An update for Right-Click commands has been found."/><LineBreak />
+            <Run Text="Do you want to update now? ("/>
+            <Run Text="{Binding Parent.Asset.ReadableSize, ElementName=UpdateFoundUserControl, Mode=OneWay}"/>
+            <Run Text=")"/>
+        </TextBlock>
+        <Button x:Name="BtnNo" Click="BtnNo_Click" Content="No" FontSize="18" HorizontalAlignment="Right" Height="36" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="94"/>
+        <Button x:Name="BtnYes" Click="BtnYes_Click" Content="Yes" FontSize="18" HorizontalAlignment="Right" Height="36" Margin="0,0,114,10" VerticalAlignment="Bottom" Width="94" Padding="1"/>
+        <Button x:Name="BtnGithub" Click="BtnGithub_Click" Content="Visit on Github" FontSize="18" HorizontalAlignment="Left" Height="36" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="154"/>
+
+    </Grid>
+</UserControl>

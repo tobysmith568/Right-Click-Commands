@@ -1,14 +1,11 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Right_Click_Commands.Models.Updater
 {
     public class GithubRelease
     {
+        private Asset[] assets;
+
         //  JSON Properties
         //  ===============
 
@@ -22,6 +19,18 @@ namespace Right_Click_Commands.Models.Updater
         public bool IsDraft { get; set; }
 
         [JsonProperty("assets")]
-        public Asset[] Assets { get; set; }
+        public Asset[] Assets
+        {
+            get => assets;
+            set
+            {
+                assets = value;
+
+                foreach (Asset asset in Assets)
+                {
+                    asset.UpdateURL = URL;
+                }
+            }
+        }
     }
 }

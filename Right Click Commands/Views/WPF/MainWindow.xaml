@@ -52,7 +52,7 @@
         <TextBox Name="FocusStealer" Margin="72,184,73,196" Grid.Row="1" Focusable="False"/>
 
         <!-- ViewModel Event Buttons -->
-        <Button Visibility="Hidden" Name="VMLoadedEvent" Command="{Binding WindowFullyLoaded}" Grid.RowSpan="2"/>
+        <Button Visibility="Hidden" Name="VMLoadedEvent" Command="{Binding ViewFullyLoaded}" Grid.RowSpan="2"/>
         <Button Visibility="Hidden" Name="VMClosingEvent" Command="{Binding WindowCloseCommand}" Grid.RowSpan="2"/>
 
         <!-- Menu -->

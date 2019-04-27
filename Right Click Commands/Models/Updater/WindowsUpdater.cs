@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using RestSharp;
+using Right_Click_Commands.Models.MessagePrompts;
 using Right_Click_Commands.Views.WPF;
 using System;
 using System.Collections.Generic;
@@ -20,17 +21,31 @@ namespace Right_Click_Commands.Models.Updater
         private const string vPrefix = "v";
         private const string msiExtension = ".msi";
 
+        //  Variables
+        //  =========
+
+        private readonly IMessagePrompt messagePrompt;
+        private readonly IRestClient restClient;
+
+        //  Constructors
+        //  ============
+
+        public WindowsUpdater(IMessagePrompt messagePrompt)
+        {
+            this.messagePrompt = messagePrompt;
+            restClient = new RestClient(repoURL);
+        }
+
         //  Methods
         //  =======
 
         public async Task<Asset> CheckForUpdateAsync()
         {
-            RestClient client = new RestClient(repoURL);
             RestRequest request = new RestRequest(Method.GET);
 
             IRestResponse response = await Task.Run(() =>
             {
-                return client.Execute(request);
+                return restClient.Execute(request);
             });
 
             if (response == null)
@@ -71,7 +86,7 @@ namespace Right_Click_Commands.Models.Updater
 
         public void UpdateTo(Asset asset)
         {
-            UpdateWindow updateWindow = new UpdateWindow(asset);
+            UpdateWindow updateWindow = new UpdateWindow(messagePrompt, asset);
             updateWindow.ShowDialog();
         }
     }
