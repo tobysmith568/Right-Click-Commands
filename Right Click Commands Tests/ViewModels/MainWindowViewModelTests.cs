@@ -305,7 +305,7 @@ namespace Right_Click_Commands.ViewModels.Tests
         [TestCase(-1)]
         [TestCase(-2)]
         [TestCase(-50)]
-        public void Test_DeleteSelected_MovesNothingWithAnIndexOutOfRange(int index)
+        public void Test_DeleteSelected_DeletesNothingWithAnIndexOutOfRange(int index)
         {
             Assert.AreEqual(3, subject.ScriptConfigs.Count);
             Assert.AreSame(mockScriptOne.Object, subject.ScriptConfigs[0]);
@@ -313,7 +313,7 @@ namespace Right_Click_Commands.ViewModels.Tests
             Assert.AreSame(mockScriptThree.Object, subject.ScriptConfigs[2]);
 
             subject.SelectedScriptConfigIndex = index;
-            subject.MoveSelectedDown.DoExecute(null);
+            subject.DeleteSelected.DoExecute(null);
 
             Assert.AreEqual(3, subject.ScriptConfigs.Count);
             Assert.AreSame(mockScriptOne.Object, subject.ScriptConfigs[0]);
@@ -337,7 +337,7 @@ namespace Right_Click_Commands.ViewModels.Tests
         }
 
         [Test]
-        public void Test_DeleteSelected_MovesNothingIfConfirmationBoxReturnsNo()
+        public void Test_DeleteSelected_DeletesNothingIfConfirmationBoxReturnsNo()
         {
             Assert.AreEqual(3, subject.ScriptConfigs.Count);
             Assert.AreSame(mockScriptOne.Object, subject.ScriptConfigs[0]);
