@@ -65,14 +65,18 @@ namespace Right_Click_Commands.Models.Updater
 
                 case ResponseStatus.Completed when response.StatusCode == HttpStatusCode.OK:
                     GithubRelease release = jsonConverter.FromJson<GithubRelease>(response.Content);
-                    
+
                     if (release == null)
                         return null;
 
                     if (release.IsDraft)
                         return null;
 
-                    Version.TryParse(release.Tag.Split('-')[0].Replace(vPrefix, string.Empty), out Version version);
+                    if (release.Tag == null)
+                        return null;
+
+                    if (!Version.TryParse(release.Tag.Split('-')[0].Replace(vPrefix, string.Empty), out Version version))
+                        return null;
 
                     if (assemblyName.Version.CompareTo(version) >= 0)
                         return null;
