@@ -7,6 +7,7 @@
 ![GitHub Releases](https://img.shields.io/github/downloads/tobysmith568/Right-Click-Commands/latest/total.svg?label=Downloads)
 
 A Windows utility for adding scripts to the right-click menu within File Explorer.  
+
 Currently supported scripts:
 - Batch
 - Powershell
