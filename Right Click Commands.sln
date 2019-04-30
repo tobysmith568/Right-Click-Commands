@@ -9,6 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Right Click Commands Tests"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "WPF Installer", "WPF Installer\WPF Installer.vdproj", "{4807BD3B-F799-483B-B8E7-E79CFCE0AAAE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A680833E-C62C-4818-90BC-53961B1A732C}"
+	ProjectSection(SolutionItems) = preProject
+		CodeCoverage.runsettings = CodeCoverage.runsettings
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

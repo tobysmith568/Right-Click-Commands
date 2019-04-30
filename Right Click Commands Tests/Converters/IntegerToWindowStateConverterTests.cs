@@ -20,18 +20,20 @@ namespace Right_Click_Commands.Converters.Tests
             subject = new IntegerToWindowStateConverter();
         }
 
-        [Test]
-        public void Test_Convert_ValueInRange()
-        {
-            int value = 2;
+        #region Convert
 
+        [TestCase(0, WindowState.Normal)]
+        [TestCase(1, WindowState.Minimized)]
+        [TestCase(2, WindowState.Maximized)]
+        public void Test_Convert_ValueInRange(int value, WindowState expectedResult)
+        {
             object result = subject.Convert(value, null, null, null);
 
             Assert.IsInstanceOf(typeof(WindowState), result);
 
             WindowState windowState = (WindowState)result;
 
-            Assert.AreEqual(WindowState.Maximized, windowState);
+            Assert.AreEqual(expectedResult, windowState);
         }
 
         [Test]
@@ -60,18 +62,21 @@ namespace Right_Click_Commands.Converters.Tests
             Assert.AreEqual(WindowState.Normal, windowState);
         }
 
-        [Test]
-        public void Test_ConvertBack_ValidValue()
-        {
-            WindowState value = WindowState.Maximized;
+        #endregion
+        #region ConvertBack
 
+        [TestCase(WindowState.Normal, 0)]
+        [TestCase(WindowState.Minimized, 1)]
+        [TestCase(WindowState.Maximized, 2)]
+        public void Test_ConvertBack_ValidValue(WindowState value, int expectedResult)
+        {
             object result = subject.ConvertBack(value, null, null, null);
 
             Assert.IsInstanceOf(typeof(int), result);
 
             int integer = (int)result;
 
-            Assert.AreEqual(2, integer);
+            Assert.AreEqual(expectedResult, integer);
         }
 
         [Test]
@@ -87,5 +92,7 @@ namespace Right_Click_Commands.Converters.Tests
             Exception e = Assert.Throws<ArgumentException>(() => subject.ConvertBack(new Style(), null, null, null));
             Assert.AreEqual("The given value must be a WindowState", e.Message);
         }
+
+        #endregion
     }
 }
