@@ -55,6 +55,37 @@ namespace Right_Click_Commands.ViewModels.Tests
             };
         }
 
+        #region Constructor
+
+        [Test]
+        public void Test_Constructor_ThrowsArgumentNullOnNullContextMenuWorker()
+        {
+            ArgumentNullException ex = Assert.Throws<ArgumentNullException>(() => new MainWindowViewModel(null, settings.Object, messagePrompt.Object, updater.Object));
+            Assert.AreEqual("contextMenuWorker", ex.ParamName);
+        }
+
+        [Test]
+        public void Test_Constructor_ThrowsArgumentNullOnNullSettings()
+        {
+            ArgumentNullException ex = Assert.Throws<ArgumentNullException>(() => new MainWindowViewModel(contextMenuWorker.Object, null, messagePrompt.Object, updater.Object));
+            Assert.AreEqual("settings", ex.ParamName);
+        }
+
+        [Test]
+        public void Test_Constructor_ThrowsArgumentNullOnNullMessagePrompt()
+        {
+            ArgumentNullException ex = Assert.Throws<ArgumentNullException>(() => new MainWindowViewModel(contextMenuWorker.Object, settings.Object, null, updater.Object));
+            Assert.AreEqual("messagePrompt", ex.ParamName);
+        }
+
+        [Test]
+        public void Test_Constructor_ThrowsArgumentNullOnNullUpdater()
+        {
+            ArgumentNullException ex = Assert.Throws<ArgumentNullException>(() => new MainWindowViewModel(contextMenuWorker.Object, settings.Object, messagePrompt.Object, null));
+            Assert.AreEqual("updater", ex.ParamName);
+        }
+
+        #endregion
         #region ViewFullyLoaded
 
         /// <exception cref="Exception"></exception>
