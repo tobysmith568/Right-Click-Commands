@@ -72,7 +72,7 @@ namespace Right_Click_Commands.ViewModels
 
             selectedScriptConfigIndex = -1;
 
-            ScriptConfigs = new ObservableCollection<IScriptConfig>(this.contextMenuWorker.GetScriptConfigs());            
+            ScriptConfigs = new ObservableCollection<IScriptConfig>(this.contextMenuWorker.GetScriptConfigs());
         }
 
         //  Methods
