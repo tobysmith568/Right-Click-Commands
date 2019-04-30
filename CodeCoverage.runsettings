@@ -34,8 +34,8 @@ Included items must then not match any entries in the exclude list to remain inc
               </Include>
               <Exclude>
                 <ModulePath>.*CPPUnitTestFramework.*</ModulePath>
-                <ModulePath>*moq*</ModulePath>
-                <ModulePath>*nunit*</ModulePath>
+                <ModulePath>.*moq.*</ModulePath>
+                <ModulePath>.*nunit.*</ModulePath>
               </Exclude>
             </ModulePaths>
 
