@@ -190,6 +190,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\Icon.svg" />
+    <Resource Include="Images\Icon_640_Grey.png" />
     <Resource Include="Images\Icon_130_Filled.ico" />
     <Resource Include="Images\Icon_130_Filled.png" />
     <Resource Include="Images\Icon_32_Filled.png" />
