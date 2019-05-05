@@ -23,6 +23,12 @@ namespace Right_Click_Commands.Views.WPF
                 },
                 new Library
                 {
+                    Name = "IconExtractor",
+                    URL = "https://github.com/TsudaKageyu/IconExtractor",
+                    Licence = "BSD 2-Clause License"
+                },
+                new Library
+                {
                     Name = "log4net",
                     URL = "http://logging.apache.org/log4net/",
                     Licence = "Apache License 2.0"
