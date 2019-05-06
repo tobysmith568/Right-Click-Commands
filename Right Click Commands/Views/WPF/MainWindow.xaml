@@ -111,7 +111,8 @@
                 <Image Source="/Right Click Commands;component/Images/Icon_640_Grey.png" Width="200" Height="200"/>
             </Viewbox>
         </Grid>
-        <Grid Margin="0,0,0,0" Grid.Column="2" Background="White" Grid.RowSpan="2" Visibility="{Binding SelectedScriptConfig, Converter={converters:NullableToVisibility}}">
+        <Grid Margin="0,0,0,0" Grid.Column="2" Background="White" Grid.RowSpan="2" Visibility="Visible">
+            <!-- Visibility="{Binding SelectedScriptConfig, Converter={converters:NullableToVisibility}}">-->
             <Grid.RowDefinitions>
                 <RowDefinition Height="135"/>
                 <RowDefinition Height="302*"/>
@@ -135,12 +136,12 @@
                     <CheckBox Content="On Background" Margin="10,10,0,0" Grid.Column="2" VerticalContentAlignment="Center" IsChecked="{Binding SelectedScriptConfig.OnBackground, Mode=TwoWay}"/>
                 </StackPanel>
             </GroupBox>
-            <GroupBox Header="Window Options" Margin="153,48,0,5" HorizontalAlignment="Left" Width="147">
+            <GroupBox Header="Window Options" Margin="153,70,0,5" HorizontalAlignment="Left" Width="147">
                 <StackPanel>
                     <CheckBox Content="Keep window open" Margin="10,10,0,0" Grid.Column="2" VerticalContentAlignment="Center" IsChecked="{Binding SelectedScriptConfig.KeepWindowOpen, Mode=TwoWay}"/>
                 </StackPanel>
             </GroupBox>
-            <GroupBox Header="Icon" Margin="305,70,0,5" HorizontalAlignment="Left" Width="307">
+            <GroupBox Header="Icon" Margin="305,70,0,5" HorizontalAlignment="Left" Width="110">
                 <Grid x:Name="IconGrid" Margin="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="{Binding ActualHeight, ElementName=IconGrid, Mode=OneWay}"/>
@@ -149,7 +150,7 @@
                     <Border Margin="5" Grid.Column="0" BorderThickness="1" BorderBrush="#FFD5DFE5">
                         <Image Margin="0"/>
                     </Border>
-                    <Button Margin="197,5,5,5" Width="50" Content="Locate" Grid.Column="1"/>
+                    <Button Margin="5,5,0,5" Width="50" Content="Locate" Grid.Column="1" HorizontalAlignment="Left"/>
                 </Grid>
             </GroupBox>
 
