@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using IconPicker;
+using Microsoft.Win32;
 using Right_Click_Commands.Models.Scripts;
 using Right_Click_Commands.Models.Settings;
 using System;
@@ -34,7 +35,7 @@ namespace Right_Click_Commands.Models.ContextMenu
                 newConfig = new BatScriptConfig(registryName.Name, registryName.ID, settings)
                 {
                     Label = registryKey.GetValue(RegistryWorker.MUIVerb, string.Empty).ToString(),
-                    Icon = registryKey.GetValue(RegistryWorker.Icon, string.Empty).ToString()// TODO
+                    Icon = new IconReference(@"%SystemRoot%\System32\SHELL32.dll", 7) //null// registryKey.GetValue(RegistryWorker.Icon, string.Empty).ToString()// TODO
                 };
 
                 newConfig.LoadScript();
@@ -89,7 +90,7 @@ namespace Right_Click_Commands.Models.ContextMenu
                 newConfig = new PowershellScriptConfig(registryName.Name, registryName.ID, settings)
                 {
                     Label = registryKey.GetValue(RegistryWorker.MUIVerb, string.Empty).ToString(),
-                    Icon = registryKey.GetValue(RegistryWorker.Icon, string.Empty).ToString()// TODO
+                    Icon = new IconReference(@"%SystemRoot%\System32\SHELL32.dll", 7)//null// registryKey.GetValue(RegistryWorker.Icon, string.Empty).ToString()// TODO
                 };
 
                 newConfig.LoadScript();

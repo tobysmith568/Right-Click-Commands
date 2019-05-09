@@ -1,4 +1,5 @@
-﻿using Right_Click_Commands.Models.Settings;
+﻿using IconPicker;
+using Right_Click_Commands.Models.Settings;
 using System;
 using System.IO;
 
@@ -12,7 +13,7 @@ namespace Right_Click_Commands.Models.Scripts
         protected readonly ISettings settings;
 
         private string label = string.Empty;
-        private string icon;
+        private IIconReference icon;
         private string script;
         private bool onDirectory;
         private bool onBackground;
@@ -39,7 +40,7 @@ namespace Right_Click_Commands.Models.Scripts
             set => PropertyChanging(value, ref label, nameof(Label));
         }
 
-        public string Icon
+        public IIconReference Icon
         {
             get => icon;
             set => PropertyChanging(value, ref icon, nameof(Icon));

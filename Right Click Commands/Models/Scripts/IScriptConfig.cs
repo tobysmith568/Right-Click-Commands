@@ -1,4 +1,6 @@
-﻿namespace Right_Click_Commands.Models.Scripts
+﻿using IconPicker;
+
+namespace Right_Click_Commands.Models.Scripts
 {
     public interface IScriptConfig
     {
@@ -13,6 +15,7 @@
         string Name { get; }
         string ScriptLocation { get; }
         string Label { get; set; }
+        IIconReference Icon { get; set; }
         string Script { get; set; }
         bool OnDirectory { get; set; }
         bool OnBackground { get; set; }

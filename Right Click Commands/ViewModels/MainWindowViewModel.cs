@@ -4,7 +4,9 @@ using Right_Click_Commands.Models.Scripts;
 using Right_Click_Commands.Models.Settings;
 using Right_Click_Commands.Models.Updater;
 using System;
+using System.Windows.Media.Imaging;
 using System.Collections.ObjectModel;
+using IconPicker;
 
 namespace Right_Click_Commands.ViewModels
 {
@@ -17,6 +19,7 @@ namespace Right_Click_Commands.ViewModels
         private readonly ISettings settings;
         private readonly IMessagePrompt messagePrompt;
         private readonly IUpdater updater;
+        private readonly IIconPicker iconPicker;
 
         private ObservableCollection<IScriptConfig> scriptConfigs;
         private IScriptConfig selectedScriptConfig;
@@ -34,13 +37,25 @@ namespace Right_Click_Commands.ViewModels
         public IScriptConfig SelectedScriptConfig
         {
             get => selectedScriptConfig;
-            set => PropertyChanging(value, ref selectedScriptConfig, nameof(SelectedScriptConfig));
+            set => PropertyChanging(value, ref selectedScriptConfig, nameof(SelectedScriptConfig), nameof(SelectedScriptConfigIndex), nameof(SelectedScriptConfigIcon));
         }
 
         public int SelectedScriptConfigIndex
         {
             get => selectedScriptConfigIndex;
-            set => PropertyChanging(value, ref selectedScriptConfigIndex, nameof(SelectedScriptConfigIndex));
+            set => PropertyChanging(value, ref selectedScriptConfigIndex, nameof(SelectedScriptConfig), nameof(SelectedScriptConfigIndex), nameof(SelectedScriptConfigIcon));
+        }
+
+        public BitmapSource SelectedScriptConfigIcon
+        {
+            get
+            {
+                if (selectedScriptConfig == null)
+                {
+                    return null;
+                }
+                return iconPicker.SelectIconAsBitmap(SelectedScriptConfig.Icon);
+            }
         }
 
         public Command ViewFullyLoaded { get; }
@@ -63,12 +78,13 @@ namespace Right_Click_Commands.ViewModels
             DeleteSelected = new Command(DoDeleteSelected);
         }
 
-        public MainWindowViewModel(IContextMenuWorker contextMenuWorker, ISettings settings, IMessagePrompt messagePrompt, IUpdater updater) : this()
+        public MainWindowViewModel(IContextMenuWorker contextMenuWorker, ISettings settings, IMessagePrompt messagePrompt, IUpdater updater, IIconPicker iconPicker) : this()
         {
             this.contextMenuWorker = contextMenuWorker ?? throw new ArgumentNullException(nameof(contextMenuWorker));
             this.settings = settings ?? throw new ArgumentNullException(nameof(settings));
             this.messagePrompt = messagePrompt ?? throw new ArgumentNullException(nameof(messagePrompt));
             this.updater = updater ?? throw new ArgumentNullException(nameof(updater));
+            this.iconPicker = iconPicker ?? throw new ArgumentNullException(nameof(iconPicker));
 
             selectedScriptConfigIndex = -1;
 
@@ -175,6 +191,29 @@ namespace Right_Click_Commands.ViewModels
             }
 
             SelectedScriptConfigIndex = selectedindex;
+        }
+
+        private void DoSelectNewIcon()
+        {
+            if (SelectedScriptConfigIndex == -1)
+            {
+                return;
+            }
+
+            if (SelectedScriptConfigIndex < -1 || SelectedScriptConfigIndex >= ScriptConfigs.Count)
+            {
+                SelectedScriptConfigIndex = -1;
+                return;
+            }
+
+            IIconReference iconReference = iconPicker.SelectIconReference();
+
+            if (iconReference == null)
+            {
+                return;
+            }
+
+            SelectedScriptConfig.Icon = iconReference;
         }
     }
 }

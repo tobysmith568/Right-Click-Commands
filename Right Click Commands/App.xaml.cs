@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using Unity;
+using IconPicker;
 
 namespace Right_Click_Commands
 {
@@ -96,6 +97,7 @@ namespace Right_Click_Commands
             container.RegisterType<IRunner, WindowsRunner>();
             container.RegisterType<IUpdater, WindowsUpdater>();
             container.RegisterType<IJSONConverter, JSONConverter>();
+            container.RegisterType<IIconPicker, IconPickerDialog>();
         }
 
         /// <exception cref="InvalidOperationException"></exception>

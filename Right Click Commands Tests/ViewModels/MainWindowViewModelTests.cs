@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using IconPicker;
+using Moq;
 using NUnit.Framework;
 using Right_Click_Commands.Models.ContextMenu;
 using Right_Click_Commands.Models.MessagePrompts;
@@ -18,6 +19,7 @@ namespace Right_Click_Commands.ViewModels.Tests
         Mock<IContextMenuWorker> contextMenuWorker;
         Mock<ISettings> settings;
         Mock<IUpdater> updater;
+        Mock<IIconPicker> iconPicker;
         Mock<IMessagePrompt> messagePrompt;
         Mock<IScriptConfig> mockScriptOne;
         Mock<IScriptConfig> mockScriptTwo;
@@ -37,6 +39,8 @@ namespace Right_Click_Commands.ViewModels.Tests
 
             updater = new Mock<IUpdater>();
 
+            iconPicker = new Mock<IIconPicker>();
+
             mockScriptOne = new Mock<IScriptConfig>();
             mockScriptTwo = new Mock<IScriptConfig>();
             mockScriptThree = new Mock<IScriptConfig>();
@@ -49,7 +53,7 @@ namespace Right_Click_Commands.ViewModels.Tests
             };
             contextMenuWorker.Setup(c => c.GetScriptConfigs()).Returns(configs);
 
-            subject = new MainWindowViewModel(contextMenuWorker.Object, settings.Object, messagePrompt.Object, updater.Object)
+            subject = new MainWindowViewModel(contextMenuWorker.Object, settings.Object, messagePrompt.Object, updater.Object, iconPicker.Object)
             {
                 SelectedScriptConfigIndex = 1
             };
@@ -60,29 +64,36 @@ namespace Right_Click_Commands.ViewModels.Tests
         [Test]
         public void Test_Constructor_ThrowsArgumentNullOnNullContextMenuWorker()
         {
-            ArgumentNullException ex = Assert.Throws<ArgumentNullException>(() => new MainWindowViewModel(null, settings.Object, messagePrompt.Object, updater.Object));
+            ArgumentNullException ex = Assert.Throws<ArgumentNullException>(() => new MainWindowViewModel(null, settings.Object, messagePrompt.Object, updater.Object, iconPicker.Object));
             Assert.AreEqual("contextMenuWorker", ex.ParamName);
         }
 
         [Test]
         public void Test_Constructor_ThrowsArgumentNullOnNullSettings()
         {
-            ArgumentNullException ex = Assert.Throws<ArgumentNullException>(() => new MainWindowViewModel(contextMenuWorker.Object, null, messagePrompt.Object, updater.Object));
+            ArgumentNullException ex = Assert.Throws<ArgumentNullException>(() => new MainWindowViewModel(contextMenuWorker.Object, null, messagePrompt.Object, updater.Object, iconPicker.Object));
             Assert.AreEqual("settings", ex.ParamName);
         }
 
         [Test]
         public void Test_Constructor_ThrowsArgumentNullOnNullMessagePrompt()
         {
-            ArgumentNullException ex = Assert.Throws<ArgumentNullException>(() => new MainWindowViewModel(contextMenuWorker.Object, settings.Object, null, updater.Object));
+            ArgumentNullException ex = Assert.Throws<ArgumentNullException>(() => new MainWindowViewModel(contextMenuWorker.Object, settings.Object, null, updater.Object, iconPicker.Object));
             Assert.AreEqual("messagePrompt", ex.ParamName);
         }
 
         [Test]
         public void Test_Constructor_ThrowsArgumentNullOnNullUpdater()
         {
-            ArgumentNullException ex = Assert.Throws<ArgumentNullException>(() => new MainWindowViewModel(contextMenuWorker.Object, settings.Object, messagePrompt.Object, null));
+            ArgumentNullException ex = Assert.Throws<ArgumentNullException>(() => new MainWindowViewModel(contextMenuWorker.Object, settings.Object, messagePrompt.Object, null, iconPicker.Object));
             Assert.AreEqual("updater", ex.ParamName);
+        }
+
+        [Test]
+        public void Test_Constructor_ThrowsArgumentNullOnNullIconPicker()
+        {
+            ArgumentNullException ex = Assert.Throws<ArgumentNullException>(() => new MainWindowViewModel(contextMenuWorker.Object, settings.Object, messagePrompt.Object, updater.Object, null));
+            Assert.AreEqual("iconPicker", ex.ParamName);
         }
 
         #endregion
