@@ -64,6 +64,7 @@ namespace Right_Click_Commands.ViewModels
         public Command MoveSelectedUp { get; }
         public Command MoveSelectedDown { get; }
         public Command DeleteSelected { get; }
+        public Command SelectNewIcon { get; }
 
         //  Constructors
         //  ============
@@ -76,6 +77,7 @@ namespace Right_Click_Commands.ViewModels
             MoveSelectedUp = new Command(DoMoveSelectedUp);
             MoveSelectedDown = new Command(DoMoveSelectedDown);
             DeleteSelected = new Command(DoDeleteSelected);
+            SelectNewIcon = new Command(DoSelectNewIcon);
         }
 
         public MainWindowViewModel(IContextMenuWorker contextMenuWorker, ISettings settings, IMessagePrompt messagePrompt, IUpdater updater, IIconPicker iconPicker) : this()
@@ -214,6 +216,7 @@ namespace Right_Click_Commands.ViewModels
             }
 
             SelectedScriptConfig.Icon = iconReference;
+            RaisePropertyChanged(nameof(SelectedScriptConfigIcon));
         }
     }
 }
