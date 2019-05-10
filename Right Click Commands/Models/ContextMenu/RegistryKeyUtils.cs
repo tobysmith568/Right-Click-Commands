@@ -35,7 +35,7 @@ namespace Right_Click_Commands.Models.ContextMenu
                 newConfig = new BatScriptConfig(registryName.Name, registryName.ID, settings)
                 {
                     Label = registryKey.GetValue(RegistryWorker.MUIVerb, string.Empty).ToString(),
-                    Icon = new IconReference(@"%SystemRoot%\System32\SHELL32.dll", 7) //null// registryKey.GetValue(RegistryWorker.Icon, string.Empty).ToString()// TODO
+                    Icon = new IconReference(registryKey.GetValue(RegistryWorker.Icon, string.Empty).ToString())
                 };
 
                 newConfig.LoadScript();
@@ -90,7 +90,7 @@ namespace Right_Click_Commands.Models.ContextMenu
                 newConfig = new PowershellScriptConfig(registryName.Name, registryName.ID, settings)
                 {
                     Label = registryKey.GetValue(RegistryWorker.MUIVerb, string.Empty).ToString(),
-                    Icon = new IconReference(@"%SystemRoot%\System32\SHELL32.dll", 7)//null// registryKey.GetValue(RegistryWorker.Icon, string.Empty).ToString()// TODO
+                    Icon = new IconReference(registryKey.GetValue(RegistryWorker.Icon, string.Empty).ToString())
                 };
 
                 newConfig.LoadScript();
