@@ -221,7 +221,7 @@ namespace Right_Click_Commands.Models.ContextMenu
                 using (RegistryKey childKey = key.CreateSubKey($"RCC_{scriptConfig.ID}_{scriptConfig.Name}", true))
                 {
                     childKey.SetValue(MUIVerb, scriptConfig.Label, RegistryValueKind.String);
-                    childKey.SetValue(Icon, string.Empty);// TODO
+                    childKey.SetValue(Icon, scriptConfig.Icon.ToString());
 
                     using (RegistryKey commandKey = childKey.CreateSubKey(command))
                     {
