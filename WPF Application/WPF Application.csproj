@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{30B517C3-CE6B-4D6E-B62F-E14F692582F3}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>Right_Click_Commands</RootNamespace>
-    <AssemblyName>RightClickCommands</AssemblyName>
+    <ProjectGuid>{61EC6E80-BEA2-4789-83E2-267D878FACB6}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Right_Click_Commands.WPF</RootNamespace>
+    <AssemblyName>Right Click Commands</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -35,9 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Images\Icon_130_Filled.ico</ApplicationIcon>
-  </PropertyGroup>
-  <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
@@ -46,9 +43,6 @@
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp, Version=106.6.9.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.106.6.9\lib\net452\RestSharp.dll</HintPath>
@@ -79,35 +73,35 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Command.cs" />
-    <Compile Include="Models\JSON Converter\IJSONConverter.cs" />
-    <Compile Include="Models\JSON Converter\JSONConverter.cs" />
-    <Compile Include="Models\MenuLocation.cs" />
-    <Compile Include="Models\ContextMenu\IContextMenuWorker.cs" />
-    <Compile Include="Models\MessagePrompts\IMessagePrompt.cs" />
-    <Compile Include="Models\MessagePrompts\MessageResult.cs" />
-    <Compile Include="Models\MessagePrompts\MessageType.cs" />
-    <Compile Include="Models\Runner\ExecutionException.cs" />
-    <Compile Include="Models\Runner\IRunner.cs" />
-    <Compile Include="Models\Scripts\IScriptConfig.cs" />
-    <Compile Include="Models\Scripts\ScriptAccessException.cs" />
-    <Compile Include="Models\Scripts\ScriptConfig.cs" />
-    <Compile Include="Models\Scripts\ScriptConfigUtils.cs" />
-    <Compile Include="Models\Scripts\ScriptType.cs" />
-    <Compile Include="Models\Settings\ISettings.cs" />
-    <Compile Include="Models\Updater\Asset.cs" />
-    <Compile Include="Models\Updater\GithubRelease.cs" />
-    <Compile Include="Models\Updater\IUpdater.cs" />
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\ConverterBase.cs" />
+    <Compile Include="Converters\DoubleToPixelGridWidthConverter.cs" />
+    <Compile Include="Converters\IntegerToWindowStateConverter.cs" />
+    <Compile Include="Converters\NullableToVisibility.cs" />
+    <Compile Include="Models\ContextMenu\RegistryKeyUtils.cs" />
+    <Compile Include="Models\ContextMenu\RegistryName.cs" />
+    <Compile Include="Models\ContextMenu\RegistryWorker.cs" />
+    <Compile Include="Models\Logger\WindowsLogger.cs" />
+    <Compile Include="Models\MessagePrompts\WinDialogBox.cs" />
+    <Compile Include="Models\Runner\WindowsRunner.cs" />
+    <Compile Include="Models\Scripts\BatScriptConfig.cs" />
+    <Compile Include="Models\Scripts\PowershellScriptConfig.cs" />
+    <Compile Include="Models\Settings\WindowsSettings.cs" />
+    <Compile Include="Models\Updater\WindowsUpdater.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
-    <Compile Include="ViewModels\ViewModelBase.cs" />
-    <Compile Include="ViewModels\MainWindowViewModel.cs" />
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Include="Views\About.xaml.cs">
+      <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -115,6 +109,18 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ScriptError.xaml.cs">
+      <DependentUpon>ScriptError.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UpdateDownloading.xaml.cs">
+      <DependentUpon>UpdateDownloading.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UpdateFound.xaml.cs">
+      <DependentUpon>UpdateFound.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UpdateWindow.xaml.cs">
+      <DependentUpon>UpdateWindow.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -130,15 +136,40 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\Icon.svg" />
-    <Resource Include="Images\Icon_640_Grey.png" />
-    <Resource Include="Images\Icon_130_Filled.ico" />
-    <Resource Include="Images\Icon_130_Filled.png" />
-    <Resource Include="Images\Icon_32_Filled.png" />
-    <Resource Include="Images\Icon_640_Filled.png" />
-    <Resource Include="Images\Icon_130.png" />
-    <Resource Include="Images\Icon_32.png" />
-    <Resource Include="Images\Icon_640.png" />
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="Views\About.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ScriptError.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UpdateDownloading.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UpdateFound.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UpdateWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Right Click Commands\Right Click Commands.csproj">
+      <Project>{30b517c3-ce6b-4d6e-b62f-e14f692582f3}</Project>
+      <Name>Right Click Commands</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
