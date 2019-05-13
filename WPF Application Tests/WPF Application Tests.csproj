@@ -78,6 +78,8 @@
     <Compile Include="Converters\DoubleToPixelGridWidthConverterTests.cs" />
     <Compile Include="Converters\IntegerToWindowStateConverterTests.cs" />
     <Compile Include="Converters\NullableToVisibilityTests.cs" />
+    <Compile Include="Models\Scripts\BatScriptConfigTests.cs" />
+    <Compile Include="Models\Scripts\PowershellScriptConfigTests.cs" />
     <Compile Include="Models\Updater\WindowsUpdaterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
