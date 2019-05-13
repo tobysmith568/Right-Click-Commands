@@ -50,11 +50,16 @@ namespace Right_Click_Commands.ViewModels
         {
             get
             {
-                if (selectedScriptConfig == null)
+                if (scriptConfigs == null || SelectedScriptConfigIndex == -1)
                 {
                     return null;
                 }
-                return iconPicker.SelectIconAsBitmap(SelectedScriptConfig.Icon);
+
+                if (scriptConfigs[SelectedScriptConfigIndex] == null)
+                {
+                    return null;
+                }
+                return iconPicker.SelectIconAsBitmap(scriptConfigs[SelectedScriptConfigIndex].Icon);
             }
         }
 
@@ -215,7 +220,7 @@ namespace Right_Click_Commands.ViewModels
                 return;
             }
 
-            SelectedScriptConfig.Icon = iconReference;
+            scriptConfigs[selectedScriptConfigIndex].Icon = iconReference;
             RaisePropertyChanged(nameof(SelectedScriptConfigIcon));
         }
     }

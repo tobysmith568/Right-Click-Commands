@@ -7,6 +7,7 @@ using Right_Click_Commands.Models.Scripts;
 using Right_Click_Commands.Models.Settings;
 using Right_Click_Commands.Models.Updater;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 
@@ -25,6 +26,7 @@ namespace Right_Click_Commands.ViewModels.Tests
         Mock<IScriptConfig> mockScriptTwo;
         Mock<IScriptConfig> mockScriptThree;
 
+        List<Mock<IScriptConfig>> mockConfigs;
         ObservableCollection<IScriptConfig> configs;
 
         [SetUp]
@@ -44,6 +46,13 @@ namespace Right_Click_Commands.ViewModels.Tests
             mockScriptOne = new Mock<IScriptConfig>();
             mockScriptTwo = new Mock<IScriptConfig>();
             mockScriptThree = new Mock<IScriptConfig>();
+
+            mockConfigs = new List<Mock<IScriptConfig>>
+            {
+                mockScriptOne,
+                mockScriptTwo,
+                mockScriptThree
+            };
 
             configs = new ObservableCollection<IScriptConfig>
             {
@@ -103,7 +112,7 @@ namespace Right_Click_Commands.ViewModels.Tests
         [Test]
         public void Test_ViewFullyLoaded_DoesNotUpdateWithNullAsset()
         {
-            updater.Setup(u => u.CheckForUpdateAsync()).ReturnsAsync((Asset)null);
+            Given_Updater_CheckForUpdateAsync_Returns(null);
 
             subject.ViewFullyLoaded.DoExecute(null);
 
@@ -115,8 +124,7 @@ namespace Right_Click_Commands.ViewModels.Tests
         public void Test_ViewFullyLoaded_UpdatesToAnyGivenAsset()
         {
             Asset asset = new Asset();
-
-            updater.Setup(u => u.CheckForUpdateAsync()).ReturnsAsync(asset);
+            Given_Updater_CheckForUpdateAsync_Returns(asset);
 
             subject.ViewFullyLoaded.DoExecute(null);
 
@@ -170,12 +178,9 @@ namespace Right_Click_Commands.ViewModels.Tests
         [TestCase(-50)]
         public void Test_MoveSelectedUp_MovesNothingWithAnIndexOfZeroOrLower(int index)
         {
-            Assert.AreEqual(3, subject.ScriptConfigs.Count);
-            Assert.AreSame(mockScriptOne.Object, subject.ScriptConfigs[0]);
-            Assert.AreSame(mockScriptTwo.Object, subject.ScriptConfigs[1]);
-            Assert.AreSame(mockScriptThree.Object, subject.ScriptConfigs[2]);
+            Given_All3ScriptConfigsAreInOrder();
+            Given_SelectedScriptConfigIndex_Equals(index);
 
-            subject.SelectedScriptConfigIndex = index;
             subject.MoveSelectedUp.DoExecute(null);
 
             Assert.AreEqual(3, subject.ScriptConfigs.Count);
@@ -189,7 +194,7 @@ namespace Right_Click_Commands.ViewModels.Tests
         [TestCase(-50)]
         public void Test_MoveSelectedUp_ResetsTheSelectedIndexWhenTheSelectedIndexIsMinus2OrLower(int index)
         {
-            subject.SelectedScriptConfigIndex = index;
+            Given_SelectedScriptConfigIndex_Equals(index);
 
             subject.MoveSelectedUp.DoExecute(null);
 
@@ -202,7 +207,8 @@ namespace Right_Click_Commands.ViewModels.Tests
         {
             IScriptConfig configAtIndex = subject.ScriptConfigs[index];
 
-            subject.SelectedScriptConfigIndex = index;
+            Given_SelectedScriptConfigIndex_Equals(index);
+
             subject.MoveSelectedUp.DoExecute(null);
 
             Assert.AreSame(configAtIndex, subject.ScriptConfigs[index - 1]);
@@ -212,7 +218,7 @@ namespace Right_Click_Commands.ViewModels.Tests
         [TestCase(2)]
         public void Test_MoveSelectedUp_MovesSelectedScriptWithAValidIndex(int index)
         {
-            subject.SelectedScriptConfigIndex = index;
+            Given_SelectedScriptConfigIndex_Equals(index);
 
             subject.MoveSelectedUp.DoExecute(null);
 
@@ -224,12 +230,9 @@ namespace Right_Click_Commands.ViewModels.Tests
         [TestCase(10)]
         public void Test_MoveSelectedUp_MovesNothingWhenTheSelectedIndexIsTooHigh(int index)
         {
-            Assert.AreEqual(3, subject.ScriptConfigs.Count);
-            Assert.AreSame(mockScriptOne.Object, subject.ScriptConfigs[0]);
-            Assert.AreSame(mockScriptTwo.Object, subject.ScriptConfigs[1]);
-            Assert.AreSame(mockScriptThree.Object, subject.ScriptConfigs[2]);
+            Given_All3ScriptConfigsAreInOrder();
+            Given_SelectedScriptConfigIndex_Equals(index);
 
-            subject.SelectedScriptConfigIndex = index;
             subject.MoveSelectedUp.DoExecute(null);
 
             Assert.AreEqual(3, subject.ScriptConfigs.Count);
@@ -243,7 +246,7 @@ namespace Right_Click_Commands.ViewModels.Tests
         [TestCase(10)]
         public void Test_MoveSelectedUp_ResetsTheSelectedIndexWhenTheSelectedIndexIsTooHigh(int index)
         {
-            subject.SelectedScriptConfigIndex = index;
+            Given_SelectedScriptConfigIndex_Equals(index);
 
             subject.MoveSelectedUp.DoExecute(null);
 
@@ -258,12 +261,9 @@ namespace Right_Click_Commands.ViewModels.Tests
         [TestCase(-50)]
         public void Test_MoveSelectedDown_MovesNothingWithAnIndexOfMinusOneLower(int index)
         {
-            Assert.AreEqual(3, subject.ScriptConfigs.Count);
-            Assert.AreSame(mockScriptOne.Object, subject.ScriptConfigs[0]);
-            Assert.AreSame(mockScriptTwo.Object, subject.ScriptConfigs[1]);
-            Assert.AreSame(mockScriptThree.Object, subject.ScriptConfigs[2]);
+            Given_All3ScriptConfigsAreInOrder();
+            Given_SelectedScriptConfigIndex_Equals(index);
 
-            subject.SelectedScriptConfigIndex = index;
             subject.MoveSelectedDown.DoExecute(null);
 
             Assert.AreEqual(3, subject.ScriptConfigs.Count);
@@ -277,7 +277,7 @@ namespace Right_Click_Commands.ViewModels.Tests
         [TestCase(-50)]
         public void Test_MoveSelectedDown_ResetsTheSelectedIndexWhenTheSelectedIndexIsMinusTwoOrLower(int index)
         {
-            subject.SelectedScriptConfigIndex = index;
+            Given_SelectedScriptConfigIndex_Equals(index);
 
             subject.MoveSelectedDown.DoExecute(null);
 
@@ -289,8 +289,8 @@ namespace Right_Click_Commands.ViewModels.Tests
         public void Test_MoveSelectedDown_MovesScriptsWithAValidIndex(int index)
         {
             IScriptConfig configAtIndex = subject.ScriptConfigs[index];
+            Given_SelectedScriptConfigIndex_Equals(index);
 
-            subject.SelectedScriptConfigIndex = index;
             subject.MoveSelectedDown.DoExecute(null);
 
             Assert.AreSame(configAtIndex, subject.ScriptConfigs[index + 1]);
@@ -300,7 +300,7 @@ namespace Right_Click_Commands.ViewModels.Tests
         [TestCase(1)]
         public void Test_MoveSelectedDown_MovesSelectedScriptWithAValidIndex(int index)
         {
-            subject.SelectedScriptConfigIndex = index;
+            Given_SelectedScriptConfigIndex_Equals(index);
 
             subject.MoveSelectedDown.DoExecute(null);
 
@@ -312,12 +312,9 @@ namespace Right_Click_Commands.ViewModels.Tests
         [TestCase(10)]
         public void Test_MoveSelectedDown_MovesNothingWhenTheSelectedIndexIsTooHigh(int index)
         {
-            Assert.AreEqual(3, subject.ScriptConfigs.Count);
-            Assert.AreSame(mockScriptOne.Object, subject.ScriptConfigs[0]);
-            Assert.AreSame(mockScriptTwo.Object, subject.ScriptConfigs[1]);
-            Assert.AreSame(mockScriptThree.Object, subject.ScriptConfigs[2]);
+            Given_All3ScriptConfigsAreInOrder();
+            Given_SelectedScriptConfigIndex_Equals(index);
 
-            subject.SelectedScriptConfigIndex = index;
             subject.MoveSelectedDown.DoExecute(null);
 
             Assert.AreEqual(3, subject.ScriptConfigs.Count);
@@ -331,7 +328,7 @@ namespace Right_Click_Commands.ViewModels.Tests
         [TestCase(10)]
         public void Test_MoveSelectedDown_ResetsTheSelectedIndexWhenTheSelectedIndexIsTooHigh(int index)
         {
-            subject.SelectedScriptConfigIndex = index;
+            Given_SelectedScriptConfigIndex_Equals(index);
 
             subject.MoveSelectedDown.DoExecute(null);
 
@@ -349,12 +346,9 @@ namespace Right_Click_Commands.ViewModels.Tests
         [TestCase(-50)]
         public void Test_DeleteSelected_DeletesNothingWithAnIndexOutOfRange(int index)
         {
-            Assert.AreEqual(3, subject.ScriptConfigs.Count);
-            Assert.AreSame(mockScriptOne.Object, subject.ScriptConfigs[0]);
-            Assert.AreSame(mockScriptTwo.Object, subject.ScriptConfigs[1]);
-            Assert.AreSame(mockScriptThree.Object, subject.ScriptConfigs[2]);
+            Given_All3ScriptConfigsAreInOrder();
+            Given_SelectedScriptConfigIndex_Equals(index);
 
-            subject.SelectedScriptConfigIndex = index;
             subject.DeleteSelected.DoExecute(null);
 
             Assert.AreEqual(3, subject.ScriptConfigs.Count);
@@ -371,7 +365,7 @@ namespace Right_Click_Commands.ViewModels.Tests
         [TestCase(-50)]
         public void Test_DeleteSelected_ResetsTheSelectedIndexWhenTheSelectedIndexIsOutOfRage(int index)
         {
-            subject.SelectedScriptConfigIndex = index;
+            Given_SelectedScriptConfigIndex_Equals(index);
 
             subject.DeleteSelected.DoExecute(null);
 
@@ -381,12 +375,8 @@ namespace Right_Click_Commands.ViewModels.Tests
         [Test]
         public void Test_DeleteSelected_DeletesNothingIfConfirmationBoxReturnsNo()
         {
-            Assert.AreEqual(3, subject.ScriptConfigs.Count);
-            Assert.AreSame(mockScriptOne.Object, subject.ScriptConfigs[0]);
-            Assert.AreSame(mockScriptTwo.Object, subject.ScriptConfigs[1]);
-            Assert.AreSame(mockScriptThree.Object, subject.ScriptConfigs[2]);
-
-            messagePrompt.Setup(m => m.PromptYesNo(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageType>())).Returns(MessageResult.No);
+            Given_All3ScriptConfigsAreInOrder();
+            Given_MessagePrompt_PromptYesNo_Returns(MessageResult.No);
 
             subject.DeleteSelected.DoExecute(null);
 
@@ -399,14 +389,10 @@ namespace Right_Click_Commands.ViewModels.Tests
         [Test]
         public void Test_DeleteSelected_DeletesWhenGivenAValidSelectedIndex()
         {
-            Assert.AreEqual(3, subject.ScriptConfigs.Count);
-            Assert.AreSame(mockScriptOne.Object, subject.ScriptConfigs[0]);
-            Assert.AreSame(mockScriptTwo.Object, subject.ScriptConfigs[1]);
-            Assert.AreSame(mockScriptThree.Object, subject.ScriptConfigs[2]);
+            Given_All3ScriptConfigsAreInOrder();
+            Given_MessagePrompt_PromptYesNo_Returns(MessageResult.Yes);
+            Given_SelectedScriptConfigIndex_Equals(1);
 
-            messagePrompt.Setup(m => m.PromptYesNo(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageType>())).Returns(MessageResult.Yes);
-
-            subject.SelectedScriptConfigIndex = 1;
             subject.DeleteSelected.DoExecute(null);
 
             Assert.AreEqual(2, subject.ScriptConfigs.Count);
@@ -418,7 +404,7 @@ namespace Right_Click_Commands.ViewModels.Tests
         [TestCase(1)]
         public void Test_DeleteSelected_KeepsTheSameSelectedIndexWhenItDeletesAnythingButTheLastIndex(int index)
         {
-            subject.SelectedScriptConfigIndex = index;
+            Given_SelectedScriptConfigIndex_Equals(index);
 
             subject.DeleteSelected.DoExecute(null);
 
@@ -429,13 +415,110 @@ namespace Right_Click_Commands.ViewModels.Tests
         public void Test_DeleteSelected_SelectsTheNewLastIndexWhenItDeletesTheLastIndex()
         {
             int originalIndex = subject.ScriptConfigs.Count - 1;
+            Given_SelectedScriptConfigIndex_Equals(originalIndex);
 
-            subject.SelectedScriptConfigIndex = originalIndex;
             subject.DeleteSelected.DoExecute(null);
 
             Assert.AreEqual(originalIndex - 1, subject.SelectedScriptConfigIndex);
         }
 
         #endregion
+        #region Select New Icon
+
+        [TestCase(50)]
+        [TestCase(4)]
+        [TestCase(3)]
+        [TestCase(-1)]
+        [TestCase(-2)]
+        [TestCase(-50)]
+        public void Test_SelectNewIcon_DoesNothingWithAnIndexOutOfRange(int index)
+        {
+            Given_All3ScriptConfigsAreInOrder();
+            Given_SelectedScriptConfigIndex_Equals(index);
+
+            subject.SelectNewIcon.DoExecute(null);
+
+            Assert.AreEqual(3, subject.ScriptConfigs.Count);
+            Assert.AreSame(mockScriptOne.Object, subject.ScriptConfigs[0]);
+            Assert.AreSame(mockScriptTwo.Object, subject.ScriptConfigs[1]);
+            Assert.AreSame(mockScriptThree.Object, subject.ScriptConfigs[2]);
+        }
+
+        [TestCase(50)]
+        [TestCase(4)]
+        [TestCase(3)]
+        [TestCase(-2)]
+        [TestCase(-3)]
+        [TestCase(-50)]
+        public void Test_SelectNewIcon_ResetsTheSelectedIndexWhenTheSelectedIndexIsOutOfRage(int index)
+        {
+            Given_SelectedScriptConfigIndex_Equals(index);
+
+            subject.SelectNewIcon.DoExecute(null);
+
+            Assert.AreEqual(-1, subject.SelectedScriptConfigIndex);
+        }
+
+        [Test]
+        public void Test_SelectNewIcon_DoesNothingIfIconPickerDialogIsCancelled()
+        {
+            Given_All3ScriptConfigsAreInOrder();
+            Given_SelectedScriptConfigIndex_Equals(1);
+            Given_IconPicker_SelectIconReference_Returns(null);
+
+            subject.SelectNewIcon.DoExecute(null);
+
+            Assert.AreEqual(3, subject.ScriptConfigs.Count);
+            Assert.AreSame(mockScriptOne.Object, subject.ScriptConfigs[0]);
+            Assert.AreSame(mockScriptTwo.Object, subject.ScriptConfigs[1]);
+            Assert.AreSame(mockScriptThree.Object, subject.ScriptConfigs[2]);
+        }
+
+        /// <exception cref="MockException">Ignore.</exception>
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(2)]
+        public void Test_SelectNewIcon_OverwritesIconReferenceIfDialogDoesnotReturnNull(int index)
+        {
+            IconReference iconReference = new IconReference("filepath", 7);
+
+            Given_All3ScriptConfigsAreInOrder();
+            Given_IconPicker_SelectIconReference_Returns(iconReference);
+            Given_SelectedScriptConfigIndex_Equals(index);
+
+            subject.SelectNewIcon.DoExecute(null);
+
+            mockConfigs[index].VerifySet(m => m.Icon = iconReference);
+        }
+    
+        #endregion
+
+        private void Given_Updater_CheckForUpdateAsync_Returns(Asset result)
+        {
+            updater.Setup(u => u.CheckForUpdateAsync()).ReturnsAsync(result);
+        }
+
+        private void Given_All3ScriptConfigsAreInOrder()
+        {
+            Assert.AreEqual(3, subject.ScriptConfigs.Count);
+            Assert.AreSame(mockScriptOne.Object, subject.ScriptConfigs[0]);
+            Assert.AreSame(mockScriptTwo.Object, subject.ScriptConfigs[1]);
+            Assert.AreSame(mockScriptThree.Object, subject.ScriptConfigs[2]);
+        }
+
+        private void Given_SelectedScriptConfigIndex_Equals(int value)
+        {
+            subject.SelectedScriptConfigIndex = value;
+        }
+
+        private void Given_MessagePrompt_PromptYesNo_Returns(MessageResult result)
+        {
+            messagePrompt.Setup(m => m.PromptYesNo(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageType>())).Returns(result);
+        }
+
+        private void Given_IconPicker_SelectIconReference_Returns(IconReference result)
+        {
+            iconPicker.Setup(i => i.SelectIconReference()).Returns(result);
+        }
     }
 }
