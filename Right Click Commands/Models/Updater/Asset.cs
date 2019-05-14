@@ -7,7 +7,7 @@ namespace Right_Click_Commands.Models.Updater
         //  Variables
         //  =========
 
-        private static readonly string[] dataSizes = { "B", "KB", "MB", "GB", "TB" };
+        private static readonly string[] dataSizes = { "B", "KB", "MB", "GB" };
         private int bytes;
 
         //  JSON Properties
