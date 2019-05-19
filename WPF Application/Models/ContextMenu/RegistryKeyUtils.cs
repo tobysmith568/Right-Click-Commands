@@ -1,4 +1,4 @@
-﻿using IconPicker;
+using IconPicker;
 using Microsoft.Win32;
 using Right_Click_Commands.Models.Scripts;
 using Right_Click_Commands.Models.Settings;
@@ -33,10 +33,17 @@ namespace Right_Click_Commands.WPF.Models.ContextMenu
             BatScriptConfig newConfig = null;
             try
             {
+                IIconReference iconReference = null;
+                string iconRef = registryKey.GetValue(RegistryWorker.Icon, string.Empty).ToString();
+                if (!string.IsNullOrWhiteSpace(iconRef))
+                {
+                    iconReference = new IconReference(iconRef);
+                }
+
                 newConfig = new BatScriptConfig(registryName.Name, registryName.ID, settings)
                 {
                     Label = registryKey.GetValue(RegistryWorker.MUIVerb, string.Empty).ToString(),
-                    Icon = new IconReference(registryKey.GetValue(RegistryWorker.Icon, string.Empty).ToString())
+                    Icon = iconReference
                 };
 
                 newConfig.LoadScript();
@@ -88,10 +95,17 @@ namespace Right_Click_Commands.WPF.Models.ContextMenu
             PowershellScriptConfig newConfig = null;
             try
             {
+                IIconReference iconReference = null;
+                string iconRef = registryKey.GetValue(RegistryWorker.Icon, string.Empty).ToString();
+                if (!string.IsNullOrWhiteSpace(iconRef))
+                {
+                    iconReference = new IconReference(iconRef);
+                }
+
                 newConfig = new PowershellScriptConfig(registryName.Name, registryName.ID, settings)
                 {
                     Label = registryKey.GetValue(RegistryWorker.MUIVerb, string.Empty).ToString(),
-                    Icon = new IconReference(registryKey.GetValue(RegistryWorker.Icon, string.Empty).ToString())
+                    Icon = iconReference
                 };
 
                 newConfig.LoadScript();

@@ -91,7 +91,7 @@ namespace Right_Click_Commands.WPF.Models.ContextMenu
                             CreateScriptConfig(location.Value, scriptConfig);
                         }
                     }
-                    catch // TODO
+                    catch (Exception e) // TODO
                     {
                     }
                 }
@@ -155,7 +155,7 @@ namespace Right_Click_Commands.WPF.Models.ContextMenu
                     {
                         messagePrompt.PromptOK(e.Message, "Invalid Data", MessageType.Error);
                     }
-                    catch (Exception)// TODO
+                    catch (Exception e)// TODO
                     {
 
                     }
@@ -223,7 +223,7 @@ namespace Right_Click_Commands.WPF.Models.ContextMenu
                 using (RegistryKey childKey = key.CreateSubKey($"RCC_{scriptConfig.ID}_{scriptConfig.Name}", true))
                 {
                     childKey.SetValue(MUIVerb, scriptConfig.Label, RegistryValueKind.String);
-                    childKey.SetValue(Icon, scriptConfig.Icon.ToString());
+                    childKey.SetValue(Icon, scriptConfig.Icon?.ToString() ?? string.Empty);
 
                     using (RegistryKey commandKey = childKey.CreateSubKey(command))
                     {

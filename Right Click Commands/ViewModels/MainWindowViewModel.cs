@@ -1,4 +1,4 @@
-﻿using Right_Click_Commands.Models.ContextMenu;
+using Right_Click_Commands.Models.ContextMenu;
 using Right_Click_Commands.Models.MessagePrompts;
 using Right_Click_Commands.Models.Scripts;
 using Right_Click_Commands.Models.Settings;
@@ -59,6 +59,12 @@ namespace Right_Click_Commands.ViewModels
                 {
                     return null;
                 }
+
+                if (scriptConfigs[SelectedScriptConfigIndex].Icon == null)
+                {
+                    return null;
+                }
+
                 return iconPicker.SelectIconAsBitmap(scriptConfigs[SelectedScriptConfigIndex].Icon);
             }
         }
