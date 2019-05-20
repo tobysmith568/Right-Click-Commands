@@ -18,13 +18,19 @@ namespace Right_Click_Commands.WPF.Views
                 new Library
                 {
                     Name = "Castle Core",
-                    URL = "http://www.castleproject.org",
+                    URL = "https://www.castleproject.org",
                     Licence = "Apache License 2.0"
                 },
                 new Library
                 {
+                    Name = "Icon Picker",
+                    URL = "https://github.com/tobysmith568/Icon-Picker",
+                    Licence = "GNU General Public License v3.0"
+                },
+                new Library
+                {
                     Name = "log4net",
-                    URL = "http://logging.apache.org/log4net/",
+                    URL = "https://logging.apache.org/log4net/",
                     Licence = "Apache License 2.0"
                 },
                 new Library
@@ -42,7 +48,7 @@ namespace Right_Click_Commands.WPF.Views
                 new Library
                 {
                     Name = "NUnit",
-                    URL = "http://nunit.org",
+                    URL = "https://nunit.org",
                     Licence = "MIT License"
                 },
                 new Library
