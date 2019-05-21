@@ -11,7 +11,7 @@
         x:Class="Right_Click_Commands.WPF.Views.MainWindow"
         mc:Ignorable="d"
         x:Name="Window"
-        Title="MainWindow" Closing="Window_Closing" Loaded="Window_Loaded"
+        Title="Right Click Commands" Closing="Window_Closing" Loaded="Window_Loaded"
         Icon="/RightClickCommands;component/Images/Icon_130_Filled.ico" MinHeight="450" MinWidth="800"
         WindowState="{Binding Source={x:Static props:Settings.Default}, Path=WindowState, Mode=TwoWay, Converter={converters:IntegerToWindowStateConverter}}"    
         Height="{Binding Source={x:Static props:Settings.Default}, Path=Height, Mode=TwoWay}" 
@@ -111,7 +111,7 @@
                 <Image Source="/RightClickCommands;component/Images/Icon_640_Grey.png" Width="200" Height="200"/>
             </Viewbox>
         </Grid>
-        <Grid Margin="0,0,0,0" Grid.Column="2" Background="White" Grid.RowSpan="2" Visibility="Visible">
+        <Grid x:Name="ScriptGrid" Margin="0,0,0,0" Grid.Column="2" Background="White" Grid.RowSpan="2" Visibility="Visible">
             <!-- Visibility="{Binding SelectedScriptConfig, Converter={converters:NullableToVisibility}}">-->
             <Grid.RowDefinitions>
                 <RowDefinition Height="135"/>
