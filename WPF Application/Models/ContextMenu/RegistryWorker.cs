@@ -3,6 +3,7 @@ using Right_Click_Commands.Models.ContextMenu;
 using Right_Click_Commands.Models.MessagePrompts;
 using Right_Click_Commands.Models.Scripts;
 using Right_Click_Commands.Models.Settings;
+using Right_Click_Commands.Utils;
 using Right_Click_Commands.WPF.Models.Scripts;
 using System;
 using System.Collections.Generic;
@@ -99,11 +100,11 @@ namespace Right_Click_Commands.WPF.Models.ContextMenu
         }
 
         /// <exception cref="ScriptAccessException"></exception>
-        public IScriptConfig New(ScriptType scriptType, string id)
+        public IScriptConfig New(string scriptType, string id)
         {
             IScriptConfig result;
 
-            switch (scriptType)
+            switch (scriptType.ToEnum<ScriptType>())
             {
                 case ScriptType.Batch:
                     result = new BatScriptConfig(DateTime.UtcNow.Ticks.ToString(), id, settings);

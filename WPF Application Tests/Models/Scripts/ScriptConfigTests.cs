@@ -4,8 +4,9 @@ using System;
 using System.IO;
 using Moq;
 using Right_Click_Commands.Models.Settings;
+using Right_Click_Commands.Models.Scripts;
 
-namespace Right_Click_Commands.Models.Scripts.Tests
+namespace Right_Click_Commands.WPF.Models.Scripts.Tests
 {
     [TestFixture]
     public class ScriptConfigTests

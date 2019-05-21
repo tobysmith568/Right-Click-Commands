@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,6 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -78,6 +80,7 @@
     </Compile>
     <Compile Include="Converters\ConverterBase.cs" />
     <Compile Include="Converters\DoubleToPixelGridWidthConverter.cs" />
+    <Compile Include="Converters\ScriptTypeToStringConverter.cs" />
     <Compile Include="Converters\IntegerToWindowStateConverter.cs" />
     <Compile Include="Converters\NullableToVisibility.cs" />
     <Compile Include="Models\ContextMenu\RegistryKeyUtils.cs" />
@@ -86,8 +89,10 @@
     <Compile Include="Models\Logger\WindowsLogger.cs" />
     <Compile Include="Models\MessagePrompts\WinDialogBox.cs" />
     <Compile Include="Models\Runner\WindowsRunner.cs" />
-    <Compile Include="Models\Scripts\BatScriptConfig.cs" />
-    <Compile Include="Models\Scripts\PowershellScriptConfig.cs" />
+    <Compile Include="Models\Scripts\Implementations\BatScriptConfig.cs" />
+    <Compile Include="Models\Scripts\Implementations\PowershellScriptConfig.cs" />
+    <Compile Include="Models\Scripts\ScriptConfig.cs" />
+    <Compile Include="Models\Scripts\ScriptType.cs" />
     <Compile Include="Models\Settings\WindowsSettings.cs" />
     <Compile Include="Models\Updater\WindowsUpdater.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

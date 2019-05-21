@@ -1,36 +1,35 @@
-﻿using NUnit.Framework;
+﻿using Moq;
+using NUnit.Framework;
 using Right_Click_Commands.Models.Scripts;
+using Right_Click_Commands.Models.Settings;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Moq;
-using Right_Click_Commands.Models.Settings;
 
 namespace Right_Click_Commands.Models.Scripts.Tests
 {
     [TestFixture]
-    public class ScriptConfigUtilsTests
+    public class ScriptCollectionTests
     {
-        ObservableCollection<IScriptConfig> subject;
+        ScriptCollection subject;
 
         Mock<ISettings> settings;
-        Mock<ScriptConfig> first;
-        Mock<ScriptConfig> second;
-        Mock<ScriptConfig> third;
+        Mock<IScriptConfig> first;
+        Mock<IScriptConfig> second;
+        Mock<IScriptConfig> third;
 
         [SetUp]
         public void SetUp()
         {
             settings = new Mock<ISettings>();
 
-            first = new Mock<ScriptConfig>("first", "01", settings.Object);
-            second = new Mock<ScriptConfig>("second", "02", settings.Object);
-            third = new Mock<ScriptConfig>("third", "03", settings.Object);
+            first = new Mock<IScriptConfig>();
+            second = new Mock<IScriptConfig>();
+            third = new Mock<IScriptConfig>();
 
-            subject = new ObservableCollection<IScriptConfig>
+            subject = new ScriptCollection
             {
                 first.Object,
                 second.Object,

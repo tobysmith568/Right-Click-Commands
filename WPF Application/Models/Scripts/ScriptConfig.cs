@@ -1,9 +1,10 @@
 ﻿using IconPicker;
+using Right_Click_Commands.Models.Scripts;
 using Right_Click_Commands.Models.Settings;
 using System;
 using System.IO;
 
-namespace Right_Click_Commands.Models.Scripts
+namespace Right_Click_Commands.WPF.Models.Scripts
 {
     public abstract class ScriptConfig : ViewModelBase, IScriptConfig
     {

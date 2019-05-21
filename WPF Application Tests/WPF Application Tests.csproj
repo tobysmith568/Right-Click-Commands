@@ -30,6 +30,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -38,6 +39,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
@@ -82,8 +84,9 @@
     <Compile Include="Converters\IntegerToWindowStateConverterTests.cs" />
     <Compile Include="Converters\NullableToVisibilityTests.cs" />
     <Compile Include="Models\Logger\WindowsLoggerTests.cs" />
-    <Compile Include="Models\Scripts\BatScriptConfigTests.cs" />
-    <Compile Include="Models\Scripts\PowershellScriptConfigTests.cs" />
+    <Compile Include="Models\Scripts\Implementations\BatScriptConfigTests.cs" />
+    <Compile Include="Models\Scripts\Implementations\PowershellScriptConfigTests.cs" />
+    <Compile Include="Models\Scripts\ScriptConfigTests.cs" />
     <Compile Include="Models\Updater\WindowsUpdaterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

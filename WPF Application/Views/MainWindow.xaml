@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Right_Click_Commands.WPF"
-        xmlns:scripts="clr-namespace:Right_Click_Commands.Models.Scripts;assembly=RightClickCommands"
+        xmlns:scripts="clr-namespace:Right_Click_Commands.WPF.Models.Scripts"
         xmlns:props="clr-namespace:Right_Click_Commands.WPF.Properties"
         xmlns:converters="clr-namespace:Right_Click_Commands.WPF.Converters"
         xmlns:ViewModels="clr-namespace:Right_Click_Commands.ViewModels;assembly=RightClickCommands"
@@ -22,6 +22,7 @@
         <ViewModels:MainWindowViewModel />
     </Window.DataContext>
     <Window.Resources>
+        <converters:ScriptTypeToStringConveter x:Key="ScriptTypeToStringConveter"/>
         <ContextMenu x:Key="ScriptContextMenu">
             <MenuItem Header="Move Up" Click="MenuItem_Click_MoveSelectedUp"/>
             <MenuItem Header="Move Down" Click="MenuItem_Click_MoveSelectedDown"/>
@@ -60,8 +61,8 @@
             <Menu DockPanel.Dock="Top" Height="{Binding ActualHeight, ElementName=MenuDockPanel, Mode=OneWay}">
                 <MenuItem Header="_File" Height="{Binding ActualHeight, ElementName=MenuDockPanel, Mode=OneWay}">
                     <MenuItem Header="_New Script">
-                        <MenuItem Header="_Batch Script" InputGestureText="Ctrl+N" Command="{Binding CreateNewScript}" CommandParameter="{x:Static scripts:ScriptType.Batch}"/>
-                        <MenuItem Header="_Powershell Script" Command="{Binding CreateNewScript}" CommandParameter="{x:Static scripts:ScriptType.Powershell}"/>
+                        <MenuItem Header="_Batch Script" InputGestureText="Ctrl+N" Command="{Binding CreateNewScript}" CommandParameter="{Binding Converter={StaticResource ScriptTypeToStringConveter}, Source={x:Static scripts:ScriptType.Batch}}"/>
+                        <MenuItem Header="_Powershell Script" Command="{Binding CreateNewScript}" CommandParameter="{Binding Converter={StaticResource ScriptTypeToStringConveter}, Source={x:Static scripts:ScriptType.Powershell}}"/>
                     </MenuItem>
                     <MenuItem Header="_Reset Parition" Click="ResetPartition_Click" />
                     <Separator/>

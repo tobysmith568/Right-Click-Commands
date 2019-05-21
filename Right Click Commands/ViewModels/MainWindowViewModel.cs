@@ -21,14 +21,14 @@ namespace Right_Click_Commands.ViewModels
         private readonly IUpdater updater;
         private readonly IIconPicker iconPicker;
 
-        private ObservableCollection<IScriptConfig> scriptConfigs;
+        private ScriptCollection scriptConfigs;
         private IScriptConfig selectedScriptConfig;
         private int selectedScriptConfigIndex;
 
         //  Properties
         //  ==========
 
-        public ObservableCollection<IScriptConfig> ScriptConfigs
+        public ScriptCollection ScriptConfigs
         {
             get => scriptConfigs;
             set => PropertyChanging(value, ref scriptConfigs, nameof(ScriptConfigs));
@@ -71,7 +71,7 @@ namespace Right_Click_Commands.ViewModels
 
         public Command ViewFullyLoaded { get; }
         public Command WindowCloseCommand { get; }
-        public Command<ScriptType> CreateNewScript { get; }
+        public Command<string> CreateNewScript { get; }
         public Command MoveSelectedUp { get; }
         public Command MoveSelectedDown { get; }
         public Command DeleteSelected { get; }
@@ -84,7 +84,7 @@ namespace Right_Click_Commands.ViewModels
         {
             ViewFullyLoaded = new Command(DoViewFullyLoaded);
             WindowCloseCommand = new Command(DoWindowCloseCommand);
-            CreateNewScript = new Command<ScriptType>(DoCreateNewScript);
+            CreateNewScript = new Command<string>(DoCreateNewScript);
             MoveSelectedUp = new Command(DoMoveSelectedUp);
             MoveSelectedDown = new Command(DoMoveSelectedDown);
             DeleteSelected = new Command(DoDeleteSelected);
@@ -101,7 +101,7 @@ namespace Right_Click_Commands.ViewModels
 
             selectedScriptConfigIndex = -1;
 
-            ScriptConfigs = new ObservableCollection<IScriptConfig>(this.contextMenuWorker.GetScriptConfigs());
+            ScriptConfigs = new ScriptCollection(this.contextMenuWorker.GetScriptConfigs());
         }
 
         //  Methods
@@ -129,7 +129,7 @@ namespace Right_Click_Commands.ViewModels
             contextMenuWorker.SaveScriptConfigs(ScriptConfigs);
         }
 
-        private void DoCreateNewScript(ScriptType scriptType)
+        private void DoCreateNewScript(string scriptType)
         {
             scriptConfigs.Add(contextMenuWorker.New(scriptType, scriptConfigs.Count.ToString("D2")));
 

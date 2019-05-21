@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace Right_Click_Commands.Models.Scripts
 {
-    public enum ScriptType
+    public interface IScriptFactory
     {
-        Batch,
-        Powershell
     }
 }
