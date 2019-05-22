@@ -27,7 +27,7 @@
             <MenuItem Header="Move Up" Click="MenuItem_Click_MoveSelectedUp"/>
             <MenuItem Header="Move Down" Click="MenuItem_Click_MoveSelectedDown"/>
             <Separator/>
-            <MenuItem Header="Disable" InputGestureText="TBC" IsEnabled="False"/>
+            <!--<MenuItem Header="Disable" InputGestureText="TBC" IsEnabled="False"/>-->
             <MenuItem Header="Delete" InputGestureText="Del" Click="MenuItem_Click_DeleteSelected"/>
         </ContextMenu>
     </Window.Resources>
@@ -72,7 +72,7 @@
                     <MenuItem Name="MIMoveUp" Header="Move Up" Command="{Binding MoveSelectedUp}"/>
                     <MenuItem Name="MIMoveDown" Header="Move Down" Command="{Binding MoveSelectedDown}"/>
                     <Separator/>
-                    <MenuItem Name="MIDisable" Header="Disable" InputGestureText="TBC" IsEnabled="False"/>
+                    <!--<MenuItem Name="MIDisable" Header="Disable" InputGestureText="TBC" IsEnabled="False"/>-->
                     <MenuItem Name="MIDelete" Header="Delete" InputGestureText="Del" Command="{Binding DeleteSelected}"/>
                 </MenuItem>
                 <MenuItem Header="_Help" Height="{Binding ActualHeight, ElementName=MenuDockPanel, Mode=OneWay}">
