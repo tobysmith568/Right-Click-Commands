@@ -17,6 +17,9 @@ using Right_Click_Commands.WPF.Models.MessagePrompts;
 using Right_Click_Commands.WPF.Models.Runner;
 using Right_Click_Commands.WPF.Models.Updater;
 using Right_Click_Commands.WPF.Views;
+using Right_Click_Commands.Models.Scripts;
+using Right_Click_Commands.WPF.Models.Scripts;
+using Microsoft.Win32;
 
 namespace Right_Click_Commands.WPF
 {
@@ -102,6 +105,7 @@ namespace Right_Click_Commands.WPF
             container.RegisterType<IUpdater, WindowsUpdater>();
             container.RegisterType<IJSONConverter, JSONConverter>();
             container.RegisterType<IIconPicker, IconPickerDialog>();
+            container.RegisterType<IScriptFactory<RegistryKey>, WindowsScriptFactory>();
         }
 
         /// <exception cref="InvalidOperationException"></exception>

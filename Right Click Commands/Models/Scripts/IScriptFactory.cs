@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Right_Click_Commands.Models.Scripts
 {
-    public interface IScriptFactory
+    public interface IScriptFactory<T>
     {
+        //  Methods
+        //  =======
+
+        /// <exception cref="InvalidDataException"></exception>
+        IScriptConfig Generate(T input, MenuLocation menuLocation);
     }
 }

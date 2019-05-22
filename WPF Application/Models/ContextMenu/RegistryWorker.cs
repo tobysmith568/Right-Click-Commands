@@ -20,7 +20,6 @@ namespace Right_Click_Commands.WPF.Models.ContextMenu
 
         public const string MUIVerb = "MUIVerb";
         public const string Icon = "Icon";
-        private const string RCC = "RCC";
         private const string RCC_ = "RCC_";
         private const string command = "command";
         private const string NewScript = "New Script";
@@ -28,6 +27,8 @@ namespace Right_Click_Commands.WPF.Models.ContextMenu
         //  Variables
         //  =========
 
+        private readonly IScriptFactory<RegistryKey> scriptFactory;
+        private readonly IMessagePrompt messagePrompt;
         private readonly ISettings settings;
 
         private readonly string RCCLocation = Assembly.GetEntryAssembly().Location;
@@ -38,13 +39,13 @@ namespace Right_Click_Commands.WPF.Models.ContextMenu
             { MenuLocation.Directory, @"Software\Classes\Directory\shell" }
         };
 
-        private readonly IMessagePrompt messagePrompt;
 
         //  Constructors
         //  ============
 
-        public RegistryWorker(IMessagePrompt messagePrompt, ISettings settings)
+        public RegistryWorker(IScriptFactory<RegistryKey> scriptFactory, IMessagePrompt messagePrompt, ISettings settings)
         {
+            this.scriptFactory = scriptFactory;
             this.messagePrompt = messagePrompt;
             this.settings = settings;
         }
@@ -60,7 +61,7 @@ namespace Right_Click_Commands.WPF.Models.ContextMenu
             {
                 try
                 {
-                    ReadClassRoot(location, ref results);
+                    ReadScriptLocation(location, ref results);
                 }
                 catch // TODO
                 {
@@ -85,15 +86,16 @@ namespace Right_Click_Commands.WPF.Models.ContextMenu
 
                 foreach (IScriptConfig scriptConfig in configs)
                 {
-                    try
+                    if (scriptConfig.IsForLocation(location.Key))
                     {
-                        if (scriptConfig.IsForLocation(location.Key))
+                        try
                         {
                             CreateScriptConfig(location.Value, scriptConfig);
                         }
-                    }
-                    catch (Exception e) // TODO
-                    {
+                        catch
+                        {
+                            messagePrompt.PromptOK($"Unable to create or save the script [{scriptConfig.Label}]", "Error creating/saving", MessageType.Error);
+                        }
                     }
                 }
             }
@@ -127,23 +129,23 @@ namespace Right_Click_Commands.WPF.Models.ContextMenu
         /// <exception cref="System.Security.SecurityException"></exception>
         /// <exception cref="UnauthorizedAccessException"></exception>
         /// <exception cref="IOException"></exception>
-        private void ReadClassRoot(KeyValuePair<MenuLocation, string> location, ref List<IScriptConfig> results)
+        private void ReadScriptLocation(KeyValuePair<MenuLocation, string> location, ref List<IScriptConfig> results)
         {
-            using (RegistryKey classRoot = Registry.CurrentUser.OpenSubKey(location.Value, true))
+            using (RegistryKey scriptLocation = Registry.CurrentUser.OpenSubKey(location.Value, true))
             {
-                foreach (string subkey in classRoot.GetSubKeyNames())
+                foreach (string subkeyName in scriptLocation.GetSubKeyNames())
                 {
                     try
                     {
-                        if (subkey.Length < 4 || subkey.Substring(0, 4) != RCC_)
+                        if (!HasRCCPrefix(subkeyName))
                         {
                             continue;
                         }
 
-                        IScriptConfig newConfig = MapScriptConfig(classRoot.OpenSubKey(subkey), location.Key);
-                        IScriptConfig original = results.FirstOrDefault(r => r.Name == newConfig.Name);
+                        IScriptConfig newConfig = scriptFactory.Generate(scriptLocation.OpenSubKey(subkeyName), location.Key);
 
-                        if (original == null)
+                        IScriptConfig original = results.FirstOrDefault(r => r.Name == newConfig.Name);
+                        if (original == default(IScriptConfig))
                         {
                             results.Add(newConfig);
                         }
@@ -156,36 +158,8 @@ namespace Right_Click_Commands.WPF.Models.ContextMenu
                     {
                         messagePrompt.PromptOK(e.Message, "Invalid Data", MessageType.Error);
                     }
-                    catch (Exception e)// TODO
-                    {
-
-                    }
                 }
             }
-        }
-
-        /// <exception cref="ScriptAccessException"></exception>
-        /// <exception cref="InvalidDataException"></exception>
-        private IScriptConfig MapScriptConfig(RegistryKey registryKey, MenuLocation location)
-        {
-            if (!IsValidRegistryKeyName(registryKey.Name, out RegistryName registryName))
-            {
-                throw new ArgumentException($"The given registry keys name [{registryKey.Name}] must be [RRC_XX_YYY] where [XX] is a number and [YYY] is of any length greater than 0");
-            }
-
-            IScriptConfig newConfig = registryKey.TryCastToBatScriptConfig(registryName, location, settings);
-
-            if (newConfig == null)
-            {
-                newConfig = registryKey.TryCastToPowershellScriptConfig(registryName, location, settings);
-            }
-
-            if (newConfig == null)
-            {
-                throw new InvalidDataException($"The right-click command [{registryName.Name}] appears to be corrupt. Please delete and re-create it");
-            }
-
-            return newConfig;
         }
 
         /// <exception cref="ObjectDisposedException"/>
@@ -196,14 +170,16 @@ namespace Right_Click_Commands.WPF.Models.ContextMenu
         {
             using (RegistryKey key = Registry.CurrentUser.OpenSubKey(location, true))
             {
-                foreach (string subkey in key.GetSubKeyNames())
+                foreach (string subkeyName in key.GetSubKeyNames())
                 {
                     try
                     {
-                        if (subkey.Length < 4 || subkey.Substring(0, 4) != RCC_)
+                        if (!HasRCCPrefix(subkeyName))
+                        {
                             continue;
+                        }
 
-                        key.DeleteSubKeyTree(subkey, false);
+                        key.DeleteSubKeyTree(subkeyName, false);
                     }
                     catch // TODO
                     {
@@ -234,39 +210,9 @@ namespace Right_Click_Commands.WPF.Models.ContextMenu
             }
         }
 
-        private bool IsValidRegistryKeyName(string value, out RegistryName registryName)
+        private bool HasRCCPrefix(string name)
         {
-            registryName = new RegistryName();
-
-            if (value == null)
-            {
-                return false;
-            }
-
-            string[] fullAddressParts = Path.GetFileName(value).Split('_');
-
-            if (fullAddressParts.Length != 3)
-            {
-                return false;
-            }
-
-            if (fullAddressParts[0] != RCC)
-            {
-                return false;
-            }
-
-            if (fullAddressParts[1].Length != 2 || !int.TryParse(fullAddressParts[1], out int @int))
-            {
-                return false;
-            }
-
-            if (fullAddressParts[2].Length < 1)
-            {
-                return false;
-            }
-
-            registryName = new RegistryName(fullAddressParts[1], fullAddressParts[2]);
-            return true;
+            return name.Length >= 4 && name.Substring(0, 4) == RCC_;
         }
     }
 }
