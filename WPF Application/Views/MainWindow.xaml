@@ -92,7 +92,8 @@
                             <ColumnDefinition Width="{Binding ActualHeight, ElementName=MainListTemplate, Mode=OneWay}"/>
                             <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="2" Text="{Binding Label}" Margin="5" VerticalAlignment="Center"/>
+                        <Image Grid.Column="0" Margin="3" Source="{Binding IconImage}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding Label}" Margin="5" VerticalAlignment="Center"/>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -149,7 +150,7 @@
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
                     <Border Margin="5" Grid.Column="0" BorderThickness="1" BorderBrush="#FFD5DFE5">
-                        <Image Margin="0" Source="{Binding SelectedScriptConfigIcon}"/>
+                        <Image Margin="0" Source="{Binding SelectedScriptConfig.IconImage}"/>
                     </Border>
                     <Button Command="{Binding SelectNewIcon}" Margin="5,5,0,5" Width="50" Content="Locate" Grid.Column="1" HorizontalAlignment="Left"/>
                 </Grid>
