@@ -37,36 +37,13 @@ namespace Right_Click_Commands.ViewModels
         public IScriptConfig SelectedScriptConfig
         {
             get => selectedScriptConfig;
-            set => PropertyChanging(value, ref selectedScriptConfig, nameof(SelectedScriptConfig), nameof(SelectedScriptConfigIndex), nameof(SelectedScriptConfigIcon));
+            set => PropertyChanging(value, ref selectedScriptConfig, nameof(SelectedScriptConfig), nameof(SelectedScriptConfigIndex));
         }
 
         public int SelectedScriptConfigIndex
         {
             get => selectedScriptConfigIndex;
-            set => PropertyChanging(value, ref selectedScriptConfigIndex, nameof(SelectedScriptConfig), nameof(SelectedScriptConfigIndex), nameof(SelectedScriptConfigIcon));
-        }
-
-        public BitmapSource SelectedScriptConfigIcon
-        {
-            get
-            {
-                if (scriptConfigs == null || SelectedScriptConfigIndex == -1)
-                {
-                    return null;
-                }
-
-                if (scriptConfigs[SelectedScriptConfigIndex] == null)
-                {
-                    return null;
-                }
-
-                if (scriptConfigs[SelectedScriptConfigIndex].Icon == null)
-                {
-                    return null;
-                }
-
-                return iconPicker.SelectIconAsBitmap(scriptConfigs[SelectedScriptConfigIndex].Icon);
-            }
+            set => PropertyChanging(value, ref selectedScriptConfigIndex, nameof(SelectedScriptConfig), nameof(SelectedScriptConfigIndex));
         }
 
         public Command ViewFullyLoaded { get; }
@@ -233,7 +210,8 @@ namespace Right_Click_Commands.ViewModels
             }
 
             scriptConfigs[selectedScriptConfigIndex].Icon = iconReference;
-            RaisePropertyChanged(nameof(SelectedScriptConfigIcon));
+            RaisePropertyChanged(nameof(SelectedScriptConfig));
+            RaisePropertyChanged(nameof(SelectedScriptConfigIndex));
         }
     }
 }

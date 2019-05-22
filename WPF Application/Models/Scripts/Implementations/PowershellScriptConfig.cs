@@ -1,4 +1,5 @@
-﻿using Right_Click_Commands.Models.MessagePrompts;
+﻿using IconPicker;
+using Right_Click_Commands.Models.MessagePrompts;
 using Right_Click_Commands.Models.Scripts;
 using Right_Click_Commands.Models.Settings;
 using System.IO;
@@ -26,7 +27,7 @@ namespace Right_Click_Commands.WPF.Models.Scripts
         //  Constructors
         //  ============
 
-        public PowershellScriptConfig(string name, string id, ISettings settings, IMessagePrompt messagePrompt) : base(name, id, settings, messagePrompt)
+        public PowershellScriptConfig(string name, string id, ISettings settings, IMessagePrompt messagePrompt, IIconPicker iconPicker) : base(name, id, settings, messagePrompt, iconPicker)
         {
             ScriptLocation = Path.Combine(settings.ScriptLocation, Name + dotPS);
         }

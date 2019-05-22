@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using IconPicker;
+using Moq;
 using NUnit.Framework;
 using Right_Click_Commands.Models.MessagePrompts;
 using Right_Click_Commands.Models.Settings;
@@ -12,6 +13,7 @@ namespace Right_Click_Commands.WPF.Models.Scripts.Tests
         PowershellScriptConfig subject;
         Mock<ISettings> settings;
         Mock<IMessagePrompt> messagePrompt;
+        Mock<IIconPicker> iconPicker;
 
         readonly string location = "scriptLocation";
         readonly string name = "name";
@@ -25,7 +27,9 @@ namespace Right_Click_Commands.WPF.Models.Scripts.Tests
 
             messagePrompt = new Mock<IMessagePrompt>();
 
-            subject = new PowershellScriptConfig(name, id, settings.Object, messagePrompt.Object);
+            iconPicker = new Mock<IIconPicker>();
+
+            subject = new PowershellScriptConfig(name, id, settings.Object, messagePrompt.Object, iconPicker.Object);
         }
 
         #region Constructor
@@ -35,7 +39,7 @@ namespace Right_Click_Commands.WPF.Models.Scripts.Tests
         {
             Given_settings_ScriptLocation_Returns(location);
 
-            subject = new PowershellScriptConfig(name, id, settings.Object, messagePrompt.Object);
+            subject = new PowershellScriptConfig(name, id, settings.Object, messagePrompt.Object, iconPicker.Object);
 
             Assert.AreEqual(location + Path.DirectorySeparatorChar + name + ".ps1", subject.ScriptLocation);
         }

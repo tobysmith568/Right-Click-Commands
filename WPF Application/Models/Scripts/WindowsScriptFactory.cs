@@ -26,15 +26,17 @@ namespace Right_Click_Commands.WPF.Models.Scripts
 
         private readonly ISettings settings;
         private readonly IMessagePrompt messagePrompt;
+        private readonly IIconPicker iconPicker;
         private static readonly Regex regex = new Regex(reg_AnyWordThenRun);
 
         //  Constructors
         //  ============
 
-        public WindowsScriptFactory(ISettings settings, IMessagePrompt messagePrompt)
+        public WindowsScriptFactory(ISettings settings, IMessagePrompt messagePrompt, IIconPicker iconPicker)
         {
             this.settings = settings;
             this.messagePrompt = messagePrompt;
+            this.iconPicker = iconPicker;
         }
 
         //  Methods
@@ -120,7 +122,7 @@ namespace Right_Click_Commands.WPF.Models.Scripts
                     iconReference = new IconReference(iconRef);
                 }
 
-                newConfig = new BatScriptConfig(registryName.Name, registryName.ID, settings, messagePrompt)
+                newConfig = new BatScriptConfig(registryName.Name, registryName.ID, settings, messagePrompt, iconPicker)
                 {
                     Label = registryKey.GetValue(RegistryWorker.MUIVerb, string.Empty).ToString(),
                     Icon = iconReference
@@ -182,7 +184,7 @@ namespace Right_Click_Commands.WPF.Models.Scripts
                     iconReference = new IconReference(iconRef);
                 }
 
-                newConfig = new PowershellScriptConfig(registryName.Name, registryName.ID, settings, messagePrompt)
+                newConfig = new PowershellScriptConfig(registryName.Name, registryName.ID, settings, messagePrompt, iconPicker)
                 {
                     Label = registryKey.GetValue(RegistryWorker.MUIVerb, string.Empty).ToString(),
                     Icon = iconReference

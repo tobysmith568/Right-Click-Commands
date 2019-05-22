@@ -4,6 +4,7 @@ using Right_Click_Commands.Models.Scripts;
 using Right_Click_Commands.Models.Settings;
 using System;
 using System.IO;
+using System.Windows.Media.Imaging;
 
 namespace Right_Click_Commands.WPF.Models.Scripts
 {
@@ -14,6 +15,7 @@ namespace Right_Click_Commands.WPF.Models.Scripts
 
         protected readonly ISettings settings;
         protected readonly IMessagePrompt messagePrompt;
+        protected readonly IIconPicker iconPicker;
 
         private string label = string.Empty;
         private IIconReference icon;
@@ -46,8 +48,18 @@ namespace Right_Click_Commands.WPF.Models.Scripts
         public IIconReference Icon
         {
             get => icon;
-            set => PropertyChanging(value, ref icon, nameof(Icon));
+            set
+            {
+                if (value != null)
+                {
+                    IconImage = iconPicker.SelectIconAsBitmap(value);
+                }
+
+                PropertyChanging(value, ref icon, nameof(Icon), nameof(IconImage));
+            }
         }
+
+        public BitmapSource IconImage { get; private set; }
 
         public string Script
         {
@@ -76,13 +88,14 @@ namespace Right_Click_Commands.WPF.Models.Scripts
         //  Constructors
         //  ============
 
-        public ScriptConfig(string name, string id, ISettings settings, IMessagePrompt messagePrompt)
+        public ScriptConfig(string name, string id, ISettings settings, IMessagePrompt messagePrompt, IIconPicker iconPicker)
         {
             Name = name;
             ID = id;
 
             this.settings = settings;
             this.messagePrompt = messagePrompt;
+            this.iconPicker = iconPicker;
         }
 
         //  Methods

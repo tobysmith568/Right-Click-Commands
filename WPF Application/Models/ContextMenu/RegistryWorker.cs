@@ -1,3 +1,4 @@
+using IconPicker;
 using Microsoft.Win32;
 using Right_Click_Commands.Models.ContextMenu;
 using Right_Click_Commands.Models.MessagePrompts;
@@ -30,6 +31,7 @@ namespace Right_Click_Commands.WPF.Models.ContextMenu
         private readonly IScriptFactory<RegistryKey> scriptFactory;
         private readonly IMessagePrompt messagePrompt;
         private readonly ISettings settings;
+        private readonly IIconPicker iconPicker;
 
         private readonly string RCCLocation = Assembly.GetEntryAssembly().Location;
 
@@ -43,11 +45,12 @@ namespace Right_Click_Commands.WPF.Models.ContextMenu
         //  Constructors
         //  ============
 
-        public RegistryWorker(IScriptFactory<RegistryKey> scriptFactory, IMessagePrompt messagePrompt, ISettings settings)
+        public RegistryWorker(IScriptFactory<RegistryKey> scriptFactory, IMessagePrompt messagePrompt, ISettings settings, IIconPicker iconPicker)
         {
             this.scriptFactory = scriptFactory;
             this.messagePrompt = messagePrompt;
             this.settings = settings;
+            this.iconPicker = iconPicker;
         }
 
         //  Methods
@@ -109,10 +112,10 @@ namespace Right_Click_Commands.WPF.Models.ContextMenu
             switch (scriptType.ToEnum<ScriptType>())
             {
                 case ScriptType.Batch:
-                    result = new BatScriptConfig(DateTime.UtcNow.Ticks.ToString(), id, settings, messagePrompt);
+                    result = new BatScriptConfig(DateTime.UtcNow.Ticks.ToString(), id, settings, messagePrompt, iconPicker);
                     break;
                 case ScriptType.Powershell:
-                    result = new PowershellScriptConfig(DateTime.UtcNow.Ticks.ToString(), id, settings, messagePrompt);
+                    result = new PowershellScriptConfig(DateTime.UtcNow.Ticks.ToString(), id, settings, messagePrompt, iconPicker);
                     break;
                 default:
                     throw new ArgumentException($"The scriptType of [{scriptType}] is not valid for the [RegistryWorker]");

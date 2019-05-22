@@ -6,6 +6,7 @@ using Moq;
 using Right_Click_Commands.Models.Settings;
 using Right_Click_Commands.Models.Scripts;
 using Right_Click_Commands.Models.MessagePrompts;
+using IconPicker;
 
 namespace Right_Click_Commands.WPF.Models.Scripts.Tests
 {
@@ -16,6 +17,7 @@ namespace Right_Click_Commands.WPF.Models.Scripts.Tests
         string filePath;
         Mock<ISettings> settings;
         Mock<IMessagePrompt> messagePrompt;
+        Mock<IIconPicker> iconPicker;
         Mock<ScriptConfig> subject;
 
         /// <exception cref="Exception">Ignore.</exception>
@@ -28,10 +30,12 @@ namespace Right_Click_Commands.WPF.Models.Scripts.Tests
             settings = new Mock<ISettings>();
             settings.Setup(s => s.ScriptLocation).Returns(folderPath);
 
+            iconPicker = new Mock<IIconPicker>();
+
             messagePrompt = new Mock<IMessagePrompt>();
             messagePrompt.Setup(m => m.PromptOK(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageType>())).Verifiable();
 
-            subject = new Mock<ScriptConfig>("name", "id", settings.Object, messagePrompt.Object)
+            subject = new Mock<ScriptConfig>("name", "id", settings.Object, messagePrompt.Object, iconPicker.Object)
             {
                 CallBase = true
             };
