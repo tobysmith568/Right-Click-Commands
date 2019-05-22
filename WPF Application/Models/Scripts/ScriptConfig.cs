@@ -50,11 +50,7 @@ namespace Right_Click_Commands.WPF.Models.Scripts
             get => icon;
             set
             {
-                if (value != null)
-                {
-                    IconImage = iconPicker.SelectIconAsBitmap(value);
-                }
-
+                IconImage = value == null ? null : iconPicker.SelectIconAsBitmap(value);
                 PropertyChanging(value, ref icon, nameof(Icon), nameof(IconImage));
             }
         }

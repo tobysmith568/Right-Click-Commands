@@ -149,7 +149,7 @@
                     <Border Margin="5" Grid.Column="0" BorderThickness="1" BorderBrush="#FFD5DFE5">
                         <Image Margin="0" Source="{Binding SelectedScriptConfig.IconImage}"/>
                     </Border>
-                    <Button Command="{Binding SelectNewIcon}" Margin="5,5,0,5" Width="50" Content="Locate" Grid.Column="1" HorizontalAlignment="Left"/>
+                    <Button Command="{Binding SelectNewIcon}" Margin="5,5,0,5" Width="50" Content="{Binding SelectedScriptConfig.Icon, Converter={converters:NullableToIconButtonText}}" Grid.Column="1" HorizontalAlignment="Left"/>
                 </Grid>
             </GroupBox>
 

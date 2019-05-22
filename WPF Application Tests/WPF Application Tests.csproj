@@ -85,6 +85,7 @@
     <Compile Include="Converters\ConverterBaseTests.cs" />
     <Compile Include="Converters\DoubleToPixelGridWidthConverterTests.cs" />
     <Compile Include="Converters\IntegerToWindowStateConverterTests.cs" />
+    <Compile Include="Converters\NullableToIconButtonTextTests.cs" />
     <Compile Include="Converters\NullableToVisibilityTests.cs" />
     <Compile Include="Converters\ScriptTypeToStringConveterTests.cs" />
     <Compile Include="Models\Logger\WindowsLoggerTests.cs" />

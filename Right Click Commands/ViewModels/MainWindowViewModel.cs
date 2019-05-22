@@ -202,6 +202,20 @@ namespace Right_Click_Commands.ViewModels
                 return;
             }
 
+            if (scriptConfigs[selectedScriptConfigIndex].Icon != null)
+            {
+                switch(messagePrompt.PromptYesNo($"Are you sure you want to remove the icon from {scriptConfigs[selectedScriptConfigIndex].Label}?", "Are you sure?", MessageType.Warning))
+                {
+                    case MessageResult.Yes:
+                        scriptConfigs[selectedScriptConfigIndex].Icon = null;
+                        RaisePropertyChanged(nameof(SelectedScriptConfig));
+                        RaisePropertyChanged(nameof(SelectedScriptConfigIndex));
+                        return;
+                    default:
+                        return;
+                }
+            }
+
             IIconReference iconReference = iconPicker.SelectIconReference();
 
             if (iconReference == null)

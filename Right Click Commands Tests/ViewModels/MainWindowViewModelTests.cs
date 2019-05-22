@@ -44,8 +44,11 @@ namespace Right_Click_Commands.ViewModels.Tests
             iconPicker = new Mock<IIconPicker>();
 
             mockScriptOne = new Mock<IScriptConfig>();
+            mockScriptOne.Setup(m => m.Label).Returns("One");
             mockScriptTwo = new Mock<IScriptConfig>();
+            mockScriptTwo.Setup(m => m.Label).Returns("Two");
             mockScriptThree = new Mock<IScriptConfig>();
+            mockScriptThree.Setup(m => m.Label).Returns("Three");
 
             mockConfigs = new List<Mock<IScriptConfig>>
             {
@@ -490,7 +493,55 @@ namespace Right_Click_Commands.ViewModels.Tests
 
             mockConfigs[index].VerifySet(m => m.Icon = iconReference);
         }
-    
+
+        /// <exception cref="MockException"></exception>
+        [Test]
+        public void Test_SelectNewIcon_PromptsUserAboutRemovingTheIconIfThereAlreadyisOne()
+        {
+            IconReference iconReference = new IconReference("filepath", 7);
+
+            Given_All3ScriptConfigsAreInOrder();
+            Given_SelectedScriptConfigIndex_Equals(0);
+            Given_ScriptConfigs_IconReferences_Equal(iconReference);
+            Given_MessagePrompt_PromptYesNo_IsVerifiable();
+
+            subject.SelectNewIcon.DoExecute(null);
+
+            messagePrompt.Verify(m => m.PromptYesNo("Are you sure you want to remove the icon from One?", "Are you sure?", MessageType.Warning), Times.Once);
+        }
+
+        /// <exception cref="MockException"></exception>
+        [Test]
+        public void Test_SelectNewIcon_RemovesTheIconIfThereAlreadyisOneAndThePromptReturnsYes()
+        {
+            IconReference iconReference = new IconReference("filepath", 7);
+
+            Given_All3ScriptConfigsAreInOrder();
+            Given_SelectedScriptConfigIndex_Equals(0);
+            Given_ScriptConfigs_IconReferences_Equal(iconReference);
+            Given_MessagePrompt_PromptYesNo_Returns(MessageResult.Yes);
+
+            subject.SelectNewIcon.DoExecute(null);
+
+            mockScriptOne.VerifySet(m => m.Icon = null, Times.Once);
+        }
+
+        /// <exception cref="MockException"></exception>
+        [Test]
+        public void Test_SelectNewIcon_DoesNotRemoveTheIconIfThereAlreadyisOneButThePromptReturnsNo()
+        {
+            IconReference iconReference = new IconReference("filepath", 7);
+
+            Given_All3ScriptConfigsAreInOrder();
+            Given_SelectedScriptConfigIndex_Equals(0);
+            Given_ScriptConfigs_IconReferences_Equal(iconReference);
+            Given_MessagePrompt_PromptYesNo_Returns(MessageResult.No);
+
+            subject.SelectNewIcon.DoExecute(null);
+
+            mockScriptOne.VerifySet(m => m.Icon = null, Times.Never);
+        }
+
         #endregion
 
         private void Given_Updater_CheckForUpdateAsync_Returns(Asset result)
@@ -519,6 +570,19 @@ namespace Right_Click_Commands.ViewModels.Tests
         private void Given_IconPicker_SelectIconReference_Returns(IconReference result)
         {
             iconPicker.Setup(i => i.SelectIconReference()).Returns(result);
+        }
+
+        private void Given_ScriptConfigs_IconReferences_Equal(IconReference iconReference)
+        {
+            Assert.AreEqual(3, subject.ScriptConfigs.Count);
+            mockScriptOne.Setup(m => m.Icon).Returns(iconReference);
+            mockScriptTwo.Setup(m => m.Icon).Returns(iconReference);
+            mockScriptThree.Setup(m => m.Icon).Returns(iconReference);
+        }
+
+        private void Given_MessagePrompt_PromptYesNo_IsVerifiable()
+        {
+            messagePrompt.Setup(m => m.PromptYesNo(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageType>())).Verifiable();
         }
     }
 }
