@@ -4,12 +4,12 @@ using RestSharp;
 using System;
 using System.Threading.Tasks;
 using System.Net;
-using Right_Click_Commands.WPF.Models.Updater;
 using Right_Click_Commands.Models.MessagePrompts;
 using Right_Click_Commands.Models.JSON_Converter;
 using Right_Click_Commands.Tests;
+using Right_Click_Commands.Models.Updater;
 
-namespace Right_Click_Commands.Models.Updater.Tests
+namespace Right_Click_Commands.WPF.Models.Updater.Tests
 {
     [TestFixture]
     public class WindowsUpdaterTests

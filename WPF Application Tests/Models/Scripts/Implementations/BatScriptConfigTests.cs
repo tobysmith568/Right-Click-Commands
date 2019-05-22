@@ -1,5 +1,6 @@
 ﻿using Moq;
 using NUnit.Framework;
+using Right_Click_Commands.Models.MessagePrompts;
 using Right_Click_Commands.Models.Settings;
 using System.IO;
 
@@ -10,6 +11,7 @@ namespace Right_Click_Commands.WPF.Models.Scripts.Tests
     {
         BatScriptConfig subject;
         Mock<ISettings> settings;
+        Mock<IMessagePrompt> messagePrompt;
 
         readonly string location = "scriptLocation";
         readonly string name = "name";
@@ -20,7 +22,10 @@ namespace Right_Click_Commands.WPF.Models.Scripts.Tests
         {
             settings = new Mock<ISettings>();
             settings.Setup(s => s.ScriptLocation).Returns(string.Empty);
-            subject = new BatScriptConfig(name, id, settings.Object);
+
+            messagePrompt = new Mock<IMessagePrompt>();
+
+            subject = new BatScriptConfig(name, id, settings.Object, messagePrompt.Object);
         }
 
         #region Constructor
@@ -30,7 +35,7 @@ namespace Right_Click_Commands.WPF.Models.Scripts.Tests
         {
             Given_settings_ScriptLocation_Returns(location);
 
-            subject = new BatScriptConfig(name, id, settings.Object);
+            subject = new BatScriptConfig(name, id, settings.Object, messagePrompt.Object);
 
             Assert.AreEqual(location + Path.DirectorySeparatorChar + name + ".bat", subject.ScriptLocation);
         }

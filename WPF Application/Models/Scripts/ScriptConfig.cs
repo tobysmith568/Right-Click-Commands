@@ -1,4 +1,5 @@
 ﻿using IconPicker;
+using Right_Click_Commands.Models.MessagePrompts;
 using Right_Click_Commands.Models.Scripts;
 using Right_Click_Commands.Models.Settings;
 using System;
@@ -12,6 +13,7 @@ namespace Right_Click_Commands.WPF.Models.Scripts
         //  =========
 
         protected readonly ISettings settings;
+        protected readonly IMessagePrompt messagePrompt;
 
         private string label = string.Empty;
         private IIconReference icon;
@@ -74,12 +76,13 @@ namespace Right_Click_Commands.WPF.Models.Scripts
         //  Constructors
         //  ============
 
-        public ScriptConfig(string name, string id, ISettings settings)
+        public ScriptConfig(string name, string id, ISettings settings, IMessagePrompt messagePrompt)
         {
             Name = name;
             ID = id;
 
             this.settings = settings;
+            this.messagePrompt = messagePrompt;
         }
 
         //  Methods
@@ -107,8 +110,7 @@ namespace Right_Click_Commands.WPF.Models.Scripts
                 throw new ScriptAccessException($"Cannot open the script file for the script [{Name}]", e);
             }
         }
-
-        /// <exception cref="ScriptAccessException"></exception>
+        
         public void SaveScript()
         {
             try
@@ -120,9 +122,9 @@ namespace Right_Click_Commands.WPF.Models.Scripts
 
                 File.WriteAllText(ScriptLocation, Script);
             }
-            catch (Exception e)
+            catch
             {
-                throw new ScriptAccessException($"Cannot open the script file for the script [{Name}]", e);
+                messagePrompt.PromptOK($"Cannot open the script file for the script [{Label}]", "Error saving script", MessageType.Error);
             }
         }
 

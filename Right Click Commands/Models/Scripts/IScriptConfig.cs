@@ -26,7 +26,6 @@ namespace Right_Click_Commands.Models.Scripts
 
         /// <exception cref="ScriptAccessException"></exception>
         void LoadScript();
-        /// <exception cref="ScriptAccessException"></exception>
         void SaveScript();
         void ModifyLocation(MenuLocation location, bool enabled);
         bool IsForLocation(MenuLocation location);

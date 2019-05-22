@@ -131,9 +131,15 @@ namespace Right_Click_Commands.ViewModels
 
         private void DoCreateNewScript(string scriptType)
         {
-            scriptConfigs.Add(contextMenuWorker.New(scriptType, scriptConfigs.Count.ToString("D2")));
-
-            SelectedScriptConfigIndex = ScriptConfigs.Count - 1;
+            try
+            {
+                scriptConfigs.Add(contextMenuWorker.New(scriptType, scriptConfigs.Count.ToString("D2")));
+                SelectedScriptConfigIndex = ScriptConfigs.Count - 1;
+            }
+            catch
+            {
+                messagePrompt.PromptOK($"Unable to create new script of type [{scriptType}]!", "Error creating new script", MessageType.Error);
+            }
         }
 
         private void DoMoveSelectedUp()

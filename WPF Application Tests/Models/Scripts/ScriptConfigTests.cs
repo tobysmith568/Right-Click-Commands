@@ -5,6 +5,7 @@ using System.IO;
 using Moq;
 using Right_Click_Commands.Models.Settings;
 using Right_Click_Commands.Models.Scripts;
+using Right_Click_Commands.Models.MessagePrompts;
 
 namespace Right_Click_Commands.WPF.Models.Scripts.Tests
 {
@@ -14,6 +15,7 @@ namespace Right_Click_Commands.WPF.Models.Scripts.Tests
         string folderPath;
         string filePath;
         Mock<ISettings> settings;
+        Mock<IMessagePrompt> messagePrompt;
         Mock<ScriptConfig> subject;
 
         /// <exception cref="Exception">Ignore.</exception>
@@ -26,7 +28,10 @@ namespace Right_Click_Commands.WPF.Models.Scripts.Tests
             settings = new Mock<ISettings>();
             settings.Setup(s => s.ScriptLocation).Returns(folderPath);
 
-            subject = new Mock<ScriptConfig>("name", "id", settings.Object)
+            messagePrompt = new Mock<IMessagePrompt>();
+            messagePrompt.Setup(m => m.PromptOK(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageType>())).Verifiable();
+
+            subject = new Mock<ScriptConfig>("name", "id", settings.Object, messagePrompt.Object)
             {
                 CallBase = true
             };
@@ -158,6 +163,7 @@ namespace Right_Click_Commands.WPF.Models.Scripts.Tests
         public void Test_SaveScript_WhenFileisLocked()
         {
             string content = "File Content";
+            string label = "Label";
 
             Directory.CreateDirectory(folderPath);
             File.WriteAllText(filePath, content);
@@ -165,9 +171,11 @@ namespace Right_Click_Commands.WPF.Models.Scripts.Tests
             using (File.Open(filePath, FileMode.Open))
             {
                 subject.Object.Script = content;
+                subject.Object.Label = label;
 
-                Exception e = Assert.Throws<ScriptAccessException>(() => subject.Object.SaveScript());
-                Assert.AreEqual("Cannot open the script file for the script [name]", e.Message);
+                subject.Object.SaveScript();
+
+                messagePrompt.Verify(m => m.PromptOK($"Cannot open the script file for the script [{label}]", "Error saving script", MessageType.Error), Times.Once);
             }
         }
 

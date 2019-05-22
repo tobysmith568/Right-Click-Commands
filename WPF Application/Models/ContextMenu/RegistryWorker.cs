@@ -109,10 +109,10 @@ namespace Right_Click_Commands.WPF.Models.ContextMenu
             switch (scriptType.ToEnum<ScriptType>())
             {
                 case ScriptType.Batch:
-                    result = new BatScriptConfig(DateTime.UtcNow.Ticks.ToString(), id, settings);
+                    result = new BatScriptConfig(DateTime.UtcNow.Ticks.ToString(), id, settings, messagePrompt);
                     break;
                 case ScriptType.Powershell:
-                    result = new PowershellScriptConfig(DateTime.UtcNow.Ticks.ToString(), id, settings);
+                    result = new PowershellScriptConfig(DateTime.UtcNow.Ticks.ToString(), id, settings, messagePrompt);
                     break;
                 default:
                     throw new ArgumentException($"The scriptType of [{scriptType}] is not valid for the [RegistryWorker]");

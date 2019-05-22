@@ -1,15 +1,12 @@
 ﻿using IconPicker;
 using Microsoft.Win32;
+using Right_Click_Commands.Models.MessagePrompts;
 using Right_Click_Commands.Models.Scripts;
 using Right_Click_Commands.Models.Settings;
 using Right_Click_Commands.WPF.Models.ContextMenu;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Right_Click_Commands.WPF.Models.Scripts
 {
@@ -28,14 +25,16 @@ namespace Right_Click_Commands.WPF.Models.Scripts
         //  =========
 
         private readonly ISettings settings;
+        private readonly IMessagePrompt messagePrompt;
         private static readonly Regex regex = new Regex(reg_AnyWordThenRun);
 
         //  Constructors
         //  ============
 
-        public WindowsScriptFactory(ISettings settings)
+        public WindowsScriptFactory(ISettings settings, IMessagePrompt messagePrompt)
         {
             this.settings = settings;
+            this.messagePrompt = messagePrompt;
         }
 
         //  Methods
@@ -121,7 +120,7 @@ namespace Right_Click_Commands.WPF.Models.Scripts
                     iconReference = new IconReference(iconRef);
                 }
 
-                newConfig = new BatScriptConfig(registryName.Name, registryName.ID, settings)
+                newConfig = new BatScriptConfig(registryName.Name, registryName.ID, settings, messagePrompt)
                 {
                     Label = registryKey.GetValue(RegistryWorker.MUIVerb, string.Empty).ToString(),
                     Icon = iconReference
@@ -183,7 +182,7 @@ namespace Right_Click_Commands.WPF.Models.Scripts
                     iconReference = new IconReference(iconRef);
                 }
 
-                newConfig = new PowershellScriptConfig(registryName.Name, registryName.ID, settings)
+                newConfig = new PowershellScriptConfig(registryName.Name, registryName.ID, settings, messagePrompt)
                 {
                     Label = registryKey.GetValue(RegistryWorker.MUIVerb, string.Empty).ToString(),
                     Icon = iconReference
