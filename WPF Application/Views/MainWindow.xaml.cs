@@ -15,10 +15,6 @@ namespace Right_Click_Commands.WPF.Views
         {
             ShowAbout = new Command(DoShowAbout);
             InitializeComponent();
-
-#if !DEBUG
-            ScriptGrid.Visibility = Visibility.Hidden;
-#endif
         }
 
         public Command ShowAbout { get; }

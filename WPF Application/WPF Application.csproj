@@ -39,6 +39,9 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Icon_130_Filled.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="IconPicker, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\IconPicker.2.4.0\lib\net472\IconPicker.dll</HintPath>
@@ -176,6 +179,9 @@
       <Project>{30b517c3-ce6b-4d6e-b62f-e14f692582f3}</Project>
       <Name>Right Click Commands</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icon_130_Filled.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
