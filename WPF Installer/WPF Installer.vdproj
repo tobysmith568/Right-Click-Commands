@@ -790,12 +790,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_54166BF882A94B24B0A66C5BB486B378"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_400863C0A7EA41A99273F73A2B3984EA"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1501,6 +1495,12 @@
         "OwnerKey" = "8:_CE93BEF256A68CC750F1A68C8DFF61B7"
         "MsmSig" = "8:_UNDEFINED"
         }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_54166BF882A94B24B0A66C5BB486B378"
+        "MsmSig" = "8:_UNDEFINED"
+        }
     }
     "Configurations"
     {
@@ -1541,7 +1541,7 @@
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
-        "OutputFilename" = "8:Release\\WPF Installer.msi"
+        "OutputFilename" = "8:Release\\Right-Click Commands Installer.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -1602,7 +1602,7 @@
                 {
                 "Name" = "8:.NET Framework"
                 "Message" = "8:[VSDNETMSG]"
-                "FrameworkVersion" = "8:.NETFramework,Version=v4.6.1"
+                "FrameworkVersion" = "8:.NETFramework,Version=v4.7.2"
                 "AllowLaterVersions" = "11:FALSE"
                 "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=671728"
                 }
@@ -5396,7 +5396,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Right-Click Commands"
         "ProductCode" = "8:{8189B2D3-30D0-4E55-B6EB-A012E53321CF}"
-        "PackageCode" = "8:{96A7F861-6025-49C6-B565-5E31334BEB13}"
+        "PackageCode" = "8:{DABA3781-7466-429B-9443-2842409FCA51}"
         "UpgradeCode" = "8:{F0CE540F-2BAF-42AA-82C3-1ACD83697C4B}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
