@@ -53,7 +53,11 @@ namespace Right_Click_Commands.WPF
             {
                 try
                 {
-                    Process.Start(ResourceAssembly.Location);
+                    ProcessStartInfo processStartInfo = new ProcessStartInfo("explorer.exe", ResourceAssembly.Location)
+                    {
+                        Verb = string.Empty
+                    };
+                    Process.Start(processStartInfo);
                 }
                 catch
                 {
