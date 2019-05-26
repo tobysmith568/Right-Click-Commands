@@ -94,6 +94,7 @@
     <Compile Include="Models\Runner\WindowsRunner.cs" />
     <Compile Include="Models\Scripts\Implementations\BatScriptConfig.cs" />
     <Compile Include="Models\Scripts\Implementations\PowershellScriptConfig.cs" />
+    <Compile Include="Models\Scripts\RegistryScriptStorageModel.cs" />
     <Compile Include="Models\Scripts\ScriptConfig.cs" />
     <Compile Include="Models\Scripts\ScriptType.cs" />
     <Compile Include="Models\Scripts\WindowsScriptFactory.cs" />

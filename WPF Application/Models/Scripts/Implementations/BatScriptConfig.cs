@@ -24,6 +24,8 @@ namespace Right_Click_Commands.WPF.Models.Scripts
 
         public override string ScriptArgs => $"\"{ExePath}\" \"{(KeepWindowOpen ? keepCMDOpen : closeCMD)} TITLE {Label}&|{ScriptLocation}|\"";
 
+        public override string DefaultScript { get; protected set; } = "";
+
         //  Constructors
         //  ============
 

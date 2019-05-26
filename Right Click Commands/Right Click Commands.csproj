@@ -93,6 +93,7 @@
     <Compile Include="Models\Runner\IRunner.cs" />
     <Compile Include="Models\Scripts\IScriptConfig.cs" />
     <Compile Include="Models\Scripts\IScriptFactory.cs" />
+    <Compile Include="Models\Scripts\IScriptStorageModel.cs" />
     <Compile Include="Models\Scripts\ScriptAccessException.cs" />
     <Compile Include="Models\Scripts\ScriptCollection.cs" />
     <Compile Include="Models\Settings\ISettings.cs" />

@@ -18,8 +18,8 @@ namespace Right_Click_Commands.WPF.Models.Scripts
         protected readonly IIconPicker iconPicker;
 
         private string label = string.Empty;
-        private IIconReference icon;
         private string script;
+        private IIconReference icon;
         private bool onDirectory;
         private bool onBackground;
         private bool keepWindowOpen;
@@ -45,6 +45,14 @@ namespace Right_Click_Commands.WPF.Models.Scripts
             set => PropertyChanging(value, ref label, nameof(Label));
         }
 
+        public string Script
+        {
+            get => script;
+            set => PropertyChanging(value, ref script, nameof(Script));
+        }
+
+        public abstract string DefaultScript { get; protected set; }
+
         public IIconReference Icon
         {
             get => icon;
@@ -56,12 +64,6 @@ namespace Right_Click_Commands.WPF.Models.Scripts
         }
 
         public BitmapSource IconImage { get; private set; }
-
-        public string Script
-        {
-            get => script;
-            set => PropertyChanging(value, ref script, nameof(Script));
-        }
 
         public bool OnDirectory
         {

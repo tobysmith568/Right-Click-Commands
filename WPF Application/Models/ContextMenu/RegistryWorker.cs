@@ -4,13 +4,13 @@ using Right_Click_Commands.Models.ContextMenu;
 using Right_Click_Commands.Models.MessagePrompts;
 using Right_Click_Commands.Models.Scripts;
 using Right_Click_Commands.Models.Settings;
-using Right_Click_Commands.Utils;
 using Right_Click_Commands.WPF.Models.Scripts;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace Right_Click_Commands.WPF.Models.ContextMenu
 {
@@ -19,16 +19,18 @@ namespace Right_Click_Commands.WPF.Models.ContextMenu
         //  Constants
         //  =========
 
-        public const string MUIVerb = "MUIVerb";
-        public const string Icon = "Icon";
+        private const string MUIVerb = "MUIVerb";
+        private const string Icon = "Icon";
         private const string RCC_ = "RCC_";
         private const string command = "command";
-        private const string NewScript = "New Script";
+        private const string reg_AnyWordThenRun = "^\".+?\" run ";
 
         //  Variables
         //  =========
 
-        private readonly IScriptFactory<RegistryKey> scriptFactory;
+        private static readonly Regex regex = new Regex(reg_AnyWordThenRun);
+
+        private readonly IScriptFactory<IScriptStorageModel> scriptFactory;
         private readonly IMessagePrompt messagePrompt;
         private readonly ISettings settings;
         private readonly IIconPicker iconPicker;
@@ -41,11 +43,10 @@ namespace Right_Click_Commands.WPF.Models.ContextMenu
             { MenuLocation.Directory, @"Software\Classes\Directory\shell" }
         };
 
-
         //  Constructors
         //  ============
 
-        public RegistryWorker(IScriptFactory<RegistryKey> scriptFactory, IMessagePrompt messagePrompt, ISettings settings, IIconPicker iconPicker)
+        public RegistryWorker(IScriptFactory<IScriptStorageModel> scriptFactory, IMessagePrompt messagePrompt, ISettings settings, IIconPicker iconPicker)
         {
             this.scriptFactory = scriptFactory;
             this.messagePrompt = messagePrompt;
@@ -104,30 +105,6 @@ namespace Right_Click_Commands.WPF.Models.ContextMenu
             }
         }
 
-        /// <exception cref="ScriptAccessException"></exception>
-        public IScriptConfig New(string scriptType, string id)
-        {
-            IScriptConfig result;
-
-            switch (scriptType.ToEnum<ScriptType>())
-            {
-                case ScriptType.Batch:
-                    result = new BatScriptConfig(DateTime.UtcNow.Ticks.ToString(), id, settings, messagePrompt, iconPicker);
-                    break;
-                case ScriptType.Powershell:
-                    result = new PowershellScriptConfig(DateTime.UtcNow.Ticks.ToString(), id, settings, messagePrompt, iconPicker);
-                    break;
-                default:
-                    throw new ArgumentException($"The scriptType of [{scriptType}] is not valid for the [RegistryWorker]");
-            }
-
-            result.Label = NewScript;
-            result.OnBackground = true;
-            result.OnDirectory = true;
-
-            return result;
-        }
-
         /// <exception cref="ObjectDisposedException"></exception>
         /// <exception cref="System.Security.SecurityException"></exception>
         /// <exception cref="UnauthorizedAccessException"></exception>
@@ -145,7 +122,8 @@ namespace Right_Click_Commands.WPF.Models.ContextMenu
                             continue;
                         }
 
-                        IScriptConfig newConfig = scriptFactory.Generate(scriptLocation.OpenSubKey(subkeyName), location.Key);
+                        RegistryScriptStorageModel script = MapRegistryScriptStorageModel(scriptLocation.OpenSubKey(subkeyName));
+                        IScriptConfig newConfig = scriptFactory.Generate(script, location.Key);
 
                         IScriptConfig original = results.FirstOrDefault(r => r.Name == newConfig.Name);
                         if (original == default(IScriptConfig))
@@ -210,6 +188,53 @@ namespace Right_Click_Commands.WPF.Models.ContextMenu
                         commandKey.SetValue(string.Empty, $"\"{RCCLocation}\" run {scriptConfig.ScriptArgs}");
                     }
                 }
+            }
+        }
+
+        /// <exception cref="System.Security.SecurityException"></exception>
+        /// <exception cref="ObjectDisposedException"></exception>
+        /// <exception cref="IOException"></exception>
+        /// <exception cref="UnauthorizedAccessException"></exception>
+        private RegistryScriptStorageModel MapRegistryScriptStorageModel(RegistryKey registryKey)
+        {
+            registryKey = registryKey ?? throw new ArgumentNullException(nameof(registryKey));
+
+            return new RegistryScriptStorageModel()
+            {
+                Name = registryKey.Name,
+                Label = registryKey.GetValue(MUIVerb, string.Empty).ToString(),
+                Icon = registryKey.GetValue(Icon, string.Empty).ToString(),
+                Command = GetCommandValue(registryKey)
+            };
+
+            string GetCommandValue(RegistryKey key)
+            {
+                string commandValue;
+                try
+                {
+                    using (RegistryKey commandKey = key.OpenSubKey(command))
+                    {
+                        if (commandKey == null)
+                        {
+                            return string.Empty;
+                        }
+
+                        commandValue = commandKey.GetValue(string.Empty, string.Empty).ToString();
+                    }
+
+                    if (!regex.IsMatch(commandValue))
+                    {
+                        return null;
+                    }
+
+                    commandValue = regex.Replace(commandValue, string.Empty);
+                }
+                catch (Exception)
+                {
+                    return string.Empty;
+                }
+
+                return commandValue;
             }
         }
 

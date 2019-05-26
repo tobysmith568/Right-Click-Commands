@@ -1,16 +1,15 @@
 ﻿using IconPicker;
-using Microsoft.Win32;
 using Right_Click_Commands.Models.MessagePrompts;
 using Right_Click_Commands.Models.Scripts;
 using Right_Click_Commands.Models.Settings;
 using Right_Click_Commands.WPF.Models.ContextMenu;
+using Right_Click_Commands.Utils;
 using System;
 using System.IO;
-using System.Text.RegularExpressions;
 
 namespace Right_Click_Commands.WPF.Models.Scripts
 {
-    public class WindowsScriptFactory : IScriptFactory<RegistryKey>
+    public class WindowsScriptFactory : IScriptFactory<IScriptStorageModel>
     {
         //  Constants
         //  =========
@@ -19,7 +18,7 @@ namespace Right_Click_Commands.WPF.Models.Scripts
         private const string cmd = "\"cmd\"";
         private const string powershell = "\"powershell\"";
         private const string command = "command";
-        private const string reg_AnyWordThenRun = "^\".+?\" run ";
+        private const string NewScript = "New Script";
 
         //  Variables
         //  =========
@@ -27,7 +26,6 @@ namespace Right_Click_Commands.WPF.Models.Scripts
         private readonly ISettings settings;
         private readonly IMessagePrompt messagePrompt;
         private readonly IIconPicker iconPicker;
-        private static readonly Regex regex = new Regex(reg_AnyWordThenRun);
 
         //  Constructors
         //  ============
@@ -43,22 +41,22 @@ namespace Right_Click_Commands.WPF.Models.Scripts
         //  =======
 
         /// <exception cref="InvalidDataException"></exception>
-        public IScriptConfig Generate(RegistryKey registryKey, MenuLocation menuLocation)
+        public IScriptConfig Generate(IScriptStorageModel script, MenuLocation menuLocation)
         {
-            if (!IsValidRegistryKeyName(registryKey.Name, out RegistryName registryName))
+            if (!IsValidRegistryKeyName(script.Name, out RegistryName registryName))
             {
-                throw new InvalidDataException($"The given registry key's name [{registryKey.Name}] must be [RRC_XX_YYY] where [XX] is a number and [YYY] is of any length greater than 0");
+                throw new InvalidDataException($"The given registry key's name [{script.Name}] must be [RRC_XX_YYY] where [XX] is a number and [YYY] is of any length greater than 0");
             }
 
             IScriptConfig newConfig = null;
 
             try
             {
-                newConfig = TryCastToBatScriptConfig(registryKey, registryName, menuLocation);
+                newConfig = TryCastToBatScriptConfig(script, registryName, menuLocation);
 
                 if (newConfig == null)
                 {
-                    newConfig = TryCastToPowershellScriptConfig(registryKey, registryName, menuLocation);
+                    newConfig = TryCastToPowershellScriptConfig(script, registryName, menuLocation);
                 }
 
                 if (newConfig == null)
@@ -72,6 +70,35 @@ namespace Right_Click_Commands.WPF.Models.Scripts
             }
 
             return newConfig;
+        }
+
+        public IScriptConfig Generate(string scriptTypeString, string id)
+        {
+            ScriptType scriptType = scriptTypeString.ToEnum<ScriptType>();
+            return Generate(scriptType, id);
+        }
+
+        private IScriptConfig Generate(ScriptType scriptType, string id)
+        {
+            IScriptConfig result;
+
+            switch (scriptType)
+            {
+                case ScriptType.Batch:
+                    result = new BatScriptConfig(DateTime.UtcNow.Ticks.ToString(), id, settings, messagePrompt, iconPicker);
+                    break;
+                case ScriptType.Powershell:
+                    result = new PowershellScriptConfig(DateTime.UtcNow.Ticks.ToString(), id, settings, messagePrompt, iconPicker);
+                    break;
+                default:
+                    throw new ArgumentException($"The scriptType of [{scriptType}] is not valid for the [RegistryWorker]");
+            }
+
+            result.Label = NewScript;
+            result.OnBackground = true;
+            result.OnDirectory = true;
+
+            return result;
         }
 
         private bool IsValidRegistryKeyName(string value, out RegistryName registryName)
@@ -110,21 +137,20 @@ namespace Right_Click_Commands.WPF.Models.Scripts
         }
 
         /// <exception cref="UnauthorizedAccessException"></exception>
-        private BatScriptConfig TryCastToBatScriptConfig(RegistryKey registryKey, RegistryName registryName, MenuLocation location)
+        private BatScriptConfig TryCastToBatScriptConfig(IScriptStorageModel script, RegistryName registryName, MenuLocation location)
         {
             BatScriptConfig newConfig = null;
             try
             {
                 IIconReference iconReference = null;
-                string iconRef = registryKey.GetValue(RegistryWorker.Icon, string.Empty).ToString();
-                if (!string.IsNullOrWhiteSpace(iconRef))
+                if (!string.IsNullOrWhiteSpace(script.Icon))
                 {
-                    iconReference = new IconReference(iconRef);
+                    iconReference = new IconReference(script.Icon);
                 }
 
                 newConfig = new BatScriptConfig(registryName.Name, registryName.ID, settings, messagePrompt, iconPicker)
                 {
-                    Label = registryKey.GetValue(RegistryWorker.MUIVerb, string.Empty).ToString(),
+                    Label = script.Label,
                     Icon = iconReference
                 };
 
@@ -148,18 +174,16 @@ namespace Right_Click_Commands.WPF.Models.Scripts
                 return null;
             }
 
-            string commandValue = GetCommandValue(registryKey);
-
-            if (commandValue.Length <= 8 || commandValue.Substring(0, 5) != cmd)
+            if (script.Command.Length <= 8 || script.Command.Substring(0, 5) != cmd)
             {
                 return null;
             }
 
-            if (commandValue.Substring(7, 2) == BatScriptConfig.keepCMDOpen)
+            if (script.Command.Substring(7, 2) == BatScriptConfig.keepCMDOpen)
             {
                 newConfig.KeepWindowOpen = true;
             }
-            else if (commandValue.Substring(7, 2) == BatScriptConfig.closeCMD)
+            else if (script.Command.Substring(7, 2) == BatScriptConfig.closeCMD)
             {
                 newConfig.KeepWindowOpen = false;
             }
@@ -172,21 +196,20 @@ namespace Right_Click_Commands.WPF.Models.Scripts
         }
 
         /// <exception cref="UnauthorizedAccessException"></exception>
-        private PowershellScriptConfig TryCastToPowershellScriptConfig(RegistryKey registryKey, RegistryName registryName, MenuLocation location)
+        private PowershellScriptConfig TryCastToPowershellScriptConfig(IScriptStorageModel script, RegistryName registryName, MenuLocation location)
         {
             PowershellScriptConfig newConfig = null;
             try
             {
                 IIconReference iconReference = null;
-                string iconRef = registryKey.GetValue(RegistryWorker.Icon, string.Empty).ToString();
-                if (!string.IsNullOrWhiteSpace(iconRef))
+                if (!string.IsNullOrWhiteSpace(script.Icon))
                 {
-                    iconReference = new IconReference(iconRef);
+                    iconReference = new IconReference(script.Icon);
                 }
 
                 newConfig = new PowershellScriptConfig(registryName.Name, registryName.ID, settings, messagePrompt, iconPicker)
                 {
-                    Label = registryKey.GetValue(RegistryWorker.MUIVerb, string.Empty).ToString(),
+                    Label = script.Label,
                     Icon = iconReference
                 };
 
@@ -210,54 +233,14 @@ namespace Right_Click_Commands.WPF.Models.Scripts
                 return null;
             }
 
-            string commandValue = GetCommandValue(registryKey);
-
-            if (commandValue.Length <= 12 || commandValue.Substring(0, 12) != powershell)
+            if (script.Command.Length <= 12 || script.Command.Substring(0, 12) != powershell)
             {
                 return null;
             }
 
-            newConfig.KeepWindowOpen = commandValue.Contains(PowershellScriptConfig.noExit);
+            newConfig.KeepWindowOpen = script.Command.Contains(PowershellScriptConfig.noExit);
 
             return newConfig;
-        }
-
-        private static string GetCommandValue(RegistryKey key)
-        {
-            key = key ?? throw new ArgumentNullException(nameof(key));
-
-            string commandValue;
-            try
-            {
-                using (RegistryKey commandKey = key.OpenSubKey(command))
-                {
-                    if (commandKey == null)
-                    {
-                        return string.Empty;
-                    }
-
-                    commandValue = commandKey.GetValue(string.Empty, string.Empty).ToString();
-                }
-
-                if (!regex.IsMatch(commandValue))
-                {
-                    return null;
-                }
-
-                commandValue = regex.Replace(commandValue, string.Empty);
-            }
-            catch (Exception)
-            {
-                return string.Empty;
-            }
-
-            return commandValue;
-        }
-
-        /// <exception cref="UnauthorizedAccessException"></exception>
-        private static void ThrowNoRegistryAccess(Exception e = null)
-        {
-            throw new UnauthorizedAccessException("Unable to access your right-click menu. Please close and re-open the program", e);
         }
     }
 }

@@ -4,7 +4,7 @@ using Right_Click_Commands.Models.MessagePrompts;
 using Right_Click_Commands.Models.Runner;
 using Right_Click_Commands.Models.Settings;
 using Right_Click_Commands.Models.Updater;
-using Right_Click_Commands.WPF.Models.ContextMenu;
+using Right_Click_Commands.Models.Scripts;
 using Right_Click_Commands.ViewModels;
 using System;
 using System.Diagnostics;
@@ -12,14 +12,13 @@ using System.Threading.Tasks;
 using System.Windows;
 using Unity;
 using IconPicker;
+using Right_Click_Commands.WPF.Models.ContextMenu;
 using Right_Click_Commands.WPF.Models.Settings;
 using Right_Click_Commands.WPF.Models.MessagePrompts;
 using Right_Click_Commands.WPF.Models.Runner;
 using Right_Click_Commands.WPF.Models.Updater;
 using Right_Click_Commands.WPF.Views;
-using Right_Click_Commands.Models.Scripts;
 using Right_Click_Commands.WPF.Models.Scripts;
-using Microsoft.Win32;
 
 namespace Right_Click_Commands.WPF
 {
@@ -67,6 +66,8 @@ namespace Right_Click_Commands.WPF
                 return;
             }
 
+            container.AddExtension(new Diagnostic());
+
             base.OnStartup(e);
             SetUpImplementations();
             messagePrompt = container.Resolve<IMessagePrompt>();
@@ -109,7 +110,8 @@ namespace Right_Click_Commands.WPF
             container.RegisterType<IUpdater, WindowsUpdater>();
             container.RegisterType<IJSONConverter, JSONConverter>();
             container.RegisterType<IIconPicker, IconPickerDialog>();
-            container.RegisterType<IScriptFactory<RegistryKey>, WindowsScriptFactory>();
+            container.RegisterType<IScriptStorageModel, RegistryScriptStorageModel>();
+            container.RegisterType<IScriptFactory<IScriptStorageModel>, WindowsScriptFactory>();
         }
 
         /// <exception cref="InvalidOperationException"></exception>

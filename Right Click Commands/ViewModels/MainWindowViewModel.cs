@@ -4,8 +4,6 @@ using Right_Click_Commands.Models.Scripts;
 using Right_Click_Commands.Models.Settings;
 using Right_Click_Commands.Models.Updater;
 using System;
-using System.Windows.Media.Imaging;
-using System.Collections.ObjectModel;
 using IconPicker;
 
 namespace Right_Click_Commands.ViewModels
@@ -16,6 +14,7 @@ namespace Right_Click_Commands.ViewModels
         //  =========
 
         private readonly IContextMenuWorker contextMenuWorker;
+        private readonly IScriptFactory<IScriptStorageModel> scriptFactory;
         private readonly ISettings settings;
         private readonly IMessagePrompt messagePrompt;
         private readonly IUpdater updater;
@@ -68,9 +67,10 @@ namespace Right_Click_Commands.ViewModels
             SelectNewIcon = new Command(DoSelectNewIcon);
         }
 
-        public MainWindowViewModel(IContextMenuWorker contextMenuWorker, ISettings settings, IMessagePrompt messagePrompt, IUpdater updater, IIconPicker iconPicker) : this()
+        public MainWindowViewModel(IContextMenuWorker contextMenuWorker, IScriptFactory<IScriptStorageModel> scriptFactory, ISettings settings, IMessagePrompt messagePrompt, IUpdater updater, IIconPicker iconPicker) : this()
         {
             this.contextMenuWorker = contextMenuWorker ?? throw new ArgumentNullException(nameof(contextMenuWorker));
+            this.scriptFactory = scriptFactory;
             this.settings = settings ?? throw new ArgumentNullException(nameof(settings));
             this.messagePrompt = messagePrompt ?? throw new ArgumentNullException(nameof(messagePrompt));
             this.updater = updater ?? throw new ArgumentNullException(nameof(updater));
@@ -110,7 +110,7 @@ namespace Right_Click_Commands.ViewModels
         {
             try
             {
-                scriptConfigs.Add(contextMenuWorker.New(scriptType, scriptConfigs.Count.ToString("D2")));
+                scriptConfigs.Add(scriptFactory.Generate(scriptType, scriptConfigs.Count.ToString("D2")));
                 SelectedScriptConfigIndex = ScriptConfigs.Count - 1;
             }
             catch
