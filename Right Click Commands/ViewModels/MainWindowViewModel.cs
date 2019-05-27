@@ -70,7 +70,7 @@ namespace Right_Click_Commands.ViewModels
         public MainWindowViewModel(IContextMenuWorker contextMenuWorker, IScriptFactory<IScriptStorageModel> scriptFactory, ISettings settings, IMessagePrompt messagePrompt, IUpdater updater, IIconPicker iconPicker) : this()
         {
             this.contextMenuWorker = contextMenuWorker ?? throw new ArgumentNullException(nameof(contextMenuWorker));
-            this.scriptFactory = scriptFactory;
+            this.scriptFactory = scriptFactory ?? throw new ArgumentNullException(nameof(scriptFactory));
             this.settings = settings ?? throw new ArgumentNullException(nameof(settings));
             this.messagePrompt = messagePrompt ?? throw new ArgumentNullException(nameof(messagePrompt));
             this.updater = updater ?? throw new ArgumentNullException(nameof(updater));
