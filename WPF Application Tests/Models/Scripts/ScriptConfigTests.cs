@@ -1,5 +1,4 @@
-﻿using Right_Click_Commands.Tests;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System;
 using System.IO;
 using Moq;

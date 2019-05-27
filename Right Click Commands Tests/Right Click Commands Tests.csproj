@@ -79,6 +79,7 @@
     <Compile Include="Models\Updater\GitHubReleaseTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestUtils.cs" />
+    <Compile Include="Utils\EnumUtilsTests.cs" />
     <Compile Include="ViewModels\MainWindowViewModelTests.cs" />
   </ItemGroup>
   <ItemGroup>
