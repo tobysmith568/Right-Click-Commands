@@ -2,6 +2,7 @@
 using Right_Click_Commands.Models.MessagePrompts;
 using Right_Click_Commands.Models.Scripts;
 using Right_Click_Commands.Models.Settings;
+using Right_Click_Commands.ViewModels;
 using System;
 using System.IO;
 using System.Windows.Media.Imaging;
