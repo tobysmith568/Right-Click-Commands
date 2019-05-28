@@ -52,6 +52,8 @@ namespace Right_Click_Commands.WPF.Models.Scripts
             set => PropertyChanging(value, ref script, nameof(Script));
         }
 
+        public abstract string FileExtension { get; protected set; }
+
         public abstract string DefaultScript { get; protected set; }
 
         public IIconReference Icon
@@ -89,12 +91,14 @@ namespace Right_Click_Commands.WPF.Models.Scripts
 
         public ScriptConfig(string name, string id, ISettings settings, IMessagePrompt messagePrompt, IIconPicker iconPicker)
         {
-            Name = name;
-            ID = id;
-
             this.settings = settings;
             this.messagePrompt = messagePrompt;
             this.iconPicker = iconPicker;
+
+            Name = name;
+            ID = id;
+
+            ScriptLocation = Path.Combine(settings.ScriptLocation, Name + FileExtension);
         }
 
         //  Methods

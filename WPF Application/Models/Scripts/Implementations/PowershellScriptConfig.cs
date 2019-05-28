@@ -11,9 +11,8 @@ namespace Right_Click_Commands.WPF.Models.Scripts
         //  Constants
         //  =========
 
-        private const string dotPS = ".ps1";
         public const string noExit = "-NoExit";
-        private const string exit = "";
+        public const string exit = "";
 
         //  Properties
         //  ==========
@@ -24,6 +23,8 @@ namespace Right_Click_Commands.WPF.Models.Scripts
 
         public override string ScriptArgs => $"\"{ExePath}\" \"{(KeepWindowOpen ? noExit : exit)} -nologo -ExecutionPolicy Bypass -command |& Set-Location '%v'; & '{ScriptLocation}'|\"";
 
+        public override string FileExtension { get; protected set; } = ".ps1";
+
         public override string DefaultScript { get; protected set; } = "";
 
         //  Constructors
@@ -31,7 +32,6 @@ namespace Right_Click_Commands.WPF.Models.Scripts
 
         public PowershellScriptConfig(string name, string id, ISettings settings, IMessagePrompt messagePrompt, IIconPicker iconPicker) : base(name, id, settings, messagePrompt, iconPicker)
         {
-            ScriptLocation = Path.Combine(settings.ScriptLocation, Name + dotPS);
         }
     }
 }

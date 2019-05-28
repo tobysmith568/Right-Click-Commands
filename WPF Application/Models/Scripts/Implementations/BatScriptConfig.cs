@@ -11,7 +11,6 @@ namespace Right_Click_Commands.WPF.Models.Scripts
         //  Constants
         //  =========
 
-        private const string dotBat = ".bat";
         public const string keepCMDOpen = "/K";
         public const string closeCMD = "/C";
 
@@ -24,6 +23,8 @@ namespace Right_Click_Commands.WPF.Models.Scripts
 
         public override string ScriptArgs => $"\"{ExePath}\" \"{(KeepWindowOpen ? keepCMDOpen : closeCMD)} TITLE {Label}&cd %v&|{ScriptLocation}|\"";
 
+        public override string FileExtension { get; protected set; } = ".bat";
+
         public override string DefaultScript { get; protected set; } = "";
 
         //  Constructors
@@ -31,7 +32,6 @@ namespace Right_Click_Commands.WPF.Models.Scripts
 
         public BatScriptConfig(string name, string id, ISettings settings, IMessagePrompt messagePrompt, IIconPicker iconPicker) : base(name, id, settings, messagePrompt, iconPicker)
         {
-            ScriptLocation = Path.Combine(settings.ScriptLocation, Name + dotBat);
         }
     }
 }

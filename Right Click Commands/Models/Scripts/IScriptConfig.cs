@@ -16,6 +16,7 @@ namespace Right_Click_Commands.Models.Scripts
         string ScriptLocation { get; }
         string Label { get; set; }
         string Script { get; set; }
+        string FileExtension { get; }
         string DefaultScript { get; }
         IIconReference Icon { get; set; }
         bool OnDirectory { get; set; }
