@@ -61,6 +61,8 @@
                         <MenuItem Header="_Batch Script" InputGestureText="Ctrl+N" Command="{Binding CreateNewScript}" CommandParameter="{Binding Converter={StaticResource ScriptTypeToStringConveter}, Source={x:Static scripts:ScriptType.Batch}}"/>
                         <MenuItem Header="_Powershell Script" Command="{Binding CreateNewScript}" CommandParameter="{Binding Converter={StaticResource ScriptTypeToStringConveter}, Source={x:Static scripts:ScriptType.Powershell}}"/>
                     </MenuItem>
+                    <Separator/>
+                    <MenuItem Header="_Save As..." Command="{Binding SaveAs}" />
                     <MenuItem Header="_Reset Parition" Click="ResetPartition_Click" />
                     <Separator/>
                     <MenuItem Header="_Close" InputGestureText="Alt+F4" />

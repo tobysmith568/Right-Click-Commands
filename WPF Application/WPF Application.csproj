@@ -89,6 +89,7 @@
     <Compile Include="Converters\NullableToVisibility.cs" />
     <Compile Include="Models\ContextMenu\RegistryName.cs" />
     <Compile Include="Models\ContextMenu\RegistryWorker.cs" />
+    <Compile Include="Models\Dialogs\SaveFile\SaveFileDialog.cs" />
     <Compile Include="Models\Logger\WindowsLogger.cs" />
     <Compile Include="Models\MessagePrompts\WinDialogBox.cs" />
     <Compile Include="Models\Runner\WindowsRunner.cs" />

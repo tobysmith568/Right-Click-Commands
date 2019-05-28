@@ -5,6 +5,7 @@ using Right_Click_Commands.Models.Settings;
 using Right_Click_Commands.Models.Updater;
 using System;
 using IconPicker;
+using Right_Click_Commands.Models.Dialogs.SaveFile;
 
 namespace Right_Click_Commands.ViewModels
 {
@@ -19,6 +20,7 @@ namespace Right_Click_Commands.ViewModels
         private readonly IMessagePrompt messagePrompt;
         private readonly IUpdater updater;
         private readonly IIconPicker iconPicker;
+        private readonly ISaveFileDialog saveFileDialog;
 
         private ScriptCollection scriptConfigs;
         private IScriptConfig selectedScriptConfig;
@@ -52,6 +54,7 @@ namespace Right_Click_Commands.ViewModels
         public Command MoveSelectedDown { get; }
         public Command DeleteSelected { get; }
         public Command SelectNewIcon { get; }
+        public Command SaveAs { get; }
 
         //  Constructors
         //  ============
@@ -65,9 +68,16 @@ namespace Right_Click_Commands.ViewModels
             MoveSelectedDown = new Command(DoMoveSelectedDown);
             DeleteSelected = new Command(DoDeleteSelected);
             SelectNewIcon = new Command(DoSelectNewIcon);
+            SaveAs = new Command(DoSaveAs);
         }
 
-        public MainWindowViewModel(IContextMenuWorker contextMenuWorker, IScriptFactory<IScriptStorageModel> scriptFactory, ISettings settings, IMessagePrompt messagePrompt, IUpdater updater, IIconPicker iconPicker) : this()
+        public MainWindowViewModel(IContextMenuWorker contextMenuWorker,
+                                   IScriptFactory<IScriptStorageModel> scriptFactory,
+                                   ISettings settings,
+                                   IMessagePrompt messagePrompt,
+                                   IUpdater updater,
+                                   IIconPicker iconPicker,
+                                   ISaveFileDialog saveFileDialog) : this()
         {
             this.contextMenuWorker = contextMenuWorker ?? throw new ArgumentNullException(nameof(contextMenuWorker));
             this.scriptFactory = scriptFactory ?? throw new ArgumentNullException(nameof(scriptFactory));
@@ -75,6 +85,7 @@ namespace Right_Click_Commands.ViewModels
             this.messagePrompt = messagePrompt ?? throw new ArgumentNullException(nameof(messagePrompt));
             this.updater = updater ?? throw new ArgumentNullException(nameof(updater));
             this.iconPicker = iconPicker ?? throw new ArgumentNullException(nameof(iconPicker));
+            this.saveFileDialog = saveFileDialog ?? throw new ArgumentNullException(nameof(saveFileDialog));
 
             selectedScriptConfigIndex = -1;
 
@@ -226,6 +237,22 @@ namespace Right_Click_Commands.ViewModels
             scriptConfigs[selectedScriptConfigIndex].Icon = iconReference;
             RaisePropertyChanged(nameof(SelectedScriptConfig));
             RaisePropertyChanged(nameof(SelectedScriptConfigIndex));
+        }
+
+        public void DoSaveAs()
+        {
+            if (SelectedScriptConfigIndex == -1)
+            {
+                return;
+            }
+
+            if (SelectedScriptConfigIndex < -1 || SelectedScriptConfigIndex >= ScriptConfigs.Count)
+            {
+                SelectedScriptConfigIndex = -1;
+                return;
+            }
+
+            saveFileDialog.Save(selectedScriptConfig.Script, selectedScriptConfig.FileExtension, selectedScriptConfig.ScriptType, selectedScriptConfig.Label);
         }
     }
 }

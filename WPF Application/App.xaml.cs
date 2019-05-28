@@ -19,6 +19,8 @@ using Right_Click_Commands.WPF.Models.Runner;
 using Right_Click_Commands.WPF.Models.Updater;
 using Right_Click_Commands.WPF.Views;
 using Right_Click_Commands.WPF.Models.Scripts;
+using Right_Click_Commands.Models.Dialogs.SaveFile;
+using Right_Click_Commands.WPF.Models.Dialogs.SaveFile;
 
 namespace Right_Click_Commands.WPF
 {
@@ -112,6 +114,7 @@ namespace Right_Click_Commands.WPF
             container.RegisterType<IIconPicker, IconPickerDialog>();
             container.RegisterType<IScriptStorageModel, RegistryScriptStorageModel>();
             container.RegisterType<IScriptFactory<IScriptStorageModel>, WindowsScriptFactory>();
+            container.RegisterType<ISaveFileDialog, SaveFileDialog>();
         }
 
         /// <exception cref="InvalidOperationException"></exception>
@@ -122,6 +125,7 @@ namespace Right_Click_Commands.WPF
             window.Show();
         }
 
+        /// <exception cref="ExecutionException">Ignore.</exception>
         private async Task RunScript(string[] args)
         {
             try

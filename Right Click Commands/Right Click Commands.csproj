@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Command.cs" />
+    <Compile Include="Models\Dialogs\SaveFile\ISaveFileDialog.cs" />
     <Compile Include="Models\JSON Converter\IJSONConverter.cs" />
     <Compile Include="Models\JSON Converter\JSONConverter.cs" />
     <Compile Include="Models\MenuLocation.cs" />
