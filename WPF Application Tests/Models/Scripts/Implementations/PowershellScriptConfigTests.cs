@@ -48,7 +48,7 @@ namespace Right_Click_Commands.WPF.Models.Scripts.Tests
         #region ScriptArgs
 
         [Test]
-        public void Test_ScriptArgs_UsesKWhenKeepingWindowOpen()
+        public void Test_ScriptArgs_UsesNoExitWhenKeepingWindowOpen()
         {
             Given_settings_ScriptLocation_Returns(location);
             Given_subject_KeepWindowOpen_Equals(true);
@@ -57,12 +57,12 @@ namespace Right_Click_Commands.WPF.Models.Scripts.Tests
         }
 
         [Test]
-        public void Test_ScriptArgs_UsesCWhenClosingWindow()
+        public void Test_ScriptArgs_UsesNothingWhenClosingWindow()
         {
             Given_settings_ScriptLocation_Returns(location);
             Given_subject_KeepWindowOpen_Equals(false);
 
-            Assert.True(subject.ScriptArgs.StartsWith("\"powershell\" \" -ExecutionPolicy Bypass -file |"));
+            Assert.True(subject.ScriptArgs.StartsWith("\"powershell\" \" -nologo -ExecutionPolicy Bypass -command |"));
         }
 
         #endregion
