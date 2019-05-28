@@ -22,7 +22,7 @@ namespace Right_Click_Commands.WPF.Models.Scripts
 
         public override string ExePath => "powershell";
 
-        public override string ScriptArgs => $"\"{ExePath}\" \"{(KeepWindowOpen ? noExit : exit)} -ExecutionPolicy Bypass -file |{ScriptLocation}|\"";
+        public override string ScriptArgs => $"\"{ExePath}\" \"{(KeepWindowOpen ? noExit : exit)} -nologo -ExecutionPolicy Bypass -file |{ScriptLocation}|\"";
 
         public override string DefaultScript { get; protected set; } = "";
 
