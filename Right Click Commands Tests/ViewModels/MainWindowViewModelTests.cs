@@ -2,6 +2,7 @@
 using Moq;
 using NUnit.Framework;
 using Right_Click_Commands.Models.ContextMenu;
+using Right_Click_Commands.Models.Dialogs.SaveFile;
 using Right_Click_Commands.Models.MessagePrompts;
 using Right_Click_Commands.Models.Scripts;
 using Right_Click_Commands.Models.Settings;
@@ -20,9 +21,11 @@ namespace Right_Click_Commands.ViewModels.Tests
         Mock<IContextMenuWorker> contextMenuWorker;
         Mock<IScriptFactory<IScriptStorageModel>> scriptFactory;
         Mock<ISettings> settings;
+        Mock<IMessagePrompt> messagePrompt;
         Mock<IUpdater> updater;
         Mock<IIconPicker> iconPicker;
-        Mock<IMessagePrompt> messagePrompt;
+        Mock<ISaveFileDialog> saveFileDialog;
+
         Mock<IScriptConfig> mockScriptOne;
         Mock<IScriptConfig> mockScriptTwo;
         Mock<IScriptConfig> mockScriptThree;
@@ -46,6 +49,8 @@ namespace Right_Click_Commands.ViewModels.Tests
 
             iconPicker = new Mock<IIconPicker>();
 
+            saveFileDialog = new Mock<ISaveFileDialog>();
+
             mockScriptOne = new Mock<IScriptConfig>();
             mockScriptOne.Setup(m => m.Label).Returns("One");
             mockScriptTwo = new Mock<IScriptConfig>();
@@ -68,7 +73,7 @@ namespace Right_Click_Commands.ViewModels.Tests
             };
             contextMenuWorker.Setup(c => c.GetScriptConfigs()).Returns(configs);
 
-            subject = new MainWindowViewModel(contextMenuWorker.Object, scriptFactory.Object, settings.Object, messagePrompt.Object, updater.Object, iconPicker.Object)
+            subject = new MainWindowViewModel(contextMenuWorker.Object, scriptFactory.Object, settings.Object, messagePrompt.Object, updater.Object, iconPicker.Object, saveFileDialog.Object)
             {
                 SelectedScriptConfigIndex = 1
             };
@@ -79,43 +84,50 @@ namespace Right_Click_Commands.ViewModels.Tests
         [Test]
         public void Test_Constructor_ThrowsArgumentNullOnNullContextMenuWorker()
         {
-            ArgumentNullException ex = Assert.Throws<ArgumentNullException>(() => new MainWindowViewModel(null, scriptFactory.Object, settings.Object, messagePrompt.Object, updater.Object, iconPicker.Object));
+            ArgumentNullException ex = Assert.Throws<ArgumentNullException>(() => new MainWindowViewModel(null, scriptFactory.Object, settings.Object, messagePrompt.Object, updater.Object, iconPicker.Object, saveFileDialog.Object));
             Assert.AreEqual("contextMenuWorker", ex.ParamName);
         }
 
         [Test]
         public void Test_Constructor_ThrowsArgumentNullOnNullScriptFactory()
         {
-            ArgumentNullException ex = Assert.Throws<ArgumentNullException>(() => new MainWindowViewModel(contextMenuWorker.Object, null, settings.Object, messagePrompt.Object, updater.Object, iconPicker.Object));
+            ArgumentNullException ex = Assert.Throws<ArgumentNullException>(() => new MainWindowViewModel(contextMenuWorker.Object, null, settings.Object, messagePrompt.Object, updater.Object, iconPicker.Object, saveFileDialog.Object));
             Assert.AreEqual("scriptFactory", ex.ParamName);
         }
 
         [Test]
         public void Test_Constructor_ThrowsArgumentNullOnNullSettings()
         {
-            ArgumentNullException ex = Assert.Throws<ArgumentNullException>(() => new MainWindowViewModel(contextMenuWorker.Object, scriptFactory.Object, null, messagePrompt.Object, updater.Object, iconPicker.Object));
+            ArgumentNullException ex = Assert.Throws<ArgumentNullException>(() => new MainWindowViewModel(contextMenuWorker.Object, scriptFactory.Object, null, messagePrompt.Object, updater.Object, iconPicker.Object, saveFileDialog.Object));
             Assert.AreEqual("settings", ex.ParamName);
         }
 
         [Test]
         public void Test_Constructor_ThrowsArgumentNullOnNullMessagePrompt()
         {
-            ArgumentNullException ex = Assert.Throws<ArgumentNullException>(() => new MainWindowViewModel(contextMenuWorker.Object, scriptFactory.Object, settings.Object, null, updater.Object, iconPicker.Object));
+            ArgumentNullException ex = Assert.Throws<ArgumentNullException>(() => new MainWindowViewModel(contextMenuWorker.Object, scriptFactory.Object, settings.Object, null, updater.Object, iconPicker.Object, saveFileDialog.Object));
             Assert.AreEqual("messagePrompt", ex.ParamName);
         }
 
         [Test]
         public void Test_Constructor_ThrowsArgumentNullOnNullUpdater()
         {
-            ArgumentNullException ex = Assert.Throws<ArgumentNullException>(() => new MainWindowViewModel(contextMenuWorker.Object, scriptFactory.Object, settings.Object, messagePrompt.Object, null, iconPicker.Object));
+            ArgumentNullException ex = Assert.Throws<ArgumentNullException>(() => new MainWindowViewModel(contextMenuWorker.Object, scriptFactory.Object, settings.Object, messagePrompt.Object, null, iconPicker.Object, saveFileDialog.Object));
             Assert.AreEqual("updater", ex.ParamName);
         }
 
         [Test]
         public void Test_Constructor_ThrowsArgumentNullOnNullIconPicker()
         {
-            ArgumentNullException ex = Assert.Throws<ArgumentNullException>(() => new MainWindowViewModel(contextMenuWorker.Object, scriptFactory.Object, settings.Object, messagePrompt.Object, updater.Object, null));
+            ArgumentNullException ex = Assert.Throws<ArgumentNullException>(() => new MainWindowViewModel(contextMenuWorker.Object, scriptFactory.Object, settings.Object, messagePrompt.Object, updater.Object, null, saveFileDialog.Object));
             Assert.AreEqual("iconPicker", ex.ParamName);
+        }
+
+        [Test]
+        public void Test_Constructor_ThrowsArgumentNullOnNullSaveFileDialog()
+        {
+            ArgumentNullException ex = Assert.Throws<ArgumentNullException>(() => new MainWindowViewModel(contextMenuWorker.Object, scriptFactory.Object, settings.Object, messagePrompt.Object, updater.Object, iconPicker.Object, null));
+            Assert.AreEqual("saveFileDialog", ex.ParamName);
         }
 
         #endregion
@@ -553,6 +565,57 @@ namespace Right_Click_Commands.ViewModels.Tests
         }
 
         #endregion
+        #region SaveAs
+
+        [TestCase(50)]
+        [TestCase(4)]
+        [TestCase(3)]
+        [TestCase(-1)]
+        [TestCase(-2)]
+        [TestCase(-50)]
+        public void Test_SaveAs_DoesNothingWithAnIndexOutOfRange(int index)
+        {
+            Given_All3ScriptConfigsAreInOrder();
+            Given_SelectedScriptConfigIndex_Equals(index);
+
+            subject.SaveAs.DoExecute(null);
+
+            Assert.AreEqual(3, subject.ScriptConfigs.Count);
+            Assert.AreSame(mockScriptOne.Object, subject.ScriptConfigs[0]);
+            Assert.AreSame(mockScriptTwo.Object, subject.ScriptConfigs[1]);
+            Assert.AreSame(mockScriptThree.Object, subject.ScriptConfigs[2]);
+        }
+
+        [TestCase(50)]
+        [TestCase(4)]
+        [TestCase(3)]
+        [TestCase(-2)]
+        [TestCase(-3)]
+        [TestCase(-50)]
+        public void Test_SaveAs_ResetsTheSelectedIndexWhenTheSelectedIndexIsOutOfRange(int index)
+        {
+            Given_SelectedScriptConfigIndex_Equals(index);
+
+            subject.SaveAs.DoExecute(null);
+
+            Assert.AreEqual(-1, subject.SelectedScriptConfigIndex);
+        }
+
+        /// <exception cref="MockException">Ignore.</exception>
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(2)]
+        public void Test_SaveAs_WorksWithIndexInRange(int index)
+        {
+            Given_SelectedScriptConfigIndex_Equals(index);
+            Given_SaveFileDialog_Save_IsVerifiable();
+
+            subject.SaveAs.DoExecute(null);
+            
+            saveFileDialog.Verify(s => s.Save(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+        }
+
+        #endregion
 
         private void Given_Updater_CheckForUpdateAsync_Returns(Asset result)
         {
@@ -593,6 +656,11 @@ namespace Right_Click_Commands.ViewModels.Tests
         private void Given_MessagePrompt_PromptYesNo_IsVerifiable()
         {
             messagePrompt.Setup(m => m.PromptYesNo(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageType>())).Verifiable();
+        }
+
+        private void Given_SaveFileDialog_Save_IsVerifiable()
+        {
+            saveFileDialog.Setup(s => s.Save(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Verifiable();
         }
     }
 }

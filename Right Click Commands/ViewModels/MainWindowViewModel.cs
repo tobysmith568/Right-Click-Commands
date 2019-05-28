@@ -252,7 +252,7 @@ namespace Right_Click_Commands.ViewModels
                 return;
             }
 
-            saveFileDialog.Save(selectedScriptConfig.Script, selectedScriptConfig.FileExtension, selectedScriptConfig.ScriptType, selectedScriptConfig.Label);
+            saveFileDialog.Save(scriptConfigs[selectedScriptConfigIndex].Script, scriptConfigs[selectedScriptConfigIndex].FileExtension, scriptConfigs[selectedScriptConfigIndex].ScriptType, scriptConfigs[selectedScriptConfigIndex].Label);
         }
     }
 }
