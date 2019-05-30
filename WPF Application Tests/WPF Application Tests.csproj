@@ -51,11 +51,17 @@
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.Reflection, Version=1.1.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Reflection.Core.1.1.1\lib\net45\Mono.Reflection.dll</HintPath>
+    </Reference>
     <Reference Include="Moq, Version=4.10.0.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.10.1\lib\net45\Moq.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=3.11.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.11.0\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Pose, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Pose.1.2.1\lib\netstandard2.0\Pose.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -88,6 +94,7 @@
     <Compile Include="Converters\NullableToIconButtonTextTests.cs" />
     <Compile Include="Converters\NullableToVisibilityTests.cs" />
     <Compile Include="Converters\ScriptTypeToStringConveterTests.cs" />
+    <Compile Include="Models\Dialogs\SaveFile\SaveFileDialogTests.cs" />
     <Compile Include="Models\Logger\WindowsLoggerTests.cs" />
     <Compile Include="Models\Scripts\Implementations\BatScriptConfigTests.cs" />
     <Compile Include="Models\Scripts\Implementations\PowershellScriptConfigTests.cs" />
