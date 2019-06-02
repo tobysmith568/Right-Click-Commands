@@ -53,6 +53,12 @@ namespace Right_Click_Commands.WPF.Views
                 },
                 new Library
                 {
+                    Name = "Pose",
+                    URL = "https://github.com/tonerdo/pose",
+                    Licence = "MIT License"
+                },
+                new Library
+                {
                     Name = "RestSharp",
                     URL = "http://restsharp.org",
                     Licence = "Apache License 2.0"
