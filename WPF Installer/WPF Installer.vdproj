@@ -69,18 +69,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_1321669E3AAE2580CC52CC8F51F9A80F"
-        "OwnerKey" = "8:_400863C0A7EA41A99273F73A2B3984EA"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1321669E3AAE2580CC52CC8F51F9A80F"
-        "OwnerKey" = "8:_B0FFE03A1707C69867F3F104BA3B1B00"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_13C7DC72833E7FC74FB617E0E8C67F20"
         "OwnerKey" = "8:_400863C0A7EA41A99273F73A2B3984EA"
         "MsmSig" = "8:_UNDEFINED"
@@ -124,6 +112,12 @@
         "Entry"
         {
         "MsmKey" = "8:_22C4CAC2A609CB30A91257CFE962F597"
+        "OwnerKey" = "8:_400863C0A7EA41A99273F73A2B3984EA"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_233E31C10071FAB286259C9C49772BB5"
         "OwnerKey" = "8:_400863C0A7EA41A99273F73A2B3984EA"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -292,7 +286,7 @@
         "Entry"
         {
         "MsmKey" = "8:_522E36EE9DE352BFF23BAB48F034E5F5"
-        "OwnerKey" = "8:_B0FFE03A1707C69867F3F104BA3B1B00"
+        "OwnerKey" = "8:_233E31C10071FAB286259C9C49772BB5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -459,6 +453,18 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_7F3A6D02E76CB23B699702E1AA9971FC"
+        "OwnerKey" = "8:_400863C0A7EA41A99273F73A2B3984EA"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7F3A6D02E76CB23B699702E1AA9971FC"
+        "OwnerKey" = "8:_233E31C10071FAB286259C9C49772BB5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_7FA869FA612E60E8E33867C52359BB94"
         "OwnerKey" = "8:_400863C0A7EA41A99273F73A2B3984EA"
         "MsmSig" = "8:_UNDEFINED"
@@ -562,12 +568,6 @@
         "Entry"
         {
         "MsmKey" = "8:_B0F518D53A958647E67A3B42DBA45073"
-        "OwnerKey" = "8:_400863C0A7EA41A99273F73A2B3984EA"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_B0FFE03A1707C69867F3F104BA3B1B00"
         "OwnerKey" = "8:_400863C0A7EA41A99273F73A2B3984EA"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -796,13 +796,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_B0FFE03A1707C69867F3F104BA3B1B00"
+        "OwnerKey" = "8:_233E31C10071FAB286259C9C49772BB5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_1321669E3AAE2580CC52CC8F51F9A80F"
+        "OwnerKey" = "8:_7F3A6D02E76CB23B699702E1AA9971FC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1878,37 +1878,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_1321669E3AAE2580CC52CC8F51F9A80F"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_1321669E3AAE2580CC52CC8F51F9A80F"
-                    {
-                    "Name" = "8:Newtonsoft.Json.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Newtonsoft.Json.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_DF8843E80A3247FF92E233094C8A7510"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_13C7DC72833E7FC74FB617E0E8C67F20"
             {
             "AssemblyRegister" = "3:1"
@@ -2140,6 +2109,37 @@
                     }
                 }
             "SourcePath" = "8:System.ComponentModel.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_DF8843E80A3247FF92E233094C8A7510"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_233E31C10071FAB286259C9C49772BB5"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:RightClickCommands, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_233E31C10071FAB286259C9C49772BB5"
+                    {
+                    "Name" = "8:RightClickCommands.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:RightClickCommands.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_DF8843E80A3247FF92E233094C8A7510"
@@ -3696,6 +3696,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7F3A6D02E76CB23B699702E1AA9971FC"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_7F3A6D02E76CB23B699702E1AA9971FC"
+                    {
+                    "Name" = "8:Newtonsoft.Json.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Newtonsoft.Json.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_DF8843E80A3247FF92E233094C8A7510"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7FA869FA612E60E8E33867C52359BB94"
             {
             "AssemblyRegister" = "3:1"
@@ -4206,37 +4237,6 @@
                     }
                 }
             "SourcePath" = "8:System.Collections.Specialized.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_DF8843E80A3247FF92E233094C8A7510"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B0FFE03A1707C69867F3F104BA3B1B00"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:RightClickCommands, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_B0FFE03A1707C69867F3F104BA3B1B00"
-                    {
-                    "Name" = "8:RightClickCommands.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:RightClickCommands.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_DF8843E80A3247FF92E233094C8A7510"
@@ -5395,15 +5395,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Right-Click Commands"
-        "ProductCode" = "8:{FFC3E748-1EE5-41FA-9B27-A94AE00EFB7B}"
-        "PackageCode" = "8:{578F136C-8065-4AA9-BDFF-62C9F5011078}"
+        "ProductCode" = "8:{B2504EEF-120E-44CA-9F1C-29713ED1F5CE}"
+        "PackageCode" = "8:{B93A777B-6D99-4156-AB9A-6F4A8A2FF505}"
         "UpgradeCode" = "8:{F0CE540F-2BAF-42AA-82C3-1ACD83697C4B}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.1.0"
+        "ProductVersion" = "8:1.2.0"
         "Manufacturer" = "8:Right-Click Commands"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://github.com/tobysmith568/Right-Click-Commands"
@@ -6025,7 +6025,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_400863C0A7EA41A99273F73A2B3984EA"
             {
-            "SourcePath" = "8:..\\WPF Application\\obj\\Release\\Right Click Commands.exe"
+            "SourcePath" = "8:..\\WPF Application\\obj\\Debug\\Right Click Commands.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_DF8843E80A3247FF92E233094C8A7510"
