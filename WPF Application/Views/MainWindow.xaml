@@ -62,17 +62,17 @@
                         <MenuItem Header="_Powershell Script" Command="{Binding CreateNewScript}" CommandParameter="{Binding Converter={StaticResource ScriptTypeToStringConveter}, Source={x:Static scripts:ScriptType.Powershell}}"/>
                     </MenuItem>
                     <Separator/>
-                    <MenuItem Header="_Save As..." Command="{Binding SaveAs}" />
+                    <MenuItem Header="_Save As..." Command="{Binding SaveAs}" IsEnabled="{Binding SelectedScriptConfig, Converter={converters:NullableToBoolean}}"/>
                     <MenuItem Header="_Reset Parition" Click="ResetPartition_Click" />
                     <Separator/>
                     <MenuItem Header="_Close" InputGestureText="Alt+F4" />
                 </MenuItem>
                 <MenuItem Header="_Edit" Height="{Binding ActualHeight, ElementName=MenuDockPanel, Mode=OneWay}">
-                    <MenuItem Name="MIMoveUp" Header="Move Up" Command="{Binding MoveSelectedUp}"/>
-                    <MenuItem Name="MIMoveDown" Header="Move Down" Command="{Binding MoveSelectedDown}"/>
+                    <MenuItem Name="MIMoveUp" Header="Move Up" Command="{Binding MoveSelectedUp}" IsEnabled="{Binding SelectedScriptConfig, Converter={converters:NullableToBoolean}}"/>
+                    <MenuItem Name="MIMoveDown" Header="Move Down" Command="{Binding MoveSelectedDown}" IsEnabled="{Binding SelectedScriptConfig, Converter={converters:NullableToBoolean}}"/>
                     <Separator/>
-                    <!--<MenuItem Name="MIDisable" Header="Disable" InputGestureText="TBC" IsEnabled="False"/>-->
-                    <MenuItem Name="MIDelete" Header="Delete" InputGestureText="Del" Command="{Binding DeleteSelected}"/>
+                    <!--<MenuItem Name="MIDisable" Header="Disable" InputGestureText="TBC" IsEnabled="False" IsEnabled="{Binding SelectedScriptConfig, Converter={converters:NullableToBoolean}}"/>-->
+                    <MenuItem Name="MIDelete" Header="Delete" InputGestureText="Del" Command="{Binding DeleteSelected}" IsEnabled="{Binding SelectedScriptConfig, Converter={converters:NullableToBoolean}}"/>
                 </MenuItem>
                 <MenuItem Header="_Help" Height="{Binding ActualHeight, ElementName=MenuDockPanel, Mode=OneWay}">
                     <MenuItem Header="_About" InputGestureText="F1" Command="{Binding ElementName=Window, Path=ShowAbout }"/>

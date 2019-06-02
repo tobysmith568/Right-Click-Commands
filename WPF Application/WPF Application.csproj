@@ -84,6 +84,7 @@
     <Compile Include="Converters\ConverterBase.cs" />
     <Compile Include="Converters\DoubleToPixelGridWidthConverter.cs" />
     <Compile Include="Converters\NullableToIconButtonText.cs" />
+    <Compile Include="Converters\NullableToBoolean.cs" />
     <Compile Include="Converters\ScriptTypeToStringConverter.cs" />
     <Compile Include="Converters\IntegerToWindowStateConverter.cs" />
     <Compile Include="Converters\NullableToVisibility.cs" />
